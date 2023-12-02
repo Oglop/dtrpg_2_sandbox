@@ -1,11 +1,14 @@
-[gd_scene load_steps=5 format=3 uid="uid://dk1jg2sqn8bvo"]
+[gd_scene load_steps=6 format=3 uid="uid://dk1jg2sqn8bvo"]
 
 [ext_resource type="PackedScene" uid="uid://bamxjnrqcr7xl" path="res://scenes/player/party.tscn" id="1_hq4gt"]
+[ext_resource type="PackedScene" uid="uid://bgydgmcjiyues" path="res://scenes/menus/logBox.tscn" id="1_iyxdo"]
 [ext_resource type="PackedScene" uid="uid://cx1xs1ex7ncmb" path="res://scenes/handlers/spawnHandler.tscn" id="1_mdiqs"]
 [ext_resource type="PackedScene" uid="uid://b7mdcqskcgwce" path="res://scenes/handlers/mapHandler.tscn" id="1_wtvbu"]
 [ext_resource type="PackedScene" uid="uid://dkbkwre0usev6" path="res://scenes/map/tiles1.tscn" id="2_15sm4"]
 
 [node name="devWorld" type="Node2D"]
+
+[node name="logBox" parent="." instance=ExtResource("1_iyxdo")]
 
 [node name="party" parent="." instance=ExtResource("1_hq4gt")]
 

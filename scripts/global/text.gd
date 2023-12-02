@@ -30,3 +30,8 @@ var CLASS_THIEF_NAME_1:String = "Pik"
 var CLASS_THIEF_NAME_2:String = "Tyr"
 var CLASS_THIEF_NAME_3:String = "Elis"
 var CLASS_THIEF_NAME_4:String = "Lios"
+
+var MAP_TRAVEL_EAST:String = "Traveling east."
+var MAP_TRAVEL_NORTH:String = "Traveling north."
+var MAP_TRAVEL_WEST:String = "Traveling west."
+var MAP_TRAVEL_SOUTH:String = "Traveling south."

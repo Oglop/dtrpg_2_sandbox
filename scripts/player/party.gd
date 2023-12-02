@@ -17,29 +17,32 @@ func _on_input_reset() -> void:
 	_state = Enums.PARTY_STATE.IDLE
 
 func _on_input_right() -> void:
-	
 	if _state == Enums.PARTY_STATE.IDLE:
 		_state = Enums.PARTY_STATE.MOVED
 		Data.PARTY_X += 16
 		Events.emit_signal("PARTY_MOVED")
+		Events.emit_signal("SYSTEM_WRITE_LOG", Text.MAP_TRAVEL_EAST, Enums.SYSTEM_LOG_TYPE.MAP, true)
 		
 func _on_input_up() -> void:
 	if _state == Enums.PARTY_STATE.IDLE:
 		_state = Enums.PARTY_STATE.MOVED
 		Data.PARTY_Y -= 16
 		Events.emit_signal("PARTY_MOVED")
+		Events.emit_signal("SYSTEM_WRITE_LOG", Text.MAP_TRAVEL_NORTH, Enums.SYSTEM_LOG_TYPE.MAP, true)
 	
 func _on_input_left() -> void:
 	if _state == Enums.PARTY_STATE.IDLE:
 		_state = Enums.PARTY_STATE.MOVED
 		Data.PARTY_X -= 16
 		Events.emit_signal("PARTY_MOVED")
+		Events.emit_signal("SYSTEM_WRITE_LOG", Text.MAP_TRAVEL_WEST, Enums.SYSTEM_LOG_TYPE.MAP, true)
 	
 func _on_input_down() -> void:
 	if _state == Enums.PARTY_STATE.IDLE:
 		_state = Enums.PARTY_STATE.MOVED
 		Data.PARTY_Y += 16
 		Events.emit_signal("PARTY_MOVED")
+		Events.emit_signal("SYSTEM_WRITE_LOG", Text.MAP_TRAVEL_SOUTH, Enums.SYSTEM_LOG_TYPE.MAP, true)
 		
 func _on_partyMoved() -> void:
 	for n in range(Globals.PARTY_SIZE, 0, -1):
