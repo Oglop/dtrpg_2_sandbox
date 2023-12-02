@@ -1,0 +1,60 @@
+extends Node2D
+
+var gameMode: Enums.STARTUP_MODE = Enums.STARTUP_MODE.DEVELOPMENT
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	if gameMode == Enums.STARTUP_MODE.MAP_EDITOR:
+		get_tree().change_scene_to_file("res://map_editor/map.tscn")
+	elif gameMode == Enums.STARTUP_MODE.DEVELOPMENT:
+		setDevelopmentData()
+		Data.PARTY_CURRENT_ROOM = Enums.MAPS.DEV_MAP
+		Events.emit_signal("PARTY_SET_POSITION", Enums.MAPS.DEV_MAP, Enums.ENTER_FROM.START_SCREEN)
+		get_tree().change_scene_to_file("res://scenes/world/devWorld.tscn")
+	else:
+		get_tree().change_scene_to_file("res://scenes/menus/startScreen.tscn")
+
+func setDevelopmentData() -> void:
+	Data.CHARACTER_1_TYPE = Enums.CLASSES.WARRIOR
+	Data.CHARACTER_1_NAME = "Moog"
+	Data.CHARACTER_1_HEALTH_CURRENT = 47
+	Data.CHARACTER_1_HEALTH_MAX = 47
+	Data.CHARACTER_1_MAGIC_CURRENT = 0
+	Data.CHARACTER_1_MAGIC_MAX = 0
+	Data.CHARACTER_1_STRENGTH = 18
+	Data.CHARACTER_1_AGILITY = 14
+	Data.CHARACTER_1_INTELLIGENCE = 4
+	Data.CHARACTER_1_LUCK = 8
+	
+	Data.CHARACTER_2_TYPE = Enums.CLASSES.KNIGHT
+	Data.CHARACTER_2_NAME = "Rohno"
+	Data.CHARACTER_2_HEALTH_CURRENT = 25
+	Data.CHARACTER_2_HEALTH_MAX = 13
+	Data.CHARACTER_2_MAGIC_CURRENT = 0
+	Data.CHARACTER_2_MAGIC_MAX = 0
+	Data.CHARACTER_2_STRENGTH = 8
+	Data.CHARACTER_2_AGILITY = 16
+	Data.CHARACTER_2_INTELLIGENCE = 10
+	Data.CHARACTER_2_LUCK = 17
+	
+	Data.CHARACTER_3_TYPE = Enums.CLASSES.HUNTER
+	Data.CHARACTER_3_NAME = "Yeaz"
+	Data.CHARACTER_3_HEALTH_CURRENT = 35
+	Data.CHARACTER_3_HEALTH_MAX = 24
+	Data.CHARACTER_3_MAGIC_CURRENT = 10
+	Data.CHARACTER_3_MAGIC_MAX = 10
+	Data.CHARACTER_3_STRENGTH = 12
+	Data.CHARACTER_3_AGILITY = 16
+	Data.CHARACTER_3_INTELLIGENCE = 7
+	Data.CHARACTER_3_LUCK = 6
+	
+	Data.CHARACTER_4_TYPE = Enums.CLASSES.WIZARD
+	Data.CHARACTER_4_NAME = "Frax"
+	Data.CHARACTER_4_HEALTH_CURRENT = 16
+	Data.CHARACTER_4_HEALTH_MAX = 16
+	Data.CHARACTER_4_MAGIC_CURRENT = 48
+	Data.CHARACTER_4_MAGIC_MAX = 95
+	Data.CHARACTER_4_STRENGTH = 4
+	Data.CHARACTER_4_AGILITY = 8
+	Data.CHARACTER_4_INTELLIGENCE = 18
+	Data.CHARACTER_4_LUCK = 3
+	

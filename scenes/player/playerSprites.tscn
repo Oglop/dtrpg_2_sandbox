@@ -1,0 +1,196 @@
+[gd_scene load_steps=14 format=3 uid="uid://ubwbwc07krpn"]
+
+[ext_resource type="Texture2D" uid="uid://cyauixuig0060" path="res://media/images/Sprite-0001.png" id="1_7kaki"]
+[ext_resource type="Script" path="res://scripts/player/playerSprites.gd" id="2_yqnym"]
+
+[sub_resource type="Animation" id="Animation_lj3gq"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [5]
+}
+
+[sub_resource type="Animation" id="Animation_qeeyn"]
+resource_name = "warriorDead"
+length = 0.5
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [5]
+}
+
+[sub_resource type="Animation" id="Animation_hvf4b"]
+resource_name = "warriorIdle"
+length = 0.6
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [3, 4]
+}
+
+[sub_resource type="Animation" id="Animation_aw3qj"]
+resource_name = "wizardIdle"
+length = 0.6
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [6, 7]
+}
+
+[sub_resource type="Animation" id="Animation_8hifc"]
+resource_name = "wizardDead"
+length = 0.2
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [8]
+}
+
+[sub_resource type="Animation" id="Animation_22liw"]
+resource_name = "knightIdle"
+length = 0.6
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [9, 10]
+}
+
+[sub_resource type="Animation" id="Animation_sa8c2"]
+resource_name = "knightDead"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [11]
+}
+
+[sub_resource type="Animation" id="Animation_4nna1"]
+resource_name = "hunterIdle"
+length = 0.6
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [12, 13]
+}
+
+[sub_resource type="Animation" id="Animation_3mssu"]
+resource_name = "hunterDead"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [14]
+}
+
+[sub_resource type="Animation" id="Animation_abgd6"]
+resource_name = "dead"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [15]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_j1nsr"]
+_data = {
+"RESET": SubResource("Animation_lj3gq"),
+"dead": SubResource("Animation_abgd6"),
+"hunterDead": SubResource("Animation_3mssu"),
+"hunterIdle": SubResource("Animation_4nna1"),
+"knightDead": SubResource("Animation_sa8c2"),
+"knightIdle": SubResource("Animation_22liw"),
+"warriorDead": SubResource("Animation_qeeyn"),
+"warriorIdle": SubResource("Animation_hvf4b"),
+"wizardDead": SubResource("Animation_8hifc"),
+"wizardIdle": SubResource("Animation_aw3qj")
+}
+
+[node name="playerSprites" type="Sprite2D"]
+position = Vector2(8, 8)
+texture = ExtResource("1_7kaki")
+hframes = 40
+vframes = 40
+frame = 5
+script = ExtResource("2_yqnym")
+
+[node name="playerSpriteAnimations" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_j1nsr")
+}
