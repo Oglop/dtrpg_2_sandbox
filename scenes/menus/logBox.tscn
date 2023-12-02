@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bgydgmcjiyues"]
+
+[ext_resource type="Script" path="res://scripts/menus/logBox.gd" id="1_13i1h"]
+
+[node name="logBox" type="Node2D"]
+script = ExtResource("1_13i1h")

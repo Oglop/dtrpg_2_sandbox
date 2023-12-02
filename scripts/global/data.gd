@@ -3,6 +3,9 @@ extends Node
 var PARTY_CURRENT_ROOM:Enums.MAPS = Enums.MAPS.NONE
 var PARTY_X:int = 0
 var PARTY_Y:int = 0
+var SYSTEM_LOG_BATTLE:bool = true
+var SYSTEM_LOG_MAP:bool = true
+var SYSTEM_LOG_NPC:bool = true
 
 var CHARACTER_1_TYPE:Enums.CLASSES = Enums.CLASSES.NONE
 var CHARACTER_1_NAME:String = ""

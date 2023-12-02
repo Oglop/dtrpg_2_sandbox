@@ -19,13 +19,15 @@ func resolveCombat(attack:int, defence:int, attackerDexterity:int, attackerLuck:
 	if checkHit == Enums.SYSTEM_SKILL_CHECK_RESULT.SUCCESS:
 		var damage = attack + rng.randi_range(1, attackerLuck) - defence
 		if damage > 0:
+			Events.emit_signal("SYSTEM_WRITE_LOG", str(attackName, " hits ", defenderName, " for ", damage, " damage."), Enums.SYSTEM_LOG_TYPE.BATTLE)
 			return damage
 	elif checkHit == Enums.SYSTEM_SKILL_CHECK_RESULT.CRITICAL: 
 		var damage = attack + rng.randi_range(1, attackerLuck)
 		if damage > 0:
+			Events.emit_signal("SYSTEM_WRITE_LOG", str(attackName, " criticly hits ", defenderName, " for ", damage, " damage."), Enums.SYSTEM_LOG_TYPE.BATTLE)
 			return damage
 	
-	Events.emit_signal("", str())
+	Events.emit_signal("SYSTEM_WRITE_LOG", str(attackName, " attacks ", defenderName, " and misses."), Enums.SYSTEM_LOG_TYPE.BATTLE)
 	return 0
 	
 	
