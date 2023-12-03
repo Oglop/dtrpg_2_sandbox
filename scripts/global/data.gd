@@ -20,6 +20,15 @@ var CHARACTER_1_STRENGTH:int = 0
 var CHARACTER_1_AGILITY:int = 0
 var CHARACTER_1_INTELLIGENCE:int = 0
 var CHARACTER_1_LUCK:int = 0
+var CHARACTER_1_RULES:Array = [
+	{
+		"rule": Enums.RULE.SELF_HP_LT_10,
+		"action": Enums.ACTION.USE_POTION
+	},{
+		"rule": Enums.RULE.ALWAYS,
+		"action": Enums.ACTION.ATTACK
+	}
+]
 
 var CHARACTER_2_TYPE:Enums.CLASSES = Enums.CLASSES.NONE
 var CHARACTER_2_NAME:String = ""
@@ -34,6 +43,15 @@ var CHARACTER_2_STRENGTH:int = 0
 var CHARACTER_2_AGILITY:int = 0
 var CHARACTER_2_INTELLIGENCE:int = 0
 var CHARACTER_2_LUCK:int = 0
+var CHARACTER_2_RULES:Array = [
+	{
+		"rule": Enums.RULE.SELF_HP_LT_10,
+		"action": Enums.ACTION.USE_POTION
+	},{
+		"rule": Enums.RULE.ALWAYS,
+		"action": Enums.ACTION.USE_POTION
+	}
+]
 
 var CHARACTER_3_TYPE:Enums.CLASSES = Enums.CLASSES.NONE
 var CHARACTER_3_NAME:String = ""
@@ -48,6 +66,15 @@ var CHARACTER_3_STRENGTH:int = 0
 var CHARACTER_3_AGILITY:int = 0
 var CHARACTER_3_INTELLIGENCE:int = 0
 var CHARACTER_3_LUCK:int = 0
+var CHARACTER_3_RULES:Array = [
+	{
+		"rule": Enums.RULE.SELF_HP_LT_10,
+		"action": Enums.ACTION.USE_POTION
+	},{
+		"rule": Enums.RULE.ALWAYS,
+		"action": Enums.ACTION.USE_POTION
+	}
+]
 
 var CHARACTER_4_TYPE:Enums.CLASSES = Enums.CLASSES.NONE
 var CHARACTER_4_NAME:String = ""
@@ -62,3 +89,12 @@ var CHARACTER_4_STRENGTH:int = 0
 var CHARACTER_4_AGILITY:int = 0
 var CHARACTER_4_INTELLIGENCE:int = 0
 var CHARACTER_4_LUCK:int = 0
+var CHARACTER_4_RULES:Array = [
+	{
+		"rule": Enums.RULE.SELF_HP_LT_10,
+		"action": Enums.ACTION.USE_POTION
+	},{
+		"rule": Enums.RULE.ALWAYS,
+		"action": Enums.ACTION.USE_POTION
+	}
+]

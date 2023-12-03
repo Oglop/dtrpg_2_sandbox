@@ -28,6 +28,7 @@ SceneLoader="*res://scripts/global/sceneLoader.gd"
 InputHandler="*res://scripts/handlers/inputHandler.gd"
 BattleHandler="*res://scripts/handlers/battleHandler.gd"
 RuleHandler="*res://scripts/handlers/ruleHandler.gd"
+EnemyHandler="*res://scripts/handlers/enemyHandler.gd"
 
 [display]
 

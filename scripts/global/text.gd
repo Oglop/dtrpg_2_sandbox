@@ -1,6 +1,9 @@
 extends Node
 
 var SYSTEM_NEW_GAME:String = "New game"
+var SCENE_WORLDS_PATH:String = "res://scenes/worlds/"
+var SCENE_DEV_WORLD:String = "devWorld.tscn"
+
 
 var CHARACTER_AGE_YOUNG:String = "Young"
 var CHARACTER_AGE_ADULT:String = "Adult"

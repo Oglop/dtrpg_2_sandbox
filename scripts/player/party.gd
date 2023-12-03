@@ -10,39 +10,54 @@ func _ready():
 	Events.connect("INPUT_DOWN", _on_input_down)
 	Events.connect("PARTY_MOVED", _on_partyMoved)
 	Events.connect("PARTY_ADD_EXPERIENCE", _on_partyAddExperience)
-	$partyStaticBody.position = Vector2(Data.PARTY_X, Data.PARTY_Y)
+	self.global_position = Vector2(Data.PARTY_X, Data.PARTY_Y)
 	
+	
+func travelCheck(area:Area2D) -> bool:
+	var bodies = area.get_overlapping_bodies()
+	for body in bodies:
+		if body.is_in_group("enemy") && _state == Enums.PARTY_STATE.IDLE:
+			_state = Enums.PARTY_STATE.FIGHTING
+			$partyFightTimer.start(Statics.FIGHT_WAIT)
+			Events.emit_signal("PARTY_COMBAT_AT", body.global_position)
+		return true
+	return false
 
 func _on_input_reset() -> void:
 	_state = Enums.PARTY_STATE.IDLE
 
 func _on_input_right() -> void:
+	
 	if _state == Enums.PARTY_STATE.IDLE:
-		_state = Enums.PARTY_STATE.MOVED
-		Data.PARTY_X += 16
-		Events.emit_signal("PARTY_MOVED")
-		Events.emit_signal("SYSTEM_WRITE_LOG", Text.MAP_TRAVEL_EAST, Enums.SYSTEM_LOG_TYPE.MAP, true)
+		if !travelCheck($rightCheck):
+			_state = Enums.PARTY_STATE.MOVED
+			Data.PARTY_X += 16
+			Events.emit_signal("PARTY_MOVED")
+			Events.emit_signal("SYSTEM_WRITE_LOG", Text.MAP_TRAVEL_EAST, Enums.SYSTEM_LOG_TYPE.MAP, true)
 		
 func _on_input_up() -> void:
 	if _state == Enums.PARTY_STATE.IDLE:
-		_state = Enums.PARTY_STATE.MOVED
-		Data.PARTY_Y -= 16
-		Events.emit_signal("PARTY_MOVED")
-		Events.emit_signal("SYSTEM_WRITE_LOG", Text.MAP_TRAVEL_NORTH, Enums.SYSTEM_LOG_TYPE.MAP, true)
+		if !travelCheck($upCheck):
+			_state = Enums.PARTY_STATE.MOVED
+			Data.PARTY_Y -= 16
+			Events.emit_signal("PARTY_MOVED")
+			Events.emit_signal("SYSTEM_WRITE_LOG", Text.MAP_TRAVEL_NORTH, Enums.SYSTEM_LOG_TYPE.MAP, true)
 	
 func _on_input_left() -> void:
 	if _state == Enums.PARTY_STATE.IDLE:
-		_state = Enums.PARTY_STATE.MOVED
-		Data.PARTY_X -= 16
-		Events.emit_signal("PARTY_MOVED")
-		Events.emit_signal("SYSTEM_WRITE_LOG", Text.MAP_TRAVEL_WEST, Enums.SYSTEM_LOG_TYPE.MAP, true)
+		if !travelCheck($leftCheck):
+			_state = Enums.PARTY_STATE.MOVED
+			Data.PARTY_X -= 16
+			Events.emit_signal("PARTY_MOVED")
+			Events.emit_signal("SYSTEM_WRITE_LOG", Text.MAP_TRAVEL_WEST, Enums.SYSTEM_LOG_TYPE.MAP, true)
 	
 func _on_input_down() -> void:
 	if _state == Enums.PARTY_STATE.IDLE:
-		_state = Enums.PARTY_STATE.MOVED
-		Data.PARTY_Y += 16
-		Events.emit_signal("PARTY_MOVED")
-		Events.emit_signal("SYSTEM_WRITE_LOG", Text.MAP_TRAVEL_SOUTH, Enums.SYSTEM_LOG_TYPE.MAP, true)
+		if !travelCheck($downCheck):
+			_state = Enums.PARTY_STATE.MOVED
+			Data.PARTY_Y += 16
+			Events.emit_signal("PARTY_MOVED")
+			Events.emit_signal("SYSTEM_WRITE_LOG", Text.MAP_TRAVEL_SOUTH, Enums.SYSTEM_LOG_TYPE.MAP, true)
 		
 func _on_partyMoved() -> void:
 	for n in range(Globals.PARTY_SIZE, 0, -1):
@@ -50,7 +65,7 @@ func _on_partyMoved() -> void:
 		Globals.Y_POSITIONS[n] = Globals.Y_POSITIONS[n - 1]
 	Globals.X_POSITIONS[0] = Data.PARTY_X
 	Globals.Y_POSITIONS[0] = Data.PARTY_Y
-	$partyStaticBody.position = Vector2(Data.PARTY_X, Data.PARTY_Y)
+	self.global_position = Vector2(Data.PARTY_X, Data.PARTY_Y)
 	Events.emit_signal("UPDATE_SPRITE_POSITIONS")
 	$partyMoveTimer.start(Statics.MOVE_SPEED_WAIT)
 
@@ -102,5 +117,11 @@ func getXPBase(currentLV:int) -> int:
 	
 	
 func _on_party_move_timer_timeout() -> void:
-	Events.emit_signal("INPUT_RESET")
+	if _state == Enums.PARTY_STATE.MOVED:
+		Events.emit_signal("INPUT_RESET")
 	$partyMoveTimer.stop()
+
+
+func _on_party_fight_timer_timeout():
+	Events.emit_signal("INPUT_RESET")
+	$partyFightTimer.stop()

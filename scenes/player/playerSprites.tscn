@@ -183,8 +183,8 @@ _data = {
 }
 
 [node name="playerSprites" type="Sprite2D"]
-position = Vector2(8, 8)
 texture = ExtResource("1_7kaki")
+offset = Vector2(8, 8)
 hframes = 40
 vframes = 40
 frame = 5

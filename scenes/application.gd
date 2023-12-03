@@ -9,9 +9,9 @@ func _ready():
 		setDevelopmentData()
 		Data.PARTY_CURRENT_ROOM = Enums.MAPS.DEV_MAP
 		Events.emit_signal("PARTY_SET_POSITION", Enums.MAPS.DEV_MAP, Enums.ENTER_FROM.START_SCREEN)
-		get_tree().change_scene_to_file("res://scenes/world/devWorld.tscn")
+		get_tree().change_scene_to_file("res://scenes/worlds/devWorld.tscn")
 	else:
-		get_tree().change_scene_to_file("res://scenes/menus/startScreen.tscn")
+		get_tree().change_scene_to_file(str(Text.SCENE_WORLDS_PATH, Text.SCENE_DEV_WORLD))
 
 func setDevelopmentData() -> void:
 	Data.CHARACTER_1_TYPE = Enums.CLASSES.WARRIOR

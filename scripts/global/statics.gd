@@ -6,6 +6,7 @@ var WINDOW_SIZE_Y:int = 280
 var MAP_SIZE:int = 256
 var ROOM_SIZE:int = 16
 var MOVE_SPEED_WAIT:float = 0.2
+var FIGHT_WAIT:float = 1.0
 
 var CLASSES_ATTRIBUTE_GROWTH_NONE:float = 0.0
 var CLASSES_ATTRIBUTE_GROWTH_FLAT:float = 1.2
@@ -15,7 +16,7 @@ var CLASSES_ATTRIBUTE_GROWTH_SHARP:float = 1.8
 var ROOM_STARTING_POSITIONS:Dictionary = {
 	"devMap": {
 		"x": 128,
-		"y": 60
+		"y": 64
 	}
 }
 
