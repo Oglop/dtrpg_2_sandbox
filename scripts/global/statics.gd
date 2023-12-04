@@ -98,3 +98,13 @@ var CLASSES_ATRIBUTES:Dictionary = {
 		"LUCK_GROWTH":Enums.CLASSES_ATTRIBUTE_GROWTH.SHARP,
 	}
 }
+
+var ENEMY_STATS:Dictionary = {
+	"GOBLIN": {
+		"name": "Goblin",
+		"description": "A band of goblin fighters.",
+		"health": 30,
+		"attack": 10,
+		"defence": 5
+	}
+}

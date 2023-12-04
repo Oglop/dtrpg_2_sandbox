@@ -1,5 +1,9 @@
 extends Node
+var rng = RandomNumberGenerator.new()
 
+
+func _ready():
+	Events.connect("ADD_ENEMY_TO_MAP", _on_addEnemyToMap)
 
 func getEnemyName(type:Enums.ENEMY_TYPES) -> String:
 	if type == Enums.ENEMY_TYPES.NONE:
@@ -13,9 +17,56 @@ func getEnemyDescription(type:Enums.ENEMY_TYPES) -> String:
 		
 	return ""
 
-func createEnemyParty(type:Enums.ENEMY_TYPES) -> Array:
-	if type == Enums.ENEMY_TYPES.NONE:
-		return []
+func getEnemyStats(type:Enums.ENEMY_TYPES) -> Dictionary:
+	var stats:Dictionary = {}
+	if type == Enums.ENEMY_TYPES.GOBLIN:
+		return Statics.ENEMY_STATS.GOBLIN;
+	
+	return stats
+
+
+##
+## "<monster>": {
+##  "name": "<monster-name>",
+##  "description": "<description.>",
+##  "health": <hp>,
+##  "attack": <att>,
+##  "defence": <def>
+## }
+func getEnemyDetails(type:Enums.ENEMY_TYPES) -> Array:
+	var stats = getEnemyStats(type)
+	var numberOfEnemies = rng.randi_range(2,4)
+	var details:Array = []
+	for n in numberOfEnemies:
+		details.append({
+			"name": stats.name,
+			"health": stats.health,
+			"healthMax": stats.health,
+			"attack": stats.attack,
+			"defence": stats.defence
+		})
 		
-	return []
+	return details
+	
+func generateId() -> String:
+	var id:String = ""
+	var characters:Array = [ "1","2","3","4","5","6","7","8","9","0","a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","x","y","z","_" ]
+	for n in range(0,10):
+		id += characters[rng.randi_range(0, characters.size() - 1)]
+	return id
+	
+func _on_addEnemyToMap(type:Enums.ENEMY_TYPES, position:Vector2) -> void:
+	var id = generateId()
+	var details = getEnemyDetails(type)
+	
+	var enemy:Dictionary = {
+		"id": id,
+		"type": type,
+		"x":position.x,
+		"y":position.y,
+		"details": details
+	}
+	
+	Data.ENEMIES.append(enemy)
+	Events.emit_signal("SPAWN_ENEMY_ACTOR", id, position, type)
 	

@@ -7,41 +7,97 @@ var rng = RandomNumberGenerator.new()
 func _ready():
 	Events.connect("PARTY_COMBAT_AT", _on_combatAt)
 
+
+func getEnemyById(id:String) -> Dictionary:
+	for enemy in Data.ENEMIES:
+		if enemy.id == id:
+			return enemy
+	return {
+		"id": "",
+		"type": Enums.ENEMY_TYPES.NONE,
+		"details":[]
+	}
 ##
 ##
-func _on_combatAt(position:Vector2):
-	resolveTurn(position)
+func _on_combatAt(id:String, position:Vector2, enemyName:String, enemies:Array, type:Enums.ENEMY_TYPES):
+	var enemy = getEnemyById(id)
+	resolveTurn(position, enemy)
 
 
-func resolveTurn(position:Vector2) -> void:
+func getShuffeledOrderList(enemy:Dictionary) -> Array:
+	var order:Array = []
+	if Data.CHARACTER_1_HEALTH_CURRENT > 0:
+		order.push_back(0)
+	if Data.CHARACTER_2_HEALTH_CURRENT > 0:
+		order.push_back(1)
+	if Data.CHARACTER_3_HEALTH_CURRENT > 0:
+		order.push_back(2)
+	if Data.CHARACTER_4_HEALTH_CURRENT > 0:
+		order.push_back(3)
+		
+	for n in range(0 , enemy.details.size - 1):
+		order.push_back(100 + n)
+		
+	order.shuffle()
+	return order
+		
+
+func resolveTurn(position:Vector2, enemy:Dictionary) -> void:
+	var enemyAttacking:bool = false
+	
 	var health:int = 0
 	var healthMax:int = 0
 	var magic:int = 0
 	var magicMax:int = 0
 	
-	for n in range(0,3):
-		if n == 0:
+	var turnOrder:Array = getShuffeledOrderList(enemy)
+	
+	for actionTaker in turnOrder:
+		if actionTaker < 100:
+			enemyAttacking = false
+		else:
+			enemyAttacking = true
+			
+		if actionTaker == 0:
 			health = Data.CHARACTER_1_HEALTH_CURRENT
 			healthMax = Data.CHARACTER_1_HEALTH_MAX
 			magic = Data.CHARACTER_1_MAGIC_CURRENT
 			magicMax = Data.CHARACTER_1_MAGIC_MAX
-		elif n == 1:
+		elif actionTaker == 1:
 			health = Data.CHARACTER_2_HEALTH_CURRENT
 			healthMax = Data.CHARACTER_2_HEALTH_MAX
 			magic = Data.CHARACTER_2_MAGIC_CURRENT
 			magicMax = Data.CHARACTER_2_MAGIC_MAX
-		elif n == 2:
+		elif actionTaker == 2:
 			health = Data.CHARACTER_3_HEALTH_CURRENT
 			healthMax = Data.CHARACTER_3_HEALTH_MAX
 			magic = Data.CHARACTER_3_MAGIC_CURRENT
 			magicMax = Data.CHARACTER_3_MAGIC_MAX
-		elif n == 3:
+		elif actionTaker == 3:
 			health = Data.CHARACTER_4_HEALTH_CURRENT
 			healthMax = Data.CHARACTER_4_HEALTH_MAX
 			magic = Data.CHARACTER_4_MAGIC_CURRENT
-			magicMax = Data.CHARACTER_4_MAGIC_MAX	
-			
-		resolveRules(n)
+			magicMax = Data.CHARACTER_4_MAGIC_MAX
+		else:
+			var detail = enemy.details[100 - actionTaker]
+			health = detail.hp
+			healthMax = 999
+			magic = 0
+			magicMax = 0
+		
+		# get attacker - attacker is
+		
+		# get defender
+		
+		# if no enemies win
+		
+		# if no characters loose
+		
+		
+	
+		# resolve action
+		if !enemyAttacking:
+			resolveRules(actionTaker)
 
 ##
 ## check skill by testing skille value 1-20 against random number

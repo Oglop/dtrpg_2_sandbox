@@ -98,3 +98,15 @@ var CHARACTER_4_RULES:Array = [
 		"action": Enums.ACTION.USE_POTION
 	}
 ]
+
+var ENEMIES:Array = [
+	{
+		"id": "hello",
+		"type": Enums.ENEMY_TYPES.NONE,
+		"x":32,
+		"y":32,
+		"enemies": [
+			{ "hp":100 }
+		]
+	}
+]

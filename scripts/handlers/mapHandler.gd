@@ -3,7 +3,7 @@ extends Node2D
 
 func _ready():
 	addParty()
-	Events.emit_signal("SPAWN_ENEMY", Vector2(46,36), Enums.ENEMY_TYPES.GOBLIN)
+	Events.emit_signal("ADD_ENEMY_TO_MAP", Enums.ENEMY_TYPES.GOBLIN, Vector2(46,36))
 
 func addParty() -> void:
 	if Data.CHARACTER_1_TYPE != Enums.CLASSES.NONE:

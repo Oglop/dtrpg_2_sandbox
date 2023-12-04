@@ -1,9 +1,9 @@
 extends Node2D
 
+var _id:String = ""
 var _name:String = ""
 var _description:String = ""
 var _type:Enums.ENEMY_TYPES = Enums.ENEMY_TYPES.NONE
-var _enemies:Array = []
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -30,10 +30,11 @@ func setAnimation(type:Enums.ENEMY_TYPES) -> void:
 ## 
 ## Set type and position
 ## 
-func setProperties(type:Enums.ENEMY_TYPES) -> void:
+func setProperties(id:String, type:Enums.ENEMY_TYPES) -> void:
+	_id = id
 	_type = type
-	_enemies = EnemyHandler.createEnemyParty(type)
 	_name = EnemyHandler.getEnemyName(type)
 	_description = EnemyHandler.getEnemyDescription(type)
 	
 	snapToGrid()
+	setAnimation(type)
