@@ -1,5 +1,77 @@
 extends Node
 
+func getCharacterByPosition(position:int) -> Dictionary:
+	var name:String = ""
+	var health:int = 0
+	var type:Enums.CLASSES = Enums.CLASSES.NONE
+	var attack:int = 0
+	var defence:int = 0
+	var strength:int = 0
+	var luck:int = 0
+	var agility:int = 0
+	var intelligence:int = 0
+	var rules:Array = []
+	
+	if position == 0:
+		health = CHARACTER_1_HEALTH_CURRENT
+		type = CHARACTER_1_TYPE
+		name = CHARACTER_1_NAME
+		attack = CHARACTER_1_STRENGTH
+		defence = 1
+		strength = CHARACTER_1_STRENGTH
+		agility = CHARACTER_1_AGILITY
+		intelligence = CHARACTER_1_INTELLIGENCE
+		luck = CHARACTER_1_LUCK
+		rules = CHARACTER_1_RULES
+	elif position == 1:
+		health = CHARACTER_2_HEALTH_CURRENT
+		type = CHARACTER_2_TYPE
+		name = CHARACTER_2_NAME
+		attack = CHARACTER_2_STRENGTH
+		defence = 1
+		strength = CHARACTER_2_STRENGTH
+		agility = CHARACTER_2_AGILITY
+		intelligence = CHARACTER_2_INTELLIGENCE
+		luck = CHARACTER_2_LUCK
+		rules = CHARACTER_2_RULES
+	elif position == 2:
+		health = CHARACTER_3_HEALTH_CURRENT
+		type = CHARACTER_3_TYPE
+		name = CHARACTER_3_NAME
+		attack = CHARACTER_3_STRENGTH
+		defence = 1
+		strength = CHARACTER_3_STRENGTH
+		agility = CHARACTER_3_AGILITY
+		intelligence = CHARACTER_3_INTELLIGENCE
+		luck = CHARACTER_3_LUCK
+		rules = CHARACTER_3_RULES
+	else:
+		health = CHARACTER_4_HEALTH_CURRENT
+		type = CHARACTER_4_TYPE
+		name = CHARACTER_4_NAME
+		attack = CHARACTER_4_STRENGTH
+		defence = 1
+		strength = CHARACTER_4_STRENGTH
+		agility = CHARACTER_4_AGILITY
+		intelligence = CHARACTER_4_INTELLIGENCE
+		luck = CHARACTER_4_LUCK
+		rules = CHARACTER_4_RULES
+	
+	return {
+		"name": name,
+		"health": health,
+		"type": type,
+		"attack": attack,
+		"defence": defence,
+		"strength": strength,
+		"agility": agility,
+		"intelligence": intelligence,
+		"luck": luck,
+		"rules": rules
+	}
+		
+		
+
 var PARTY_CURRENT_ROOM:Enums.MAPS = Enums.MAPS.NONE
 var PARTY_X:int = 0
 var PARTY_Y:int = 0

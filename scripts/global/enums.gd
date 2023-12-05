@@ -45,6 +45,7 @@ enum RULE {
 	ALLY_DEAD,
 }
 enum ACTION {
+	NONE,
 	ATTACK,
 	USE_POTION,
 	REVIVE,

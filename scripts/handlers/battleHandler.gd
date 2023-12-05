@@ -19,7 +19,7 @@ func getEnemyById(id:String) -> Dictionary:
 	}
 ##
 ##
-func _on_combatAt(id:String, position:Vector2, enemyName:String, enemies:Array, type:Enums.ENEMY_TYPES):
+func _on_combatAt(id:String, position:Vector2, enemyName:String, type:Enums.ENEMY_TYPES):
 	var enemy = getEnemyById(id)
 	resolveTurn(position, enemy)
 
@@ -35,16 +35,38 @@ func getShuffeledOrderList(enemy:Dictionary) -> Array:
 	if Data.CHARACTER_4_HEALTH_CURRENT > 0:
 		order.push_back(3)
 		
-	for n in range(0 , enemy.details.size - 1):
+	for n in range(0 , enemy.details.size() - 1):
 		order.push_back(100 + n)
 		
 	order.shuffle()
 	return order
+	
+func resolveEnemyAttack(enemyDetail:Dictionary) -> void:
+	pass
 		
+func removeDeadEnemies(enemy:Dictionary) -> Array:
+	var newDetails = []
+	for detail in enemy.details:
+		if detail.health > 0:
+			newDetails.push_back(detail)
+	return newDetails
+	
+##
+## return random enenmy detail with hp > 0
+##
+func getRandomEnemy(enemy:Dictionary) -> Dictionary:
+	var alive:Array = []
+	for detail in enemy.details:
+		if detail.health > 0:
+			alive.push_back(detail)
+	if alive.size() >= 1:
+		alive.shuffle()
+		return alive[0]
+	return {}
 
 func resolveTurn(position:Vector2, enemy:Dictionary) -> void:
 	var enemyAttacking:bool = false
-	
+	var detail:Dictionary = {}
 	var health:int = 0
 	var healthMax:int = 0
 	var magic:int = 0
@@ -79,25 +101,32 @@ func resolveTurn(position:Vector2, enemy:Dictionary) -> void:
 			magic = Data.CHARACTER_4_MAGIC_CURRENT
 			magicMax = Data.CHARACTER_4_MAGIC_MAX
 		else:
-			var detail = enemy.details[100 - actionTaker]
-			health = detail.hp
-			healthMax = 999
+			detail = enemy.details[100 - actionTaker]
+			health = detail.health
+			healthMax = detail.healthMax
 			magic = 0
 			magicMax = 0
 		
 		# get attacker - attacker is
 		
 		# get defender
+
+		if enemyAttacking:
+			resolveEnemyAttack(detail)
+		else:
+			var action = resolveRules(actionTaker)
+			if action == Enums.ACTION.NONE:
+				Events.emit_signal("SYSTEM_WRITE_LOG", str(getCharacterName(actionTaker), " is idling."), Enums.SYSTEM_LOG_TYPE.BATTLE)
+			else:
+				var enemeyDetail = getRandomEnemy(enemy)
+				resolveAction(actionTaker, enemeyDetail, action)
+		
 		
 		# if no enemies win
 		
 		# if no characters loose
 		
-		
-	
-		# resolve action
-		if !enemyAttacking:
-			resolveRules(actionTaker)
+
 
 ##
 ## check skill by testing skille value 1-20 against random number
@@ -130,6 +159,7 @@ func resolveAttackAction(attack:int, defence:int, attackerDexterity:int, attacke
 	
 	Events.emit_signal("SYSTEM_WRITE_LOG", str(attackerName, " attacks ", defenderName, " and misses."), Enums.SYSTEM_LOG_TYPE.BATTLE)
 	return 0
+
 	
 ## Get name of character
 func getCharacterName(position:int) -> String:
@@ -157,27 +187,26 @@ func getCharacterRules(position:int) -> Array:
 	else:
 		return Data.CHARACTER_4_RULES
 
-## actionResolver
+## actionResolve
 ## resolve action for character in position
-func resolveAction(position:int, action:Enums.ACTION) -> void:
-
+func resolveAction(position:int, enemeyDetail:Dictionary, action:Enums.ACTION) -> void:
+	var attacker = Data.getCharacterByPosition(position)
 	if (action == Enums.ACTION.ATTACK):
-		resolveAttackAction(10, 5, 16, 7, "Hello World", "Lamas")
+		var damage = resolveAttackAction(attacker.attack, enemeyDetail.defence, attacker.agility, attacker.luck, attacker.name, enemeyDetail.name)
+		enemeyDetail.health -= damage
 	
 ## resolveRules
 ## postion
-func resolveRules(position:int) -> void:
-	var actionExecuted = false
+func resolveRules(position:int) -> Enums.ACTION:
 	var rules:Array = getCharacterRules(position)
 	
 	for rule in rules:
 		if RuleHandler.validateRule(rule.rule, position):
-			resolveAction(position, rule.action)
-			actionExecuted = true
-			break
+			return rule.action
+			# resolveAction(position, rule.action)
 			
-	if !actionExecuted:	
-		Events.emit_signal("SYSTEM_WRITE_LOG", str(getCharacterName(position), " is idling."), Enums.SYSTEM_LOG_TYPE.BATTLE)
+	return Enums.ACTION.NONE
+	
 	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

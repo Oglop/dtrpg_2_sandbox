@@ -19,7 +19,8 @@ func travelCheck(area:Area2D) -> bool:
 		if body.is_in_group("enemy") && _state == Enums.PARTY_STATE.IDLE:
 			_state = Enums.PARTY_STATE.FIGHTING
 			$partyFightTimer.start(Statics.FIGHT_WAIT)
-			Events.emit_signal("PARTY_COMBAT_AT", body.global_position, body._name, body._enemies, body._type)
+			Events.emit_signal("PARTY_COMBAT_AT", body._id, body.global_position, body._name, body._type)
+			#id:String, position:Vector2, enemyName:String, enemies:Array, type:Enums.ENEMY_TYPES
 		return true
 	return false
 
