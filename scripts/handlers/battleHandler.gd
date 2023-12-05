@@ -49,6 +49,9 @@ func removeDeadEnemies(enemy:Dictionary) -> Array:
 	for detail in enemy.details:
 		if detail.health > 0:
 			newDetails.push_back(detail)
+		else:
+			Events.emit_signal("SYSTEM_WRITE_LOG", str(detail.name, " was slain, party gains ", detail.xp ," experience."), Enums.SYSTEM_LOG_TYPE.BATTLE)
+			Events.emit_signal("PARTY_ADD_EXPERIENCE", detail.xp)
 	return newDetails
 	
 ##
@@ -121,10 +124,13 @@ func resolveTurn(position:Vector2, enemy:Dictionary) -> void:
 				var enemeyDetail = getRandomEnemy(enemy)
 				resolveAction(actionTaker, enemeyDetail, action)
 		
-		
-		# if no enemies win
-		
 		# if no characters loose
+		
+		# remove dead enemies, if no enemies win
+		enemy.details = removeDeadEnemies(enemy)
+		if enemy.details.size() == 0:
+			EnemyHandler.removeEnemy(enemy.id)
+			break
 		
 
 

@@ -7,8 +7,12 @@ var _type:Enums.ENEMY_TYPES = Enums.ENEMY_TYPES.NONE
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass
+	Events.connect("DELETE_ENEMY_ACTOR", _on_enemy_defeated)
 
+
+func _on_enemy_defeated(id:String) -> void:
+	if _id == id:
+		self.queue_free()
 
 func snapToGrid():
 	var gridX:int = self.global_position.x / 16

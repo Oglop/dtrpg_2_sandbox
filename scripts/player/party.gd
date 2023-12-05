@@ -82,21 +82,25 @@ func _on_partyAddExperience(xp:int) -> void:
 		Data.CHARACTER_1_XP += xp
 		if Data.CHARACTER_1_XP >= Data.CHARACTER_1_XP_NEXT:
 			Data.CHARACTER_1_LV += 1
+			Events.emit_signal("SYSTEM_WRITE_LOG", str(Data.CHARACTER_1_NAME, " reached level ", Data.CHARACTER_1_LV, "."), Enums.SYSTEM_LOG_TYPE.BATTLE)
 			Data.CHARACTER_1_XP_NEXT = getLevelNext(getXPBase(Data.CHARACTER_1_LV), Data.CHARACTER_1_LV)
 			
 		Data.CHARACTER_2_XP += xp
 		if Data.CHARACTER_2_XP >= Data.CHARACTER_2_XP_NEXT:
 			Data.CHARACTER_2_LV += 1
+			Events.emit_signal("SYSTEM_WRITE_LOG", str(Data.CHARACTER_2_NAME, " reached level ", Data.CHARACTER_2_LV, "."), Enums.SYSTEM_LOG_TYPE.BATTLE)
 			Data.CHARACTER_2_XP_NEXT = getLevelNext(getXPBase(Data.CHARACTER_2_LV), Data.CHARACTER_2_LV)
 			
 		Data.CHARACTER_3_XP += xp
 		if Data.CHARACTER_3_XP >= Data.CHARACTER_3_XP_NEXT:
 			Data.CHARACTER_3_LV += 1
+			Events.emit_signal("SYSTEM_WRITE_LOG", str(Data.CHARACTER_3_NAME, " reached level ", Data.CHARACTER_3_LV, "."), Enums.SYSTEM_LOG_TYPE.BATTLE)
 			Data.CHARACTER_3_XP_NEXT = getLevelNext(getXPBase(Data.CHARACTER_3_LV), Data.CHARACTER_3_LV)
 			
 		Data.CHARACTER_4_XP += xp
 		if Data.CHARACTER_4_XP >= Data.CHARACTER_4_XP_NEXT:
 			Data.CHARACTER_4_LV += 1
+			Events.emit_signal("SYSTEM_WRITE_LOG", str(Data.CHARACTER_4_NAME, " reached level ", Data.CHARACTER_4_LV, "."), Enums.SYSTEM_LOG_TYPE.BATTLE)
 			Data.CHARACTER_4_XP_NEXT = getLevelNext(getXPBase(Data.CHARACTER_4_LV), Data.CHARACTER_4_LV)
 
 # returns next level

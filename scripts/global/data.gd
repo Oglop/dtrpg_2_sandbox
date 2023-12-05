@@ -121,7 +121,7 @@ var CHARACTER_2_RULES:Array = [
 		"action": Enums.ACTION.USE_POTION
 	},{
 		"rule": Enums.RULE.ALWAYS,
-		"action": Enums.ACTION.USE_POTION
+		"action": Enums.ACTION.ATTACK
 	}
 ]
 
@@ -144,7 +144,7 @@ var CHARACTER_3_RULES:Array = [
 		"action": Enums.ACTION.USE_POTION
 	},{
 		"rule": Enums.RULE.ALWAYS,
-		"action": Enums.ACTION.USE_POTION
+		"action": Enums.ACTION.ATTACK
 	}
 ]
 
@@ -167,18 +167,10 @@ var CHARACTER_4_RULES:Array = [
 		"action": Enums.ACTION.USE_POTION
 	},{
 		"rule": Enums.RULE.ALWAYS,
-		"action": Enums.ACTION.USE_POTION
+		"action": Enums.ACTION.ATTACK
 	}
 ]
 
 var ENEMIES:Array = [
-	{
-		"id": "hello",
-		"type": Enums.ENEMY_TYPES.NONE,
-		"x":32,
-		"y":32,
-		"enemies": [
-			{ "hp":100 }
-		]
-	}
+
 ]

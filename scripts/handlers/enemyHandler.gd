@@ -43,10 +43,19 @@ func getEnemyDetails(type:Enums.ENEMY_TYPES) -> Array:
 			"health": stats.health,
 			"healthMax": stats.health,
 			"attack": stats.attack,
-			"defence": stats.defence
+			"defence": stats.defence,
+			"xp": stats.xp
 		})
 		
 	return details
+	
+func removeEnemy(id:String) -> void:
+	var updatedEnemyList:Array = []
+	for enemy in Data.ENEMIES:
+		if enemy.id != id:
+			updatedEnemyList.append(enemy)
+	Data.ENEMIES = updatedEnemyList
+	Events.emit_signal("DELETE_ENEMY_ACTOR", id)
 	
 func generateId() -> String:
 	var id:String = ""

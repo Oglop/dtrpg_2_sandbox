@@ -102,6 +102,7 @@ var CLASSES_ATRIBUTES:Dictionary = {
 var ENEMY_STATS:Dictionary = {
 	"GOBLIN": {
 		"name": "Goblin",
+		"xp":10,
 		"description": "A vile band of goblins.",
 		"health": 30,
 		"attack": 10,
