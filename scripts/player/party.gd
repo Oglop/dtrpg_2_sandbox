@@ -10,6 +10,9 @@ func _ready():
 	Events.connect("INPUT_DOWN", _on_input_down)
 	Events.connect("PARTY_MOVED", _on_partyMoved)
 	Events.connect("PARTY_ADD_EXPERIENCE", _on_partyAddExperience)
+	Events.connect("PARTY_ADD_GOLD", _on_partyAddCrowns)
+	Events.connect("PARTY_ADD_ITEM", _on_partyAddItem)
+	
 	self.global_position = Vector2(Data.PARTY_X, Data.PARTY_Y)
 	
 	
@@ -69,6 +72,16 @@ func _on_partyMoved() -> void:
 	self.global_position = Vector2(Data.PARTY_X, Data.PARTY_Y)
 	Events.emit_signal("UPDATE_SPRITE_POSITIONS")
 	$partyMoveTimer.start(Statics.MOVE_SPEED_WAIT)
+
+
+func _on_partyAddCrowns(crowns:int) -> void:
+	Data.PARTY_CROWNS += crowns
+	
+	
+func _on_partyAddItem(item:Dictionary) -> void:
+	# todo find item and add quantity if exists
+	Data.PARTY_ITEMS.append(item)
+
 
 func _on_partyAddExperience(xp:int) -> void:
 	var currentXP:int = 0

@@ -98,10 +98,18 @@ var CLASSES_ATRIBUTES:Dictionary = {
 		"LUCK_GROWTH":Enums.CLASSES_ATTRIBUTE_GROWTH.SHARP,
 	}
 }
+var ENEMY_SPAWNS:Dictionary = {
+	"GOBLIN": {
+		"min":2,
+		"max":5
+	}
+}
 
 var ENEMY_STATS:Dictionary = {
 	"GOBLIN": {
 		"name": "Goblin",
+		"crownsMin": 3,
+		"crownsMax": 6,
 		"xp":10,
 		"description": "A vile band of goblins.",
 		"health": 30,

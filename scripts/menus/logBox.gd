@@ -28,12 +28,15 @@ func writeMessageInterupt(message:String):
 	$MarginContainer/Panel/Label.text = message
 
 func writeNextMessage():
-	if $Timer.is_stopped():
+	if $Timer.is_stopped() || messageQueue.size() > 1:
 		self.visible = true
 		if Input.is_action_pressed("CANCEL"):
 			$Timer.start(WAIT_PRESSING_CANCEL)
 		else: 
-			$Timer.start(WAIT_NOT_PRESSING)
+			if messageQueue.size() > 1:
+				$Timer.start(WAIT_PRESSING_CANCEL)
+			elif messageQueue.size() == 1:
+				$Timer.start(WAIT_NOT_PRESSING)
 		if !messageQueue.is_empty():
 			$MarginContainer/Panel/Label.text = messageQueue[0]
 		else: 

@@ -75,6 +75,8 @@ func getCharacterByPosition(position:int) -> Dictionary:
 var PARTY_CURRENT_ROOM:Enums.MAPS = Enums.MAPS.NONE
 var PARTY_X:int = 0
 var PARTY_Y:int = 0
+var PARTY_CROWNS:int = 0
+var PARTY_ITEMS:Array = []
 var SYSTEM_LOG_BATTLE:bool = true
 var SYSTEM_LOG_MAP:bool = true
 var SYSTEM_LOG_NPC:bool = true
