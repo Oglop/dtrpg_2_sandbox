@@ -41,8 +41,53 @@ func getShuffeledOrderList(enemy:Dictionary) -> Array:
 	order.shuffle()
 	return order
 	
+func isPartyAlive() -> bool:
+	return Data.CHARACTER_1_HEALTH_CURRENT > 0 || Data.CHARACTER_2_HEALTH_CURRENT > 0 || Data.CHARACTER_3_HEALTH_CURRENT > 0 || Data.CHARACTER_4_HEALTH_CURRENT > 0
+	
+func getRandomCharacterIndex() -> int:
+	var aliveCharacters = []
+	if Data.CHARACTER_1_HEALTH_CURRENT > 0:
+		aliveCharacters.push_back(0)
+	if Data.CHARACTER_2_HEALTH_CURRENT > 0:
+		aliveCharacters.push_back(1)
+	if Data.CHARACTER_3_HEALTH_CURRENT > 0:
+		aliveCharacters.push_back(2)
+	if Data.CHARACTER_4_HEALTH_CURRENT > 0:
+		aliveCharacters.push_back(3)
+	aliveCharacters.shuffle()
+	return aliveCharacters[0]
+	
 func resolveEnemyAttack(enemyDetail:Dictionary) -> void:
-	pass
+	var characterPosition:int = getRandomCharacterIndex()
+	var character:Dictionary = Data.getCharacterByPosition(characterPosition)
+	var dmg:int = enemyDetail.attack / character.defence
+	
+	if characterPosition == 0:
+		Data.CHARACTER_1_HEALTH_CURRENT -= dmg
+		if Data.CHARACTER_1_HEALTH_CURRENT < 0:
+			Data.CHARACTER_1_HEALTH_CURRENT = 0
+	elif characterPosition == 1:
+		Data.CHARACTER_2_HEALTH_CURRENT -= dmg
+		if Data.CHARACTER_2_HEALTH_CURRENT < 0:
+			Data.CHARACTER_2_HEALTH_CURRENT = 0
+	elif characterPosition == 2:
+		Data.CHARACTER_3_HEALTH_CURRENT -= dmg
+		if Data.CHARACTER_3_HEALTH_CURRENT < 0:
+			Data.CHARACTER_3_HEALTH_CURRENT = 0
+	elif characterPosition == 3:
+		Data.CHARACTER_4_HEALTH_CURRENT -= dmg
+		if Data.CHARACTER_4_HEALTH_CURRENT < 0:
+			Data.CHARACTER_4_HEALTH_CURRENT = 0
+	Events.emit_signal("SYSTEM_WRITE_LOG", str(enemyDetail.name, " hit ", character.name, " for ", dmg, " damage." ), Enums.SYSTEM_LOG_TYPE.BATTLE)
+	Events.emit_signal("UPDATE_HP_BOX")
+	
+	
+func chance(test:int) -> bool:
+	var i:int = rng.randi_range(1, 100)
+	if i <= test:
+		return true
+	return false
+	
 		
 func removeDeadEnemies(enemy:Dictionary) -> Array:
 	var newDetails = []
@@ -50,8 +95,11 @@ func removeDeadEnemies(enemy:Dictionary) -> Array:
 		if detail.health > 0:
 			newDetails.push_back(detail)
 		else:
-			Events.emit_signal("SYSTEM_WRITE_LOG", str(detail.name, " was slain, party gains ", detail.xp ," experience."), Enums.SYSTEM_LOG_TYPE.BATTLE)
+			var dropsItem:bool = chance(detail.itemDropRate)
+			var crowns:int = rng.randi_range(detail.crownsMin, detail.crownsMax)
+			Events.emit_signal("SYSTEM_WRITE_LOG", str(detail.name, " is slain, party gains ", detail.xp ," xp and ", crowns, " crowns."), Enums.SYSTEM_LOG_TYPE.BATTLE)
 			Events.emit_signal("PARTY_ADD_EXPERIENCE", detail.xp)
+			Events.emit_signal("PARTY_ADD_GOLD", rng.randi_range(detail.crownsMin, detail.crownsMax))
 	return newDetails
 	
 ##
@@ -166,7 +214,14 @@ func resolveAttackAction(attack:int, defence:int, attackerDexterity:int, attacke
 	Events.emit_signal("SYSTEM_WRITE_LOG", str(attackerName, " attacks ", defenderName, " and misses."), Enums.SYSTEM_LOG_TYPE.BATTLE)
 	return 0
 
-	
+
+func resolvePotionSelfAction(position:int) -> void:
+	if InventoryHandler.itemExists("Potion"):
+		var item = InventoryHandler.withdrawItem("Potion")
+		Events.emit_signal("PARTY_ADD_HEALTH", position, item.value)
+		Events.emit_signal("UPDATE_HP_BOX")
+		Events.emit_signal("SYSTEM_WRITE_LOG", str(getCharacterName(position), " drinks a potion."), Enums.SYSTEM_LOG_TYPE.BATTLE)
+
 ## Get name of character
 func getCharacterName(position:int) -> String:
 	if position == 0:
@@ -197,9 +252,11 @@ func getCharacterRules(position:int) -> Array:
 ## resolve action for character in position
 func resolveAction(position:int, enemeyDetail:Dictionary, action:Enums.ACTION) -> void:
 	var attacker = Data.getCharacterByPosition(position)
-	if (action == Enums.ACTION.ATTACK):
+	if action == Enums.ACTION.ATTACK:
 		var damage = resolveAttackAction(attacker.attack, enemeyDetail.defence, attacker.agility, attacker.luck, attacker.name, enemeyDetail.name)
 		enemeyDetail.health -= damage
+	elif action == Enums.ACTION.USE_POTION_SELF:
+		resolvePotionSelfAction(position)
 	
 ## resolveRules
 ## postion

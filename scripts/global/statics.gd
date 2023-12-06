@@ -98,8 +98,31 @@ var CLASSES_ATRIBUTES:Dictionary = {
 		"LUCK_GROWTH":Enums.CLASSES_ATTRIBUTE_GROWTH.SHARP,
 	}
 }
+
+var ITEMS:Dictionary = {
+	"POTION": {
+		"type": Enums.ITEM_TYPES.CONSUMABLE,
+		"name": "Potion",
+		"value": 100,
+		"quantity":1
+	},
+	"ELIXIR": {
+		"type": Enums.ITEM_TYPES.CONSUMABLE,
+		"name": "Elixir",
+		"value": 1,
+		"quantity": 1
+	},
+	"SHORT_SWORD": {
+		"type": Enums.ITEM_TYPES.WEAPON_SWORD,
+		"name": "Short Sword",
+		"value": 8,
+		"quantity": 1
+	}
+}
+
 var ENEMY_SPAWNS:Dictionary = {
 	"GOBLIN": {
+		"description": "A vile band of goblins.",
 		"min":2,
 		"max":5
 	}
@@ -111,9 +134,10 @@ var ENEMY_STATS:Dictionary = {
 		"crownsMin": 3,
 		"crownsMax": 6,
 		"xp":10,
-		"description": "A vile band of goblins.",
 		"health": 30,
 		"attack": 10,
-		"defence": 5
+		"defence": 5,
+		"itemDrop": "POTION",
+		"itemDropRate":15
 	}
 }

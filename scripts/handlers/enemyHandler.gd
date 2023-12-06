@@ -35,7 +35,9 @@ func getEnemyStats(type:Enums.ENEMY_TYPES) -> Dictionary:
 ## }
 func getEnemyDetails(type:Enums.ENEMY_TYPES) -> Array:
 	var stats = getEnemyStats(type)
-	var numberOfEnemies = rng.randi_range(2,4)
+	var meta = getEnemyMeta(type)
+	
+	var numberOfEnemies = rng.randi_range(meta.min, meta.max)
 	var details:Array = []
 	for n in numberOfEnemies:
 		details.append({
@@ -44,10 +46,21 @@ func getEnemyDetails(type:Enums.ENEMY_TYPES) -> Array:
 			"healthMax": stats.health,
 			"attack": stats.attack,
 			"defence": stats.defence,
-			"xp": stats.xp
+			"xp": stats.xp,
+			"crownsMin": stats.crownsMin,
+			"crownsMax": stats.crownsMax,
+			"itemDrop": stats.itemDrop,
+			"itemDropRate":stats.itemDropRate
 		})
 		
 	return details
+	
+func getEnemyMeta(type:Enums.ENEMY_TYPES) -> Dictionary:
+	var stats:Dictionary = {}
+	if type == Enums.ENEMY_TYPES.GOBLIN:
+		return Statics.ENEMY_SPAWNS.GOBLIN
+	return stats
+	
 	
 func removeEnemy(id:String) -> void:
 	var updatedEnemyList:Array = []

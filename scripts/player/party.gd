@@ -12,6 +12,8 @@ func _ready():
 	Events.connect("PARTY_ADD_EXPERIENCE", _on_partyAddExperience)
 	Events.connect("PARTY_ADD_GOLD", _on_partyAddCrowns)
 	Events.connect("PARTY_ADD_ITEM", _on_partyAddItem)
+	Events.connect("PARTY_ADD_HEALTH", _on_addHealth)
+	Events.connect("PARTY_ADD_MAGIC", _on_addMagic)
 	
 	self.global_position = Vector2(Data.PARTY_X, Data.PARTY_Y)
 	
@@ -79,9 +81,49 @@ func _on_partyAddCrowns(crowns:int) -> void:
 	
 	
 func _on_partyAddItem(item:Dictionary) -> void:
-	# todo find item and add quantity if exists
-	Data.PARTY_ITEMS.append(item)
-
+	var itemInserted:bool = false
+	for x in Data.PARTY_ITEMS:
+		if x.name == item.name:
+			x.quantity += 1
+			itemInserted = true
+	if !itemInserted:
+		Data.PARTY_ITEMS.append(item)
+		
+func _on_addHealth(position:int, value:int) -> void:
+	if position == 0:
+		Data.CHARACTER_1_HEALTH_CURRENT += value
+		if Data.CHARACTER_1_HEALTH_CURRENT > Data.CHARACTER_1_HEALTH_MAX:
+			Data.CHARACTER_1_HEALTH_CURRENT = Data.CHARACTER_1_HEALTH_MAX
+	elif position == 1:
+		Data.CHARACTER_2_HEALTH_CURRENT += value
+		if Data.CHARACTER_2_HEALTH_CURRENT > Data.CHARACTER_2_HEALTH_MAX:
+			Data.CHARACTER_2_HEALTH_CURRENT = Data.CHARACTER_2_HEALTH_MAX
+	elif position == 2:
+		Data.CHARACTER_3_HEALTH_CURRENT += value
+		if Data.CHARACTER_3_HEALTH_CURRENT > Data.CHARACTER_3_HEALTH_MAX:
+			Data.CHARACTER_3_HEALTH_CURRENT = Data.CHARACTER_3_HEALTH_MAX
+	elif position == 3:
+		Data.CHARACTER_4_HEALTH_CURRENT += value
+		if Data.CHARACTER_4_HEALTH_CURRENT > Data.CHARACTER_4_HEALTH_MAX:
+			Data.CHARACTER_4_HEALTH_CURRENT = Data.CHARACTER_4_HEALTH_MAX
+			
+func _on_addMagic(position:int, value:int) -> void:
+	if position == 0:
+			Data.CHARACTER_1_MAGIC_CURRENT += value
+			if Data.CHARACTER_1_MAGIC_CURRENT > Data.CHARACTER_1_MAGIC_MAX:
+				Data.CHARACTER_1_MAGIC_CURRENT = Data.CHARACTER_1_MAGIC_MAX
+	elif position == 1:
+		Data.CHARACTER_2_MAGIC_CURRENT += value
+		if Data.CHARACTER_2_MAGIC_CURRENT > Data.CHARACTER_2_MAGIC_MAX:
+			Data.CHARACTER_2_MAGIC_CURRENT = Data.CHARACTER_2_MAGIC_MAX
+	elif position == 2:
+		Data.CHARACTER_3_MAGIC_CURRENT += value
+		if Data.CHARACTER_3_MAGIC_CURRENT > Data.CHARACTER_3_MAGIC_MAX:
+			Data.CHARACTER_3_MAGIC_CURRENT = Data.CHARACTER_3_MAGIC_MAX
+	elif position == 3:
+		Data.CHARACTER_4_MAGIC_CURRENT += value
+		if Data.CHARACTER_4_MAGIC_CURRENT > Data.CHARACTER_4_MAGIC_MAX:
+			Data.CHARACTER_4_MAGIC_CURRENT = Data.CHARACTER_4_MAGIC_MAX
 
 func _on_partyAddExperience(xp:int) -> void:
 	var currentXP:int = 0
