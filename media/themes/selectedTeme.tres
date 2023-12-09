@@ -1,0 +1,17 @@
+[gd_resource type="Theme" load_steps=3 format=3 uid="uid://b0h4mwrabrs0u"]
+
+[ext_resource type="FontFile" uid="uid://dy6otg77ctxjd" path="res://media/fonts/retroGaming.ttf" id="1_i85k0"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s1ugt"]
+bg_color = Color(0, 0.65098, 0.619608, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.956863, 0.85098, 0.682353, 1)
+corner_detail = 1
+
+[resource]
+default_font = ExtResource("1_i85k0")
+default_font_size = 10
+Panel/styles/panel = SubResource("StyleBoxFlat_s1ugt")

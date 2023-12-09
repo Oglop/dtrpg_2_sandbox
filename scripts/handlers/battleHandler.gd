@@ -54,8 +54,11 @@ func getRandomCharacterIndex() -> int:
 		aliveCharacters.push_back(2)
 	if Data.CHARACTER_4_HEALTH_CURRENT > 0:
 		aliveCharacters.push_back(3)
-	aliveCharacters.shuffle()
-	return aliveCharacters[0]
+	if aliveCharacters.size() > 0:
+		aliveCharacters.shuffle()
+		return aliveCharacters[0]
+	resolvePartyFell()
+	return -1
 	
 func resolveEnemyAttack(enemyDetail:Dictionary) -> void:
 	var characterPosition:int = getRandomCharacterIndex()
@@ -101,6 +104,9 @@ func removeDeadEnemies(enemy:Dictionary) -> Array:
 			Events.emit_signal("PARTY_ADD_EXPERIENCE", detail.xp)
 			Events.emit_signal("PARTY_ADD_GOLD", rng.randi_range(detail.crownsMin, detail.crownsMax))
 	return newDetails	
+	
+func resolvePartyFell() -> void:
+	get_tree().change_scene_to_file("res://scenes/rooms/gameOver.tscn")
 	
 ##
 ## return random enenmy detail with hp > 0
@@ -174,7 +180,7 @@ func resolveTurn(position:Vector2, enemy:Dictionary) -> void:
 		
 		# if no characters loose
 		if !isPartyAlive():
-			get_tree().change_scene_to_file("res://scenes/rooms/gameOver.tscn")
+			resolvePartyFell() 
 		
 		
 		# remove dead enemies, if no enemies win

@@ -191,18 +191,63 @@ var ITEMS:Dictionary = {
 		"type": Enums.ITEM_TYPES.CONSUMABLE,
 		"name": "Potion",
 		"value": 100,
+		"magicValue": 0,
 		"quantity":1
 	},
 	"ELIXIR": {
 		"type": Enums.ITEM_TYPES.CONSUMABLE,
 		"name": "Elixir",
 		"value": 1,
+		"magicValue": 0,
+		"quantity": 1
+	},
+	"HERB": {
+		"type": Enums.ITEM_TYPES.CONSUMABLE,
+		"name": "Herb",
+		"value": 80,
+		"magicValue": 0,
 		"quantity": 1
 	},
 	"SHORT_SWORD": {
 		"type": Enums.ITEM_TYPES.WEAPON_SWORD,
 		"name": "Short Sword",
 		"value": 8,
+		"magicValue": 0,
+		"quantity": 1
+	},
+	"CLUB": {
+		"type": Enums.ITEM_TYPES.WEAPON_BLUNT,
+		"name": "Club",
+		"value": 6,
+		"magicValue": 0,
+		"quantity": 1
+	},
+	"SPEAR": {
+		"type": Enums.ITEM_TYPES.WEAPON_SPEAR,
+		"name": "Spear",
+		"value": 8,
+		"magicValue": 0,
+		"quantity": 1
+	},
+	"STAFF": {
+		"type": Enums.ITEM_TYPES.WEAPON_STAFF,
+		"name": "Staff",
+		"value": 2,
+		"magicValue": 5,
+		"quantity": 1
+	},
+	"LEATHER_ARMOR": {
+		"type": Enums.ITEM_TYPES.ARMOR_HEAVY,
+		"name": "Leather armor",
+		"value": 4,
+		"magicValue": 2,
+		"quantity": 1
+	},
+	"ROBE_ARMOR": {
+		"type": Enums.ITEM_TYPES.ARMOR_LIGHT,
+		"name": "Robe",
+		"value": 2,
+		"magicValue": 4,
 		"quantity": 1
 	}
 }

@@ -17,10 +17,8 @@ func _process(delta):
 	elif Input.is_action_pressed("DOWN"):
 		Events.emit_signal("INPUT_DOWN")
 	elif Input.is_action_pressed("ACCEPT"):
-		# Events.emit_signal("INPUT_DOWN")
-		pass
+		Events.emit_signal("INPUT_ACCEPT")
 	elif Input.is_action_pressed("CANCEL"):
-		#Events.emit_signal("INPUT_DOWN")
-		pass
+		Events.emit_signal("INPUT_CANCEL")
 	
 

@@ -1,0 +1,193 @@
+[gd_scene load_steps=4 format=3 uid="uid://ce2b2fr1xm175"]
+
+[ext_resource type="Script" path="res://scripts/menus/rulesMenu.gd" id="1_bml6r"]
+[ext_resource type="Theme" uid="uid://dss6di43qaueh" path="res://media/themes/textBoxTheme.tres" id="2_7hudu"]
+[ext_resource type="Theme" uid="uid://b0h4mwrabrs0u" path="res://media/themes/selectedTeme.tres" id="2_lg8rr"]
+
+[node name="rulesMenu" type="CanvasLayer"]
+script = ExtResource("1_bml6r")
+
+[node name="Timer" type="Timer" parent="."]
+
+[node name="MarginContainer1" type="MarginContainer" parent="."]
+offset_left = 2.0
+offset_top = 20.0
+offset_right = 202.0
+offset_bottom = 36.0
+theme = ExtResource("2_lg8rr")
+
+[node name="rule1Panel" type="Panel" parent="MarginContainer1"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer1/rule1Panel"]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 171.0
+offset_bottom = 18.0
+text = "Ally: HP < 20 - Cast Fireball"
+
+[node name="MarginContainer2" type="MarginContainer" parent="."]
+anchors_preset = -1
+offset_left = 2.0
+offset_top = 40.0
+offset_right = 202.0
+offset_bottom = 56.0
+theme = ExtResource("2_7hudu")
+
+[node name="rule2Panel" type="Panel" parent="MarginContainer2"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer2/rule2Panel"]
+layout_mode = 0
+offset_left = 3.0
+offset_top = 2.0
+offset_right = 172.0
+offset_bottom = 18.0
+text = "Ally: HP < 20 - Cast Fireball"
+
+[node name="MarginContainer3" type="MarginContainer" parent="."]
+offset_left = 2.0
+offset_top = 60.0
+offset_right = 202.0
+offset_bottom = 76.0
+theme = ExtResource("2_7hudu")
+
+[node name="rule3Panel" type="Panel" parent="MarginContainer3"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer3/rule3Panel"]
+layout_mode = 0
+offset_left = 3.0
+offset_top = 2.0
+offset_right = 172.0
+offset_bottom = 18.0
+text = "Ally: HP < 20 - Cast Fireball"
+
+[node name="ruleMarginContainer4" type="MarginContainer" parent="."]
+offset_left = 10.0
+offset_top = 90.0
+offset_right = 110.0
+offset_bottom = 106.0
+theme = ExtResource("2_7hudu")
+
+[node name="Panel" type="Panel" parent="ruleMarginContainer4"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ruleMarginContainer4/Panel"]
+layout_mode = 0
+offset_left = 3.0
+offset_top = 1.0
+offset_right = 43.0
+offset_bottom = 24.0
+text = "aaa"
+
+[node name="ruleMarginContainer5" type="MarginContainer" parent="."]
+offset_left = 10.0
+offset_top = 110.0
+offset_right = 110.0
+offset_bottom = 126.0
+theme = ExtResource("2_7hudu")
+
+[node name="Panel" type="Panel" parent="ruleMarginContainer5"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ruleMarginContainer5/Panel"]
+layout_mode = 0
+offset_left = 3.0
+offset_top = 2.0
+offset_right = 43.0
+offset_bottom = 25.0
+text = "bbb"
+
+[node name="ruleMarginContainer6" type="MarginContainer" parent="."]
+offset_left = 10.0
+offset_top = 130.0
+offset_right = 110.0
+offset_bottom = 146.0
+theme = ExtResource("2_7hudu")
+
+[node name="Panel" type="Panel" parent="ruleMarginContainer6"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ruleMarginContainer6/Panel"]
+layout_mode = 0
+offset_left = 3.0
+offset_top = 2.0
+offset_right = 43.0
+offset_bottom = 25.0
+text = "Ccc"
+
+[node name="ruleMarginContainer7" type="MarginContainer" parent="."]
+offset_left = 10.0
+offset_top = 150.0
+offset_right = 110.0
+offset_bottom = 166.0
+theme = ExtResource("2_7hudu")
+
+[node name="Panel" type="Panel" parent="ruleMarginContainer7"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ruleMarginContainer7/Panel"]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 42.0
+offset_bottom = 25.0
+text = "Ddd"
+
+[node name="ruleMarginContainer8" type="MarginContainer" parent="."]
+offset_left = 10.0
+offset_top = 170.0
+offset_right = 110.0
+offset_bottom = 186.0
+theme = ExtResource("2_7hudu")
+
+[node name="Panel" type="Panel" parent="ruleMarginContainer8"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ruleMarginContainer8/Panel"]
+layout_mode = 0
+offset_left = 3.0
+offset_top = 2.0
+offset_right = 43.0
+offset_bottom = 25.0
+text = "Eee"
+
+[node name="ruleMarginContainer9" type="MarginContainer" parent="."]
+offset_left = 10.0
+offset_top = 190.0
+offset_right = 110.0
+offset_bottom = 206.0
+theme = ExtResource("2_7hudu")
+
+[node name="Panel" type="Panel" parent="ruleMarginContainer9"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ruleMarginContainer9/Panel"]
+layout_mode = 0
+offset_left = 3.0
+offset_top = 2.0
+offset_right = 43.0
+offset_bottom = 25.0
+text = "Fff"
+
+[node name="actionMarginContainer10" type="MarginContainer" parent="."]
+offset_left = 140.0
+offset_top = 90.0
+offset_right = 260.0
+offset_bottom = 106.0
+theme = ExtResource("2_7hudu")
+
+[node name="Panel" type="Panel" parent="actionMarginContainer10"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="actionMarginContainer10/Panel"]
+layout_mode = 0
+offset_left = 3.0
+offset_top = 2.0
+offset_right = 43.0
+offset_bottom = 25.0
+text = "Fff"
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

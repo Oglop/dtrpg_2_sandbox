@@ -111,9 +111,33 @@ func getRulesByClass(type:Enums.CLASSES) -> Array:
 	return []
 	
 func getStartingWeaponByClass(type:Enums.CLASSES) -> Dictionary:
+	if type == Enums.CLASSES.WARRIOR:
+		return Statics.ITEMS.SHORT_SWORD
+	elif type == Enums.CLASSES.KNIGHT:
+		return Statics.ITEMS.SPEAR
+	elif type == Enums.CLASSES.WIZARD:
+		return Statics.ITEMS.STAFF
+	elif type == Enums.CLASSES.HUNTER:
+		return Statics.ITEMS.SPEAR
+	elif type == Enums.CLASSES.THIEF:
+		return Statics.ITEMS.SHORT_SWORD
+	elif type == Enums.CLASSES.CLERIC:
+		return Statics.ITEMS.CLUB
 	return {}
 	
 func getStartingArmorByClass(type:Enums.CLASSES) -> Dictionary:
+	if type == Enums.CLASSES.WARRIOR:
+		return Statics.ITEMS.LEATHER_ARMOR
+	elif type == Enums.CLASSES.KNIGHT:
+		return Statics.ITEMS.LEATHER_ARMOR
+	elif type == Enums.CLASSES.WIZARD:
+		return Statics.ITEMS.ROBE_ARMOR
+	elif type == Enums.CLASSES.HUNTER:
+		return Statics.ITEMS.LEATHER_ARMOR
+	elif type == Enums.CLASSES.THIEF:
+		return Statics.ITEMS.LEATHER_ARMOR
+	elif type == Enums.CLASSES.CLERIC:
+		return Statics.ITEMS.ROBE_ARMOR
 	return {}
 
 func setNewCharacterOfType(type:Enums.CLASSES, position:int) -> void:
@@ -201,6 +225,59 @@ func setNewCharacterOfType(type:Enums.CLASSES, position:int) -> void:
 		Data.CHARACTER_4_ACCESSORY = {}
 	
 func getCharacterNameByPositionAndClass(type:Enums.CLASSES, position:int) -> String:
+	if position == 0:
+		if type == Enums.CLASSES.WARRIOR:
+			return Text.CLASS_WARRIOR_NAME_1
+		elif type == Enums.CLASSES.KNIGHT:
+			return Text.CLASS_KNIGHT_NAME_1
+		elif type == Enums.CLASSES.HUNTER:
+			return Text.CLASS_HUNTER_NAME_1
+		elif type == Enums.CLASSES.WIZARD:
+			return Text.CLASS_WIZARD_NAME_1
+		elif type == Enums.CLASSES.THIEF:
+			return Text.CLASS_THIEF_NAME_1
+		elif type == Enums.CLASSES.CLERIC:
+			return Text.CLASS_CLERIC_NAME_1
+	elif position == 1:
+		if type == Enums.CLASSES.WARRIOR:
+			return Text.CLASS_WARRIOR_NAME_2
+		elif type == Enums.CLASSES.KNIGHT:
+			return Text.CLASS_KNIGHT_NAME_2
+		elif type == Enums.CLASSES.HUNTER:
+			return Text.CLASS_HUNTER_NAME_2
+		elif type == Enums.CLASSES.WIZARD:
+			return Text.CLASS_WIZARD_NAME_2
+		elif type == Enums.CLASSES.THIEF:
+			return Text.CLASS_THIEF_NAME_2
+		elif type == Enums.CLASSES.CLERIC:
+			return Text.CLASS_CLERIC_NAME_2
+	elif position == 2:
+		if type == Enums.CLASSES.WARRIOR:
+			return Text.CLASS_WARRIOR_NAME_3
+		elif type == Enums.CLASSES.KNIGHT:
+			return Text.CLASS_KNIGHT_NAME_3
+		elif type == Enums.CLASSES.HUNTER:
+			return Text.CLASS_HUNTER_NAME_3
+		elif type == Enums.CLASSES.WIZARD:
+			return Text.CLASS_WIZARD_NAME_3
+		elif type == Enums.CLASSES.THIEF:
+			return Text.CLASS_THIEF_NAME_3
+		elif type == Enums.CLASSES.CLERIC:
+			return Text.CLASS_CLERIC_NAME_3
+	elif position == 3:
+		if type == Enums.CLASSES.WARRIOR:
+			return Text.CLASS_WARRIOR_NAME_4
+		elif type == Enums.CLASSES.KNIGHT:
+			return Text.CLASS_KNIGHT_NAME_4
+		elif type == Enums.CLASSES.HUNTER:
+			return Text.CLASS_HUNTER_NAME_4
+		elif type == Enums.CLASSES.WIZARD:
+			return Text.CLASS_WIZARD_NAME_4
+		elif type == Enums.CLASSES.THIEF:
+			return Text.CLASS_THIEF_NAME_4
+		elif type == Enums.CLASSES.CLERIC:
+			return Text.CLASS_CLERIC_NAME_4
+			
 	return ""
 	
 	
@@ -217,15 +294,16 @@ func getCharacterByPosition(position:int) -> Dictionary:
 	var rules:Array = []
 	
 	if position == 0:
+		var levelMultiplyer = (Data.CHARACTER_1_LV / 10)
 		if Data.CHARACTER_1_WEAPON != null && Data.CHARACTER_1_WEAPON.size() > 0:
-			attack = Data.CHARACTER_1_STRENGTH + Data.CHARACTER_1_WEAPON.value
+			attack = (Data.CHARACTER_1_STRENGTH + Data.CHARACTER_1_WEAPON.value) * levelMultiplyer
 		else:
-			attack = Data.CHARACTER_1_STRENGTH
+			attack = Data.CHARACTER_1_STRENGTH * levelMultiplyer
 		
 		if Data.CHARACTER_1_ARMOR != null && Data.CHARACTER_1_ARMOR.size() > 0:
-			defence = Data.CHARACTER_1_ARMOR.value
+			defence = Data.CHARACTER_1_ARMOR.value * levelMultiplyer
 		else:
-			defence = 1
+			defence = 1  * levelMultiplyer
 		
 		health = Data.CHARACTER_1_HEALTH_CURRENT
 		type = Data.CHARACTER_1_TYPE
@@ -236,15 +314,16 @@ func getCharacterByPosition(position:int) -> Dictionary:
 		luck = Data.CHARACTER_1_LUCK
 		rules = Data.CHARACTER_1_RULES
 	elif position == 1:
+		var levelMultiplyer = (Data.CHARACTER_2_LV / 10)
 		if Data.CHARACTER_2_WEAPON != null && Data.CHARACTER_2_WEAPON.size() > 0:
-			attack = Data.CHARACTER_2_STRENGTH + Data.CHARACTER_2_WEAPON.value
+			attack = (Data.CHARACTER_2_STRENGTH + Data.CHARACTER_2_WEAPON.value) * levelMultiplyer
 		else:
-			attack = Data.CHARACTER_2_STRENGTH
+			attack = Data.CHARACTER_2_STRENGTH * levelMultiplyer
 		
 		if Data.CHARACTER_2_ARMOR != null && Data.CHARACTER_2_ARMOR.size() > 0:
-			defence = Data.CHARACTER_2_ARMOR.value
+			defence = Data.CHARACTER_2_ARMOR.value * levelMultiplyer
 		else:
-			defence = 1
+			defence = 1 * levelMultiplyer
 			
 		health = Data.CHARACTER_2_HEALTH_CURRENT
 		type = Data.CHARACTER_2_TYPE
@@ -257,15 +336,16 @@ func getCharacterByPosition(position:int) -> Dictionary:
 		luck = Data.CHARACTER_2_LUCK
 		rules = Data.CHARACTER_2_RULES
 	elif position == 2:
+		var levelMultiplyer = Data.CHARACTER_3_LV / 10
 		if Data.CHARACTER_3_WEAPON != null && Data.CHARACTER_3_WEAPON.size() > 0:
-			attack = Data.CHARACTER_3_STRENGTH + Data.CHARACTER_3_WEAPON.value
+			attack = Data.CHARACTER_3_STRENGTH + Data.CHARACTER_3_WEAPON.value * levelMultiplyer
 		else:
-			attack = Data.CHARACTER_3_STRENGTH
+			attack = Data.CHARACTER_3_STRENGTH * levelMultiplyer
 		
 		if Data.CHARACTER_3_ARMOR != null && Data.CHARACTER_3_ARMOR.size() > 0:
-			defence = Data.CHARACTER_3_ARMOR.value
+			defence = Data.CHARACTER_3_ARMOR.value * levelMultiplyer
 		else:
-			defence = 1
+			defence = 1 * levelMultiplyer
 			
 		health = Data.CHARACTER_3_HEALTH_CURRENT
 		type = Data.CHARACTER_3_TYPE
@@ -278,15 +358,16 @@ func getCharacterByPosition(position:int) -> Dictionary:
 		luck = Data.CHARACTER_3_LUCK
 		rules = Data.CHARACTER_3_RULES
 	else:
+		var levelMultiplyer = Data.CHARACTER_4_LV / 10
 		if Data.CHARACTER_4_WEAPON != null && Data.CHARACTER_4_WEAPON.size() > 0:
-			attack = Data.CHARACTER_4_STRENGTH + Data.CHARACTER_4_WEAPON.value
+			attack = Data.CHARACTER_4_STRENGTH + Data.CHARACTER_4_WEAPON.value * levelMultiplyer
 		else:
-			attack = Data.CHARACTER_4_STRENGTH
+			attack = Data.CHARACTER_4_STRENGTH * levelMultiplyer
 		
 		if Data.CHARACTER_4_ARMOR != null && Data.CHARACTER_4_ARMOR.size() > 0:
-			defence = Data.CHARACTER_4_ARMOR.value
+			defence = Data.CHARACTER_4_ARMOR.value * levelMultiplyer
 		else:
-			defence = 1
+			defence = 1 * levelMultiplyer
 			
 		health = Data.CHARACTER_4_HEALTH_CURRENT
 		type = Data.CHARACTER_4_TYPE

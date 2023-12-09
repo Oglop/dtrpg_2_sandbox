@@ -19,7 +19,7 @@ func setDevelopmentData() -> void:
 	Events.emit_signal("INVENTORY_ADD", Statics.ITEMS.POTION)
 	Events.emit_signal("INVENTORY_ADD", Statics.ITEMS.POTION)
 	Events.emit_signal("INVENTORY_ADD", Statics.ITEMS.POTION)
-	#var potion = InventoryHandler.withdrawItem("")
+	var potion = InventoryHandler.withdrawItem(Statics.ITEMS.POTION.name)
 	CharacterHandler.setNewCharacterOfType(Enums.CLASSES.WARRIOR, 0)
 	CharacterHandler.setNewCharacterOfType(Enums.CLASSES.KNIGHT, 1)
 	CharacterHandler.setNewCharacterOfType(Enums.CLASSES.HUNTER, 2)

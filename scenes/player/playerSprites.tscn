@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://ubwbwc07krpn"]
+[gd_scene load_steps=16 format=3 uid="uid://ubwbwc07krpn"]
 
 [ext_resource type="Texture2D" uid="uid://cyauixuig0060" path="res://media/images/Sprite-0001.png" id="1_7kaki"]
 [ext_resource type="Script" path="res://scripts/player/playerSprites.gd" id="2_yqnym"]
@@ -168,14 +168,50 @@ tracks/0/keys = {
 "values": [6, 7]
 }
 
+[sub_resource type="Animation" id="Animation_7odq2"]
+resource_name = "thiefIdle"
+length = 0.6
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [16, 17]
+}
+
+[sub_resource type="Animation" id="Animation_40al3"]
+resource_name = "clericIdle"
+length = 0.6
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [18, 19]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_j1nsr"]
 _data = {
 "RESET": SubResource("Animation_lj3gq"),
+"clericIdle": SubResource("Animation_40al3"),
 "dead": SubResource("Animation_abgd6"),
 "hunterDead": SubResource("Animation_3mssu"),
 "hunterIdle": SubResource("Animation_4nna1"),
 "knightDead": SubResource("Animation_sa8c2"),
 "knightIdle": SubResource("Animation_22liw"),
+"thiefIdle": SubResource("Animation_7odq2"),
 "warriorDead": SubResource("Animation_qeeyn"),
 "warriorIdle": SubResource("Animation_hvf4b"),
 "wizardDead": SubResource("Animation_8hifc"),
