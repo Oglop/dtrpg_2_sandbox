@@ -40,6 +40,16 @@ var CLASSES_ATRIBUTES:Dictionary = {
 		"INTELLIGENCE_GROWTH":Enums.CLASSES_ATTRIBUTE_GROWTH.FLAT,
 		"LUCK_BASE":7,
 		"LUCK_GROWTH":Enums.CLASSES_ATTRIBUTE_GROWTH.NORMAL,
+		"RULES": [
+			{
+				"rule": Enums.RULE.SELF_HP_LT_20,
+				"action": Enums.ACTION.USE_POTION_SELF
+			},
+			{
+				"rule": Enums.RULE.ALWAYS,
+				"action": Enums.ACTION.ATTACK
+			}
+		]
 	},
 	"KNIGHT": {
 		"HEALTH_BASE": 40,
@@ -54,6 +64,16 @@ var CLASSES_ATRIBUTES:Dictionary = {
 		"INTELLIGENCE_GROWTH":Enums.CLASSES_ATTRIBUTE_GROWTH.FLAT,
 		"LUCK_BASE":3,
 		"LUCK_GROWTH":Enums.CLASSES_ATTRIBUTE_GROWTH.FLAT,
+		"RULES": [
+			{
+				"rule": Enums.RULE.ALLY_HP_LT_20,
+				"action": Enums.ACTION.PROTECT
+			},
+			{
+				"rule": Enums.RULE.ALWAYS,
+				"action": Enums.ACTION.ATTACK
+			}
+		]
 	},
 	"WIZARD": {
 		"HEALTH_BASE": 16,
@@ -68,6 +88,20 @@ var CLASSES_ATRIBUTES:Dictionary = {
 		"INTELLIGENCE_GROWTH":Enums.CLASSES_ATTRIBUTE_GROWTH.SHARP,
 		"LUCK_BASE":6,
 		"LUCK_GROWTH":Enums.CLASSES_ATTRIBUTE_GROWTH.FLAT,
+		"RULES": [
+			{
+				"rule": Enums.RULE.SELF_MP_LT_10,
+				"action": Enums.ACTION.USE_HERB_SELF
+			},
+			{
+				"rule": Enums.RULE.ALLY_MP_GT_20,
+				"action": Enums.ACTION.CAST_FIREBALL
+			},
+			{
+				"rule": Enums.RULE.ALWAYS,
+				"action": Enums.ACTION.ATTACK
+			}
+		]
 	},
 	"HUNTER": {
 		"HEALTH_BASE": 26,
@@ -82,6 +116,20 @@ var CLASSES_ATRIBUTES:Dictionary = {
 		"INTELLIGENCE_GROWTH":Enums.CLASSES_ATTRIBUTE_GROWTH.FLAT,
 		"LUCK_BASE":8,
 		"LUCK_GROWTH":Enums.CLASSES_ATTRIBUTE_GROWTH.NORMAL,
+		"RULES": [
+			{
+				"rule": Enums.RULE.SELF_HP_LT_20,
+				"action": Enums.ACTION.USE_HERB_SELF
+			},
+			{
+				"rule": Enums.RULE.ALLY_MP_LT_10,
+				"action": Enums.ACTION.USE_HERB_ALLY
+			},
+			{
+				"rule": Enums.RULE.ALWAYS,
+				"action": Enums.ACTION.ATTACK
+			}
+		]
 	},
 	"THIEF": {
 		"HEALTH_BASE": 18,
@@ -96,7 +144,46 @@ var CLASSES_ATRIBUTES:Dictionary = {
 		"INTELLIGENCE_GROWTH":Enums.CLASSES_ATTRIBUTE_GROWTH.FLAT,
 		"LUCK_BASE":16,
 		"LUCK_GROWTH":Enums.CLASSES_ATTRIBUTE_GROWTH.SHARP,
+		"RULES": [
+			{
+				"rule": Enums.RULE.SELF_HP_LT_20,
+				"action": Enums.ACTION.USE_HERB_SELF
+			},
+			{
+				"rule": Enums.RULE.ALWAYS,
+				"action": Enums.ACTION.ATTACK
+			}
+		]
+	},
+	"CLERIC": {
+		"HEALTH_BASE": 24,
+		"HEALTH_GROWTH": Enums.CLASSES_ATTRIBUTE_GROWTH.NORMAL,
+		"MAGIC_BASE": 12,
+		"MAGIC_GROWTH": Enums.CLASSES_ATTRIBUTE_GROWTH.NORMAL,
+		"STRENGTH_BASE":10,
+		"STRENGTH_GROWTH":Enums.CLASSES_ATTRIBUTE_GROWTH.FLAT,
+		"AGILITY_BASE":112,
+		"AGILITY_GROWTH":Enums.CLASSES_ATTRIBUTE_GROWTH.SHARP,
+		"INTELLIGENCE_BASE":14,
+		"INTELLIGENCE_GROWTH":Enums.CLASSES_ATTRIBUTE_GROWTH.FLAT,
+		"LUCK_BASE":4,
+		"LUCK_GROWTH":Enums.CLASSES_ATTRIBUTE_GROWTH.SHARP,
+		"RULES": [
+			{
+				"rule": Enums.RULE.ALLY_DEAD,
+				"action": Enums.ACTION.USE_ELEXIR_ALLY
+			},
+			{
+				"rule": Enums.RULE.ALLY_HP_LT_20,
+				"action": Enums.ACTION.USE_HERB_ALLY
+			},
+			{
+				"rule": Enums.RULE.ALWAYS,
+				"action": Enums.ACTION.ATTACK
+			}
+		]
 	}
+	
 }
 
 var ITEMS:Dictionary = {

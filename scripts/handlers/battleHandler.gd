@@ -59,7 +59,7 @@ func getRandomCharacterIndex() -> int:
 	
 func resolveEnemyAttack(enemyDetail:Dictionary) -> void:
 	var characterPosition:int = getRandomCharacterIndex()
-	var character:Dictionary = Data.getCharacterByPosition(characterPosition)
+	var character:Dictionary = CharacterHandler.getCharacterByPosition(characterPosition)
 	var dmg:int = enemyDetail.attack / character.defence
 	
 	if characterPosition == 0:
@@ -100,7 +100,7 @@ func removeDeadEnemies(enemy:Dictionary) -> Array:
 			Events.emit_signal("SYSTEM_WRITE_LOG", str(detail.name, " is slain, party gains ", detail.xp ," xp and ", crowns, " crowns."), Enums.SYSTEM_LOG_TYPE.BATTLE)
 			Events.emit_signal("PARTY_ADD_EXPERIENCE", detail.xp)
 			Events.emit_signal("PARTY_ADD_GOLD", rng.randi_range(detail.crownsMin, detail.crownsMax))
-	return newDetails
+	return newDetails	
 	
 ##
 ## return random enenmy detail with hp > 0
@@ -173,6 +173,9 @@ func resolveTurn(position:Vector2, enemy:Dictionary) -> void:
 				resolveAction(actionTaker, enemeyDetail, action)
 		
 		# if no characters loose
+		if !isPartyAlive():
+			get_tree().change_scene_to_file("res://scenes/rooms/gameOver.tscn")
+		
 		
 		# remove dead enemies, if no enemies win
 		enemy.details = removeDeadEnemies(enemy)
@@ -251,7 +254,7 @@ func getCharacterRules(position:int) -> Array:
 ## actionResolve
 ## resolve action for character in position
 func resolveAction(position:int, enemeyDetail:Dictionary, action:Enums.ACTION) -> void:
-	var attacker = Data.getCharacterByPosition(position)
+	var attacker = CharacterHandler.getCharacterByPosition(position)
 	if action == Enums.ACTION.ATTACK:
 		var damage = resolveAttackAction(attacker.attack, enemeyDetail.defence, attacker.agility, attacker.luck, attacker.name, enemeyDetail.name)
 		enemeyDetail.health -= damage
