@@ -28,7 +28,8 @@ func _process(delta):
 ## 
 ## 
 func setAnimation(type:Enums.ENEMY_TYPES) -> void:
-	$AnimatedSprite2D.animation = "goblin"
+	if type == Enums.ENEMY_TYPES.GOBLIN:
+		$AnimatedSprite2D.animation = "goblin"
 
 
 ## 

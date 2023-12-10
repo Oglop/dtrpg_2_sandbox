@@ -46,6 +46,7 @@ var actionMenuSelected = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	setMainMenuVisibility(false)
 	setRulesMenuVisiblity(false)
 	setActionsMenyVisibility(false)
 	Events.connect("INPUT_UP", _on_pressUp)
@@ -53,6 +54,13 @@ func _ready():
 	Events.connect("INPUT_ACCEPT", _on_pressAccept)
 	Events.connect("INPUT_CANCEL", _on_pressCancel)
 	Events.connect("ACTIVATE_RULES_MENU", _on_activateRulesMenu)
+	Events.connect("SET_GLOBAL_STATE", _on_globalStateChange)
+	
+	
+func _on_globalStateChange(globalState:Enums.SYSTEM_GLOBAL_STATES) -> void:
+	if globalState == Enums.SYSTEM_GLOBAL_STATES.IN_RULES_MENU:
+		state = menu_states.MAIN_MENU
+		updateUI()
 	
 func _on_activateRulesMenu(position:int) -> void:
 	_characterPosition = position
@@ -141,150 +149,158 @@ func updateCurrentRuleActionPairs() -> void:
 		$MarginContainer3/rule3Panel/Label.text = str(parseTextFromRule(Data.CHARACTER_4_RULES[2].rule), " - ",  parseTextFromAction(Data.CHARACTER_4_RULES[2].action))
 
 func updateUI() -> void:
-	updateCurrentRuleActionPairs()
-	if state == menu_states.MAIN_MENU:
+	if Data.SYSTEM_STATE != Enums.SYSTEM_GLOBAL_STATES.IN_RULES_MENU:
+		setMainMenuVisibility(false)
 		setRulesMenuVisiblity(false)
 		setActionsMenyVisibility(false)
-		if mainMenuSelected == 0:
-			$MarginContainer1.theme = selectedTheme
-			$MarginContainer2.theme = unselectedTheme
-			$MarginContainer3.theme = unselectedTheme
-		elif mainMenuSelected == 1:
-			$MarginContainer1.theme = unselectedTheme
-			$MarginContainer2.theme = selectedTheme
-			$MarginContainer3.theme = unselectedTheme
-		elif mainMenuSelected == 2:
-			$MarginContainer1.theme = unselectedTheme
-			$MarginContainer2.theme = unselectedTheme
-			$MarginContainer3.theme = selectedTheme
-	if state == menu_states.SELECT_RULE:
-		updateAvailableRules()
-		setRulesMenuVisiblity(true)
-		setActionsMenyVisibility(false)
-		if ruleMenuSelected == 0:
-			$ruleMarginContainer4.theme = selectedTheme
-			$ruleMarginContainer5.theme = unselectedTheme
-			$ruleMarginContainer6.theme = unselectedTheme
-			$ruleMarginContainer7.theme = unselectedTheme
-			$ruleMarginContainer8.theme = unselectedTheme
-			$ruleMarginContainer9.theme = unselectedTheme
-		elif ruleMenuSelected == 1:
-			$ruleMarginContainer4.theme = unselectedTheme
-			$ruleMarginContainer5.theme = selectedTheme
-			$ruleMarginContainer6.theme = unselectedTheme
-			$ruleMarginContainer7.theme = unselectedTheme
-			$ruleMarginContainer8.theme = unselectedTheme
-			$ruleMarginContainer9.theme = unselectedTheme
-		elif ruleMenuSelected == 2:
-			$ruleMarginContainer4.theme = unselectedTheme
-			$ruleMarginContainer5.theme = unselectedTheme
-			$ruleMarginContainer6.theme = selectedTheme
-			$ruleMarginContainer7.theme = unselectedTheme
-			$ruleMarginContainer8.theme = unselectedTheme
-			$ruleMarginContainer9.theme = unselectedTheme
-		elif ruleMenuSelected == 3:
-			$ruleMarginContainer4.theme = unselectedTheme
-			$ruleMarginContainer5.theme = unselectedTheme
-			$ruleMarginContainer6.theme = unselectedTheme
-			$ruleMarginContainer7.theme = selectedTheme
-			$ruleMarginContainer8.theme = unselectedTheme
-			$ruleMarginContainer9.theme = unselectedTheme
-		elif ruleMenuSelected == 4:
-			$ruleMarginContainer4.theme = unselectedTheme
-			$ruleMarginContainer5.theme = unselectedTheme
-			$ruleMarginContainer6.theme = unselectedTheme
-			$ruleMarginContainer7.theme = unselectedTheme
-			$ruleMarginContainer8.theme = selectedTheme
-			$ruleMarginContainer9.theme = unselectedTheme
-		elif ruleMenuSelected == 5:
-			$ruleMarginContainer4.theme = unselectedTheme
-			$ruleMarginContainer5.theme = unselectedTheme
-			$ruleMarginContainer6.theme = unselectedTheme
-			$ruleMarginContainer7.theme = unselectedTheme
-			$ruleMarginContainer8.theme = unselectedTheme
-			$ruleMarginContainer9.theme = selectedTheme
-	if state == menu_states.SELECT_ACTION:
-		updateAvailableActions()
-		setRulesMenuVisiblity(true)
-		setActionsMenyVisibility(true)
-		if actionMenuSelected == 0:
-			$actionMarginContainer10.theme = selectedTheme
-			$actionMarginContainer11.theme = unselectedTheme
-			$actionMarginContainer12.theme = unselectedTheme
-			$actionMarginContainer13.theme = unselectedTheme
-			$actionMarginContainer14.theme = unselectedTheme
-			$actionMarginContainer15.theme = unselectedTheme
-		elif actionMenuSelected == 1:
-			$actionMarginContainer10.theme = unselectedTheme
-			$actionMarginContainer11.theme = selectedTheme
-			$actionMarginContainer12.theme = unselectedTheme
-			$actionMarginContainer13.theme = unselectedTheme
-			$actionMarginContainer14.theme = unselectedTheme
-			$actionMarginContainer15.theme = unselectedTheme
-		elif actionMenuSelected == 2:
-			$actionMarginContainer10.theme = unselectedTheme
-			$actionMarginContainer11.theme = unselectedTheme
-			$actionMarginContainer12.theme = selectedTheme
-			$actionMarginContainer13.theme = unselectedTheme
-			$actionMarginContainer14.theme = unselectedTheme
-			$actionMarginContainer15.theme = unselectedTheme
-		elif actionMenuSelected == 3:
-			$actionMarginContainer10.theme = unselectedTheme
-			$actionMarginContainer11.theme = unselectedTheme
-			$actionMarginContainer12.theme = unselectedTheme
-			$actionMarginContainer13.theme = selectedTheme
-			$actionMarginContainer14.theme = unselectedTheme
-			$actionMarginContainer15.theme = unselectedTheme
-		elif actionMenuSelected == 4:
-			$actionMarginContainer10.theme = unselectedTheme
-			$actionMarginContainer11.theme = unselectedTheme
-			$actionMarginContainer12.theme = unselectedTheme
-			$actionMarginContainer13.theme = unselectedTheme
-			$actionMarginContainer14.theme = selectedTheme
-			$actionMarginContainer15.theme = unselectedTheme
-		elif actionMenuSelected == 5:
-			$actionMarginContainer10.theme = unselectedTheme
-			$actionMarginContainer11.theme = unselectedTheme
-			$actionMarginContainer12.theme = unselectedTheme
-			$actionMarginContainer13.theme = unselectedTheme
-			$actionMarginContainer14.theme = unselectedTheme
-			$actionMarginContainer15.theme = selectedTheme
+	else:
+		setMainMenuVisibility(true)
+		updateCurrentRuleActionPairs()
+		if state == menu_states.MAIN_MENU:
+			setRulesMenuVisiblity(false)
+			setActionsMenyVisibility(false)
+			if mainMenuSelected == 0:
+				$MarginContainer1.theme = selectedTheme
+				$MarginContainer2.theme = unselectedTheme
+				$MarginContainer3.theme = unselectedTheme
+			elif mainMenuSelected == 1:
+				$MarginContainer1.theme = unselectedTheme
+				$MarginContainer2.theme = selectedTheme
+				$MarginContainer3.theme = unselectedTheme
+			elif mainMenuSelected == 2:
+				$MarginContainer1.theme = unselectedTheme
+				$MarginContainer2.theme = unselectedTheme
+				$MarginContainer3.theme = selectedTheme
+		if state == menu_states.SELECT_RULE:
+			updateAvailableRules()
+			setRulesMenuVisiblity(true)
+			setActionsMenyVisibility(false)
+			if ruleMenuSelected == 0:
+				$ruleMarginContainer4.theme = selectedTheme
+				$ruleMarginContainer5.theme = unselectedTheme
+				$ruleMarginContainer6.theme = unselectedTheme
+				$ruleMarginContainer7.theme = unselectedTheme
+				$ruleMarginContainer8.theme = unselectedTheme
+				$ruleMarginContainer9.theme = unselectedTheme
+			elif ruleMenuSelected == 1:
+				$ruleMarginContainer4.theme = unselectedTheme
+				$ruleMarginContainer5.theme = selectedTheme
+				$ruleMarginContainer6.theme = unselectedTheme
+				$ruleMarginContainer7.theme = unselectedTheme
+				$ruleMarginContainer8.theme = unselectedTheme
+				$ruleMarginContainer9.theme = unselectedTheme
+			elif ruleMenuSelected == 2:
+				$ruleMarginContainer4.theme = unselectedTheme
+				$ruleMarginContainer5.theme = unselectedTheme
+				$ruleMarginContainer6.theme = selectedTheme
+				$ruleMarginContainer7.theme = unselectedTheme
+				$ruleMarginContainer8.theme = unselectedTheme
+				$ruleMarginContainer9.theme = unselectedTheme
+			elif ruleMenuSelected == 3:
+				$ruleMarginContainer4.theme = unselectedTheme
+				$ruleMarginContainer5.theme = unselectedTheme
+				$ruleMarginContainer6.theme = unselectedTheme
+				$ruleMarginContainer7.theme = selectedTheme
+				$ruleMarginContainer8.theme = unselectedTheme
+				$ruleMarginContainer9.theme = unselectedTheme
+			elif ruleMenuSelected == 4:
+				$ruleMarginContainer4.theme = unselectedTheme
+				$ruleMarginContainer5.theme = unselectedTheme
+				$ruleMarginContainer6.theme = unselectedTheme
+				$ruleMarginContainer7.theme = unselectedTheme
+				$ruleMarginContainer8.theme = selectedTheme
+				$ruleMarginContainer9.theme = unselectedTheme
+			elif ruleMenuSelected == 5:
+				$ruleMarginContainer4.theme = unselectedTheme
+				$ruleMarginContainer5.theme = unselectedTheme
+				$ruleMarginContainer6.theme = unselectedTheme
+				$ruleMarginContainer7.theme = unselectedTheme
+				$ruleMarginContainer8.theme = unselectedTheme
+				$ruleMarginContainer9.theme = selectedTheme
+		if state == menu_states.SELECT_ACTION:
+			updateAvailableActions()
+			setRulesMenuVisiblity(true)
+			setActionsMenyVisibility(true)
+			if actionMenuSelected == 0:
+				$actionMarginContainer10.theme = selectedTheme
+				$actionMarginContainer11.theme = unselectedTheme
+				$actionMarginContainer12.theme = unselectedTheme
+				$actionMarginContainer13.theme = unselectedTheme
+				$actionMarginContainer14.theme = unselectedTheme
+				$actionMarginContainer15.theme = unselectedTheme
+			elif actionMenuSelected == 1:
+				$actionMarginContainer10.theme = unselectedTheme
+				$actionMarginContainer11.theme = selectedTheme
+				$actionMarginContainer12.theme = unselectedTheme
+				$actionMarginContainer13.theme = unselectedTheme
+				$actionMarginContainer14.theme = unselectedTheme
+				$actionMarginContainer15.theme = unselectedTheme
+			elif actionMenuSelected == 2:
+				$actionMarginContainer10.theme = unselectedTheme
+				$actionMarginContainer11.theme = unselectedTheme
+				$actionMarginContainer12.theme = selectedTheme
+				$actionMarginContainer13.theme = unselectedTheme
+				$actionMarginContainer14.theme = unselectedTheme
+				$actionMarginContainer15.theme = unselectedTheme
+			elif actionMenuSelected == 3:
+				$actionMarginContainer10.theme = unselectedTheme
+				$actionMarginContainer11.theme = unselectedTheme
+				$actionMarginContainer12.theme = unselectedTheme
+				$actionMarginContainer13.theme = selectedTheme
+				$actionMarginContainer14.theme = unselectedTheme
+				$actionMarginContainer15.theme = unselectedTheme
+			elif actionMenuSelected == 4:
+				$actionMarginContainer10.theme = unselectedTheme
+				$actionMarginContainer11.theme = unselectedTheme
+				$actionMarginContainer12.theme = unselectedTheme
+				$actionMarginContainer13.theme = unselectedTheme
+				$actionMarginContainer14.theme = selectedTheme
+				$actionMarginContainer15.theme = unselectedTheme
+			elif actionMenuSelected == 5:
+				$actionMarginContainer10.theme = unselectedTheme
+				$actionMarginContainer11.theme = unselectedTheme
+				$actionMarginContainer12.theme = unselectedTheme
+				$actionMarginContainer13.theme = unselectedTheme
+				$actionMarginContainer14.theme = unselectedTheme
+				$actionMarginContainer15.theme = selectedTheme
 
 func _on_pressUp() -> void:
-	if pressabe == pressable_states.TRUE:
-		setNotPressable()
-		if state == menu_states.MAIN_MENU:
-			mainMenuSelected -= 1
-			if mainMenuSelected < 0:
-				mainMenuSelected = 0
-		if state == menu_states.SELECT_RULE: 
-			ruleMenuSelected -= 1
-			if ruleMenuSelected < 0:
-				ruleMenuSelected = 0
-		if state == menu_states.SELECT_ACTION: 
-			actionMenuSelected -= 1
-			if actionMenuSelected < 0:
-				actionMenuSelected = 0
-	
-	updateUI()
+	if Data.SYSTEM_STATE == Enums.SYSTEM_GLOBAL_STATES.IN_RULES_MENU:
+		if pressabe == pressable_states.TRUE:
+			setNotPressable()
+			if state == menu_states.MAIN_MENU:
+				mainMenuSelected -= 1
+				if mainMenuSelected < 0:
+					mainMenuSelected = 0
+			if state == menu_states.SELECT_RULE: 
+				ruleMenuSelected -= 1
+				if ruleMenuSelected < 0:
+					ruleMenuSelected = 0
+			if state == menu_states.SELECT_ACTION: 
+				actionMenuSelected -= 1
+				if actionMenuSelected < 0:
+					actionMenuSelected = 0
+		
+		updateUI()
 	
 func _on_pressDown() -> void:
-	if pressabe == pressable_states.TRUE:
-		setNotPressable()
-		if state == menu_states.MAIN_MENU:
-			mainMenuSelected += 1
-			if mainMenuSelected > 2:
-				mainMenuSelected = 2
-		if state == menu_states.SELECT_RULE: 
-			ruleMenuSelected += 1
-			if ruleMenuSelected > 5:
-				ruleMenuSelected = 5
-		if state == menu_states.SELECT_ACTION: 
-			actionMenuSelected += 1
-			if actionMenuSelected > availableActions.size() - 1:
-				actionMenuSelected = availableActions.size() - 1
-			
-	updateUI()
+	if Data.SYSTEM_STATE == Enums.SYSTEM_GLOBAL_STATES.IN_RULES_MENU:
+		if pressabe == pressable_states.TRUE:
+			setNotPressable()
+			if state == menu_states.MAIN_MENU:
+				mainMenuSelected += 1
+				if mainMenuSelected > 2:
+					mainMenuSelected = 2
+			if state == menu_states.SELECT_RULE: 
+				ruleMenuSelected += 1
+				if ruleMenuSelected > 5:
+					ruleMenuSelected = 5
+			if state == menu_states.SELECT_ACTION: 
+				actionMenuSelected += 1
+				if actionMenuSelected > availableActions.size() - 1:
+					actionMenuSelected = availableActions.size() - 1
+				
+		updateUI()
 	
 func setRulesMenuVisiblity(visible:bool) -> void:
 	$ruleMarginContainer4.visible = visible
@@ -302,17 +318,23 @@ func setActionsMenyVisibility(visible:bool) -> void:
 	$actionMarginContainer14.visible = visible
 	$actionMarginContainer15.visible = visible
 	
+func setMainMenuVisibility(visible:bool) -> void:
+	$MarginContainer1.visible = visible
+	$MarginContainer2.visible = visible
+	$MarginContainer3.visible = visible
+	
 func _on_pressAccept() -> void:
-	if pressabe == pressable_states.TRUE:
-		setNotPressable()
-		if state == menu_states.MAIN_MENU:
-			state = menu_states.SELECT_RULE
-		elif state == menu_states.SELECT_RULE:
-			state = menu_states.SELECT_ACTION
-		elif state == menu_states.SELECT_ACTION:
-			setRuleAndActionForCharacter(availableRules[ruleMenuSelected], availableActions[actionMenuSelected])
-			state = menu_states.MAIN_MENU
-	updateUI()
+	if Data.SYSTEM_STATE == Enums.SYSTEM_GLOBAL_STATES.IN_RULES_MENU:
+		if pressabe == pressable_states.TRUE:
+			setNotPressable()
+			if state == menu_states.MAIN_MENU:
+				state = menu_states.SELECT_RULE
+			elif state == menu_states.SELECT_RULE:
+				state = menu_states.SELECT_ACTION
+			elif state == menu_states.SELECT_ACTION:
+				setRuleAndActionForCharacter(availableRules[ruleMenuSelected], availableActions[actionMenuSelected])
+				state = menu_states.MAIN_MENU
+		updateUI()
 	
 func setRuleAndActionForCharacter(rule:Enums.RULE, action:Enums.ACTION) -> void:
 	var newRule:Dictionary = {
@@ -329,13 +351,14 @@ func setRuleAndActionForCharacter(rule:Enums.RULE, action:Enums.ACTION) -> void:
 		Data.CHARACTER_4_RULES[mainMenuSelected] = newRule
 	
 func _on_pressCancel() -> void:
-	if pressabe == pressable_states.TRUE:
-		setNotPressable()
-		if state == menu_states.SELECT_RULE:
-			state = menu_states.MAIN_MENU
-		elif state == menu_states.SELECT_ACTION:
-			state = menu_states.SELECT_RULE
-	updateUI()
+	if Data.SYSTEM_STATE == Enums.SYSTEM_GLOBAL_STATES.IN_RULES_MENU:
+		if pressabe == pressable_states.TRUE:
+			setNotPressable()
+			if state == menu_states.SELECT_RULE:
+				state = menu_states.MAIN_MENU
+			elif state == menu_states.SELECT_ACTION:
+				state = menu_states.SELECT_RULE
+		updateUI()
 	
 func parseTextFromRule(rule:Enums.RULE) -> String:
 	if rule == Enums.RULE.ALWAYS:

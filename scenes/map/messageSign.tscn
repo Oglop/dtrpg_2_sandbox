@@ -1,0 +1,46 @@
+[gd_scene load_steps=7 format=3 uid="uid://bbv3vxru5143p"]
+
+[ext_resource type="Texture2D" uid="uid://cyauixuig0060" path="res://media/images/Sprite-0001.png" id="1_j8k66"]
+[ext_resource type="Script" path="res://scripts/map/messageSign.gd" id="1_kmin5"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ks37v"]
+atlas = ExtResource("1_j8k66")
+region = Rect2(128, 32, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_44joc"]
+atlas = ExtResource("1_j8k66")
+region = Rect2(144, 32, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_by8tx"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ks37v")
+}],
+"loop": true,
+"name": &"sign",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_44joc")
+}],
+"loop": true,
+"name": &"stone",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_q0i1q"]
+size = Vector2(14, 14)
+
+[node name="messageSign" type="Area2D"]
+script = ExtResource("1_kmin5")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(8, 8)
+sprite_frames = SubResource("SpriteFrames_by8tx")
+animation = &"stone"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(8, 8)
+shape = SubResource("RectangleShape2D_q0i1q")

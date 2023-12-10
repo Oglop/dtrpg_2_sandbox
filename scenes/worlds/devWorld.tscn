@@ -1,13 +1,19 @@
-[gd_scene load_steps=7 format=3 uid="uid://dk1jg2sqn8bvo"]
+[gd_scene load_steps=9 format=3 uid="uid://dk1jg2sqn8bvo"]
 
 [ext_resource type="PackedScene" uid="uid://bgydgmcjiyues" path="res://scenes/menus/logBox.tscn" id="1_g36a8"]
 [ext_resource type="PackedScene" uid="uid://crn66jugyrp6t" path="res://scenes/menus/hpBox.tscn" id="1_gmr5s"]
+[ext_resource type="PackedScene" uid="uid://ce2b2fr1xm175" path="res://scenes/menus/rulesMenu.tscn" id="1_qn02j"]
 [ext_resource type="PackedScene" uid="uid://bamxjnrqcr7xl" path="res://scenes/player/party.tscn" id="2_ru0ac"]
+[ext_resource type="PackedScene" uid="uid://bknpk757eaw32" path="res://scenes/menus/messageBox.tscn" id="2_s5x6r"]
 [ext_resource type="PackedScene" uid="uid://dkbkwre0usev6" path="res://scenes/map/tiles1.tscn" id="3_ylrpy"]
 [ext_resource type="PackedScene" uid="uid://cx1xs1ex7ncmb" path="res://scenes/handlers/spawnHandler.tscn" id="4_8os5p"]
 [ext_resource type="PackedScene" uid="uid://b7mdcqskcgwce" path="res://scenes/handlers/mapHandler.tscn" id="5_4gnw5"]
 
 [node name="devWorld" type="Node2D"]
+
+[node name="rulesMenu" parent="." instance=ExtResource("1_qn02j")]
+
+[node name="messageBox" parent="." instance=ExtResource("2_s5x6r")]
 
 [node name="hpBox" parent="." instance=ExtResource("1_gmr5s")]
 

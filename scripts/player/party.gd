@@ -14,9 +14,14 @@ func _ready():
 	Events.connect("PARTY_ADD_ITEM", _on_partyAddItem)
 	Events.connect("PARTY_ADD_HEALTH", _on_addHealth)
 	Events.connect("PARTY_ADD_MAGIC", _on_addMagic)
+	Events.connect("SET_GLOBAL_STATE", _on_globalStateChange)
+	
 	
 	self.global_position = Vector2(Data.PARTY_X, Data.PARTY_Y)
 	
+	
+func _on_globalStateChange(globalState:Enums.SYSTEM_GLOBAL_STATES) -> void:
+	pass
 	
 func travelCheck(area:Area2D) -> bool:
 	var bodies = area.get_overlapping_bodies()
@@ -33,37 +38,40 @@ func _on_input_reset() -> void:
 	_state = Enums.PARTY_STATE.IDLE
 
 func _on_input_right() -> void:
-	
-	if _state == Enums.PARTY_STATE.IDLE:
-		if !travelCheck($rightCheck):
-			_state = Enums.PARTY_STATE.MOVED
-			Data.PARTY_X += 16
-			Events.emit_signal("PARTY_MOVED")
-			Events.emit_signal("SYSTEM_WRITE_LOG", Text.MAP_TRAVEL_EAST, Enums.SYSTEM_LOG_TYPE.MAP, true)
+	if Data.SYSTEM_STATE == Enums.SYSTEM_GLOBAL_STATES.ON_MAP:
+		if _state == Enums.PARTY_STATE.IDLE:
+			if !travelCheck($rightCheck):
+				_state = Enums.PARTY_STATE.MOVED
+				Data.PARTY_X += 16
+				Events.emit_signal("PARTY_MOVED")
+				Events.emit_signal("SYSTEM_WRITE_LOG", Text.MAP_TRAVEL_EAST, Enums.SYSTEM_LOG_TYPE.MAP, true)
 		
 func _on_input_up() -> void:
-	if _state == Enums.PARTY_STATE.IDLE:
-		if !travelCheck($upCheck):
-			_state = Enums.PARTY_STATE.MOVED
-			Data.PARTY_Y -= 16
-			Events.emit_signal("PARTY_MOVED")
-			Events.emit_signal("SYSTEM_WRITE_LOG", Text.MAP_TRAVEL_NORTH, Enums.SYSTEM_LOG_TYPE.MAP, true)
+	if Data.SYSTEM_STATE == Enums.SYSTEM_GLOBAL_STATES.ON_MAP:
+		if _state == Enums.PARTY_STATE.IDLE:
+			if !travelCheck($upCheck):
+				_state = Enums.PARTY_STATE.MOVED
+				Data.PARTY_Y -= 16
+				Events.emit_signal("PARTY_MOVED")
+				Events.emit_signal("SYSTEM_WRITE_LOG", Text.MAP_TRAVEL_NORTH, Enums.SYSTEM_LOG_TYPE.MAP, true)
 	
 func _on_input_left() -> void:
-	if _state == Enums.PARTY_STATE.IDLE:
-		if !travelCheck($leftCheck):
-			_state = Enums.PARTY_STATE.MOVED
-			Data.PARTY_X -= 16
-			Events.emit_signal("PARTY_MOVED")
-			Events.emit_signal("SYSTEM_WRITE_LOG", Text.MAP_TRAVEL_WEST, Enums.SYSTEM_LOG_TYPE.MAP, true)
+	if Data.SYSTEM_STATE == Enums.SYSTEM_GLOBAL_STATES.ON_MAP:
+		if _state == Enums.PARTY_STATE.IDLE:
+			if !travelCheck($leftCheck):
+				_state = Enums.PARTY_STATE.MOVED
+				Data.PARTY_X -= 16
+				Events.emit_signal("PARTY_MOVED")
+				Events.emit_signal("SYSTEM_WRITE_LOG", Text.MAP_TRAVEL_WEST, Enums.SYSTEM_LOG_TYPE.MAP, true)
 	
 func _on_input_down() -> void:
-	if _state == Enums.PARTY_STATE.IDLE:
-		if !travelCheck($downCheck):
-			_state = Enums.PARTY_STATE.MOVED
-			Data.PARTY_Y += 16
-			Events.emit_signal("PARTY_MOVED")
-			Events.emit_signal("SYSTEM_WRITE_LOG", Text.MAP_TRAVEL_SOUTH, Enums.SYSTEM_LOG_TYPE.MAP, true)
+	if Data.SYSTEM_STATE == Enums.SYSTEM_GLOBAL_STATES.ON_MAP:
+		if _state == Enums.PARTY_STATE.IDLE:
+			if !travelCheck($downCheck):
+				_state = Enums.PARTY_STATE.MOVED
+				Data.PARTY_Y += 16
+				Events.emit_signal("PARTY_MOVED")
+				Events.emit_signal("SYSTEM_WRITE_LOG", Text.MAP_TRAVEL_SOUTH, Enums.SYSTEM_LOG_TYPE.MAP, true)
 		
 func _on_partyMoved() -> void:
 	for n in range(Globals.PARTY_SIZE, 0, -1):

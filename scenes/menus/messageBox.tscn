@@ -1,0 +1,46 @@
+[gd_scene load_steps=3 format=3 uid="uid://bknpk757eaw32"]
+
+[ext_resource type="Script" path="res://scripts/menus/messageBox.gd" id="1_hnwcr"]
+[ext_resource type="Theme" uid="uid://dss6di43qaueh" path="res://media/themes/textBoxTheme.tres" id="2_tl1qn"]
+
+[node name="messageBox" type="CanvasLayer"]
+script = ExtResource("1_hnwcr")
+
+[node name="Timer" type="Timer" parent="."]
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 2.0
+offset_top = -82.0
+offset_right = -2.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 0
+theme = ExtResource("2_tl1qn")
+
+[node name="Panel" type="Panel" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="LabelTitle" type="Label" parent="MarginContainer/Panel"]
+layout_mode = 0
+offset_left = 3.0
+offset_top = 2.0
+offset_right = 43.0
+offset_bottom = 18.0
+text = "Lema"
+
+[node name="LabelMessage" type="Label" parent="MarginContainer/Panel"]
+layout_mode = 0
+offset_left = 3.0
+offset_top = 16.0
+offset_right = 313.0
+offset_bottom = 80.0
+text = "sfsfsdfsdfsdf
+sad
+sdf
+sdfff"
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

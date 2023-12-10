@@ -1,10 +1,19 @@
 extends Node
 
+func _ready():
+	Events.connect("SET_GLOBAL_STATE", _on_setGlobalState)
+
+func _on_setGlobalState(systemState:Enums.SYSTEM_GLOBAL_STATES) -> void:
+	SYSTEM_STATE = systemState
+
 var PARTY_CURRENT_ROOM:Enums.MAPS = Enums.MAPS.NONE
 var PARTY_X:int = 0
 var PARTY_Y:int = 0
 var PARTY_CROWNS:int = 0
 var PARTY_ITEMS:Array = []
+var PARTY_KEY_ITEMS:Array = []
+
+var SYSTEM_STATE:Enums.SYSTEM_GLOBAL_STATES = Enums.SYSTEM_GLOBAL_STATES.ON_MAP
 var SYSTEM_LOG_BATTLE:bool = true
 var SYSTEM_LOG_MAP:bool = true
 var SYSTEM_LOG_NPC:bool = true
