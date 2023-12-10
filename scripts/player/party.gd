@@ -14,11 +14,21 @@ func _ready():
 	Events.connect("PARTY_ADD_ITEM", _on_partyAddItem)
 	Events.connect("PARTY_ADD_HEALTH", _on_addHealth)
 	Events.connect("PARTY_ADD_MAGIC", _on_addMagic)
+	Events.connect("PARTY_REVIVE_CHARACTER", _on_partyReviveCharacter)
 	Events.connect("SET_GLOBAL_STATE", _on_globalStateChange)
 	
 	
 	self.global_position = Vector2(Data.PARTY_X, Data.PARTY_Y)
 	
+func _on_partyReviveCharacter(position:int, value:int) -> void:
+	if position == 0:
+		Data.CHARACTER_1_HEALTH_CURRENT = 0 + value
+	if position == 1:
+		Data.CHARACTER_2_HEALTH_CURRENT = 0 + value
+	if position == 2:
+		Data.CHARACTER_3_HEALTH_CURRENT = 0 + value
+	if position == 3:
+		Data.CHARACTER_4_HEALTH_CURRENT = 0 + value
 	
 func _on_globalStateChange(globalState:Enums.SYSTEM_GLOBAL_STATES) -> void:
 	pass
@@ -30,7 +40,9 @@ func travelCheck(area:Area2D) -> bool:
 			_state = Enums.PARTY_STATE.FIGHTING
 			$partyFightTimer.start(Statics.FIGHT_WAIT)
 			Events.emit_signal("PARTY_COMBAT_AT", body._id, body.global_position, body._name, body._type)
-			#id:String, position:Vector2, enemyName:String, enemies:Array, type:Enums.ENEMY_TYPES
+		elif body.is_in_group("sign") && _state == Enums.PARTY_STATE.IDLE:
+			Events.emit_signal("MESSAGE_BOX_QUEUE_MESSAGES", body.getTitle(), body.getMessages())
+			Events.emit_signal("SET_GLOBAL_STATE", Enums.SYSTEM_GLOBAL_STATES.IN_MESSAGE_BOX)
 		return true
 	return false
 

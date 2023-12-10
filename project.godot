@@ -31,6 +31,7 @@ RuleHandler="*res://scripts/handlers/ruleHandler.gd"
 EnemyHandler="*res://scripts/handlers/enemyHandler.gd"
 CharacterHandler="*res://scripts/handlers/characterHandler.gd"
 InventoryHandler="*res://scripts/handlers/inventoryHandler.gd"
+ActionHandler="*res://scripts/handlers/actionHandler.gd"
 
 [display]
 

@@ -33,7 +33,7 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_q0i1q"]
 size = Vector2(14, 14)
 
-[node name="messageSign" type="Area2D"]
+[node name="messageSign" type="Area2D" groups=["sign"]]
 script = ExtResource("1_kmin5")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

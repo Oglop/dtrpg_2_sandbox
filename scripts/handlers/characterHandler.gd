@@ -3,7 +3,32 @@ extends Node
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass # Replace with function body.
+	
+## Get name of character
+func getCharacterName(position:int) -> String:
+	if position == 0:
+		return Data.CHARACTER_1_NAME
+	elif position == 1:
+		return Data.CHARACTER_2_NAME
+	elif position == 2:
+		return Data.CHARACTER_3_NAME
+	else:
+		return Data.CHARACTER_4_NAME
 
+## Return Array of rules for character
+## [{ 
+##   rule: Enums.RULE
+##   action: Enums.ACTION
+## }]
+func getCharacterRules(position:int) -> Array:
+	if position == 0:
+		return Data.CHARACTER_1_RULES
+	elif position == 1:
+		return Data.CHARACTER_2_RULES
+	elif position == 2:
+		return Data.CHARACTER_3_RULES
+	else:
+		return Data.CHARACTER_4_RULES
 
 func getHealthBaseByClass(type:Enums.CLASSES) -> int:
 	if type == Enums.CLASSES.WARRIOR:
