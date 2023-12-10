@@ -294,7 +294,7 @@ func getCharacterByPosition(position:int) -> Dictionary:
 	var rules:Array = []
 	
 	if position == 0:
-		var levelMultiplyer = (Data.CHARACTER_1_LV / 10)
+		var levelMultiplyer:float = 1.0 + Data.CHARACTER_1_LV * 0.1
 		if Data.CHARACTER_1_WEAPON != null && Data.CHARACTER_1_WEAPON.size() > 0:
 			attack = (Data.CHARACTER_1_STRENGTH + Data.CHARACTER_1_WEAPON.value) * levelMultiplyer
 		else:
@@ -314,7 +314,7 @@ func getCharacterByPosition(position:int) -> Dictionary:
 		luck = Data.CHARACTER_1_LUCK
 		rules = Data.CHARACTER_1_RULES
 	elif position == 1:
-		var levelMultiplyer = (Data.CHARACTER_2_LV / 10)
+		var levelMultiplyer:float = 1.0 + Data.CHARACTER_2_LV * 0.1
 		if Data.CHARACTER_2_WEAPON != null && Data.CHARACTER_2_WEAPON.size() > 0:
 			attack = (Data.CHARACTER_2_STRENGTH + Data.CHARACTER_2_WEAPON.value) * levelMultiplyer
 		else:
@@ -336,7 +336,7 @@ func getCharacterByPosition(position:int) -> Dictionary:
 		luck = Data.CHARACTER_2_LUCK
 		rules = Data.CHARACTER_2_RULES
 	elif position == 2:
-		var levelMultiplyer = Data.CHARACTER_3_LV / 10
+		var levelMultiplyer:float = 1.0 + Data.CHARACTER_3_LV * 0.1
 		if Data.CHARACTER_3_WEAPON != null && Data.CHARACTER_3_WEAPON.size() > 0:
 			attack = Data.CHARACTER_3_STRENGTH + Data.CHARACTER_3_WEAPON.value * levelMultiplyer
 		else:
@@ -358,7 +358,7 @@ func getCharacterByPosition(position:int) -> Dictionary:
 		luck = Data.CHARACTER_3_LUCK
 		rules = Data.CHARACTER_3_RULES
 	else:
-		var levelMultiplyer = Data.CHARACTER_4_LV / 10
+		var levelMultiplyer:float = 1.0 + Data.CHARACTER_4_LV * 0.1
 		if Data.CHARACTER_4_WEAPON != null && Data.CHARACTER_4_WEAPON.size() > 0:
 			attack = Data.CHARACTER_4_STRENGTH + Data.CHARACTER_4_WEAPON.value * levelMultiplyer
 		else:

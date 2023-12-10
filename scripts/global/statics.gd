@@ -48,7 +48,26 @@ var CLASSES_ATRIBUTES:Dictionary = {
 			{
 				"rule": Enums.RULE.ALWAYS,
 				"action": Enums.ACTION.ATTACK
+			},
+			{
+				"rule": Enums.RULE.NONE,
+				"action": Enums.ACTION.NONE
 			}
+		],
+		"AVAILABLE_RULES": [
+			Enums.RULE.SELF_HP_LT_20,
+			Enums.RULE.SELF_HP_LT_50,
+			Enums.RULE.SELF_HP_GT_50,
+			Enums.RULE.ALLY_HP_LT_20,
+			Enums.RULE.ALWAYS,
+			Enums.RULE.ALLY_DEAD
+		],
+		"AVAILABLE_ACTIONS": [
+			Enums.ACTION.ATTACK,
+			Enums.ACTION.DEFEND,
+			Enums.ACTION.USE_POTION_SELF,
+			Enums.ACTION.USE_POTION_ALLY,
+			Enums.ACTION.USE_ELEXIR_ALLY
 		]
 	},
 	"KNIGHT": {
@@ -72,7 +91,27 @@ var CLASSES_ATRIBUTES:Dictionary = {
 			{
 				"rule": Enums.RULE.ALWAYS,
 				"action": Enums.ACTION.ATTACK
+			},
+			{
+				"rule": Enums.RULE.NONE,
+				"action": Enums.ACTION.NONE
 			}
+		],
+		"AVAILABLE_RULES": [
+			Enums.RULE.SELF_HP_LT_20,
+			Enums.RULE.SELF_HP_LT_50,
+			Enums.RULE.SELF_HP_GT_50,
+			Enums.RULE.ALLY_HP_LT_20,
+			Enums.RULE.ALWAYS,
+			Enums.RULE.ALLY_DEAD
+		],
+		"AVAILABLE_ACTIONS": [
+			Enums.ACTION.ATTACK,
+			Enums.ACTION.DEFEND,
+			Enums.ACTION.PROTECT,
+			Enums.ACTION.USE_POTION_SELF,
+			Enums.ACTION.USE_POTION_ALLY,
+			Enums.ACTION.USE_ELEXIR_ALLY
 		]
 	},
 	"WIZARD": {
@@ -98,9 +137,25 @@ var CLASSES_ATRIBUTES:Dictionary = {
 				"action": Enums.ACTION.CAST_FIREBALL
 			},
 			{
-				"rule": Enums.RULE.ALWAYS,
+				"rule": Enums.RULE.SELF_HP_LT_20,
 				"action": Enums.ACTION.ATTACK
 			}
+		],
+		"AVAILABLE_RULES": [
+			Enums.RULE.SELF_HP_LT_20,
+			Enums.RULE.SELF_MP_LT_20,
+			Enums.RULE.SELF_MP_LT_10,
+			Enums.RULE.SELF_HP_GT_50,
+			Enums.RULE.ALLY_MP_GT_20,
+			Enums.RULE.ALWAYS
+		],
+		"AVAILABLE_ACTIONS": [
+			Enums.ACTION.USE_HERB_SELF,
+			Enums.ACTION.USE_HERB_ALLY,
+			Enums.ACTION.CAST_FIREBALL,
+			Enums.ACTION.ATTACK,
+			Enums.ACTION.USE_POTION_SELF,
+			Enums.ACTION.DEFEND,
 		]
 	},
 	"HUNTER": {
@@ -129,6 +184,22 @@ var CLASSES_ATRIBUTES:Dictionary = {
 				"rule": Enums.RULE.ALWAYS,
 				"action": Enums.ACTION.ATTACK
 			}
+		],
+		"AVAILABLE_RULES": [
+			Enums.RULE.ALLY_HP_LT_20,
+			Enums.RULE.ALLY_MP_LT_20,
+			Enums.RULE.ALLY_DEAD,
+			Enums.RULE.SELF_HP_GT_50,
+			Enums.RULE.SELF_MP_LT_20,
+			Enums.RULE.ALWAYS
+		],
+		"AVAILABLE_ACTIONS": [
+			Enums.ACTION.CAST_HEAL,
+			Enums.ACTION.USE_ELEXIR_ALLY,
+			Enums.ACTION.USE_HERB_ALLY,
+			Enums.ACTION.ATTACK,
+			Enums.ACTION.USE_POTION_SELF,
+			Enums.ACTION.USE_POTION_ALLY
 		]
 	},
 	"THIEF": {
@@ -146,13 +217,33 @@ var CLASSES_ATRIBUTES:Dictionary = {
 		"LUCK_GROWTH":Enums.CLASSES_ATTRIBUTE_GROWTH.SHARP,
 		"RULES": [
 			{
-				"rule": Enums.RULE.SELF_HP_LT_20,
-				"action": Enums.ACTION.USE_HERB_SELF
+				"rule": Enums.RULE.SELF_HP_GT_50,
+				"action": Enums.ACTION.BACK_STAB
+			},
+			{
+				"rule": Enums.RULE.ALLY_HP_GT_50,
+				"action": Enums.ACTION.STEAL
 			},
 			{
 				"rule": Enums.RULE.ALWAYS,
 				"action": Enums.ACTION.ATTACK
 			}
+		],
+		"AVAILABLE_RULES": [
+			Enums.RULE.ALLY_HP_LT_10,
+			Enums.RULE.SELF_HP_LT_50,
+			Enums.RULE.SELF_HP_GT_50,
+			Enums.RULE.SELF_HP_LT_10,
+			Enums.RULE.ALLY_HP_GT_50,
+			Enums.RULE.ALWAYS
+		],
+		"AVAILABLE_ACTIONS": [
+			Enums.ACTION.ATTACK,
+			Enums.ACTION.STEAL,
+			Enums.ACTION.BACK_STAB,
+			Enums.ACTION.USE_POTION_SELF,
+			Enums.ACTION.DEFEND,
+			Enums.ACTION.USE_POTION_ALLY,
 		]
 	},
 	"CLERIC": {
@@ -171,16 +262,32 @@ var CLASSES_ATRIBUTES:Dictionary = {
 		"RULES": [
 			{
 				"rule": Enums.RULE.ALLY_DEAD,
-				"action": Enums.ACTION.USE_ELEXIR_ALLY
+				"action": Enums.ACTION.CAST_REVIVE
 			},
 			{
 				"rule": Enums.RULE.ALLY_HP_LT_20,
-				"action": Enums.ACTION.USE_HERB_ALLY
+				"action": Enums.ACTION.CAST_HEAL
 			},
 			{
 				"rule": Enums.RULE.ALWAYS,
 				"action": Enums.ACTION.ATTACK
 			}
+		],
+		"AVAILABLE_RULES": [
+			Enums.RULE.ALLY_DEAD,
+			Enums.RULE.ALLY_HP_LT_20,
+			Enums.RULE.ALLY_MP_LT_10,
+			Enums.RULE.SELF_HP_LT_20,
+			Enums.RULE.SELF_MP_LT_20,
+			Enums.RULE.ALWAYS
+		],
+		"AVAILABLE_ACTIONS": [
+			Enums.ACTION.USE_ELEXIR_ALLY,
+			Enums.ACTION.CAST_HEAL,
+			Enums.ACTION.CAST_REVIVE,
+			Enums.ACTION.USE_HERB_ALLY,
+			Enums.ACTION.USE_POTION_ALLY,
+			Enums.ACTION.ATTACK
 		]
 	}
 	

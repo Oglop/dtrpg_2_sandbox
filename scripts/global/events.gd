@@ -1,5 +1,6 @@
 extends Node
 
+signal ACTIVATE_RULES_MENU
 signal INPUT_RIGHT
 signal INPUT_UP
 signal INPUT_LEFT
