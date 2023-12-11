@@ -1,0 +1,78 @@
+[gd_scene load_steps=2 format=3 uid="uid://ds1mawhw2nvsj"]
+
+[ext_resource type="Theme" uid="uid://dss6di43qaueh" path="res://media/themes/textBoxTheme.tres" id="1_a20d5"]
+
+[node name="viewCharacter" type="MarginContainer"]
+offset_left = 44.0
+offset_top = 32.0
+offset_right = 120.0
+offset_bottom = 152.0
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 2
+theme = ExtResource("1_a20d5")
+
+[node name="LabelName" type="Label" parent="Panel"]
+layout_mode = 0
+offset_left = 4.0
+offset_top = 3.0
+offset_right = 70.0
+offset_bottom = 19.0
+text = "Mox
+"
+
+[node name="LabelClass" type="Label" parent="Panel"]
+offset_left = 4.0
+offset_top = 16.0
+offset_right = 70.0
+offset_bottom = 32.0
+text = "Hunter
+"
+
+[node name="LabelHealth" type="Label" parent="Panel"]
+offset_left = 4.0
+offset_top = 34.0
+offset_right = 43.0
+offset_bottom = 50.0
+text = "HP: 30
+"
+
+[node name="LabelMagic" type="Label" parent="Panel"]
+offset_left = 4.0
+offset_top = 47.0
+offset_right = 45.0
+offset_bottom = 63.0
+text = "MP: 20
+"
+
+[node name="LabelLuck" type="Label" parent="Panel"]
+offset_left = 4.0
+offset_top = 104.0
+offset_right = 70.0
+offset_bottom = 120.0
+text = "Luc: 17
+"
+
+[node name="LabelIntelligence" type="Label" parent="Panel"]
+offset_left = 4.0
+offset_top = 91.0
+offset_right = 70.0
+offset_bottom = 107.0
+text = "Int: 17
+"
+
+[node name="LabelAgility" type="Label" parent="Panel"]
+offset_left = 4.0
+offset_top = 76.0
+offset_right = 70.0
+offset_bottom = 92.0
+text = "Agi: 17
+"
+
+[node name="LabelStrength" type="Label" parent="Panel"]
+offset_left = 4.0
+offset_top = 63.0
+offset_right = 70.0
+offset_bottom = 79.0
+text = "Str: 17
+"

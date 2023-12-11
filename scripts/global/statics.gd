@@ -290,7 +290,29 @@ var CLASSES_ATRIBUTES:Dictionary = {
 			Enums.ACTION.ATTACK
 		]
 	}
-	
+}
+
+var SPELLS: Dictionary = {
+	"HEAL": {
+		"cost": 4,
+		"effect": 8,
+		"randomness": 5
+	},
+	"REVIVE": {
+		"cost": 10,
+		"effect": 4,
+		"randomness": 3
+	},
+	"FIREBALL": {
+		"cost": 2,
+		"effect": 4,
+		"randomness": 2
+	},
+	"LIGHTNING": {
+		"cost": 4,
+		"effect": 6,
+		"randomness": 10
+	}
 }
 
 var ITEMS:Dictionary = {

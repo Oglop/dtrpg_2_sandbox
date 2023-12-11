@@ -203,6 +203,13 @@ func resolveAction(position:int, enemeyDetail:Dictionary, action:Enums.ACTION) -
 		ActionHandler.resolveUsePotionAllyAction()
 	elif action == Enums.ACTION.USE_ELEXIR_ALLY:
 		ActionHandler.resolveUseElexir(position)
+	elif action == Enums.ACTION.USE_HERB_SELF:
+		ActionHandler.resolveHerbSelfAction(position)
+	elif action == Enums.ACTION.USE_HERB_ALLY:
+		ActionHandler.resolveUseHerbAllyAction()
+	elif action == Enums.ACTION.CAST_HEAL:
+		ActionHandler.resolveCastHealAction(position)
+		
 	
 ## resolveRules
 ## postion
