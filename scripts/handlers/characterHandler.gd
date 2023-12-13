@@ -14,6 +14,21 @@ func getCharacterName(position:int) -> String:
 		return Data.CHARACTER_3_NAME
 	else:
 		return Data.CHARACTER_4_NAME
+		
+func getClassName(type:Enums.CLASSES) -> String:
+	if type == Enums.CLASSES.WARRIOR:
+		return "Warrior"
+	elif type == Enums.CLASSES.KNIGHT:
+		return "Knight"
+	elif type == Enums.CLASSES.WIZARD:
+		return "Wizard"
+	elif type == Enums.CLASSES.HUNTER:
+		return "Hunter"
+	elif type == Enums.CLASSES.THIEF:
+		return "Thief"
+	elif type == Enums.CLASSES.CLERIC:
+		return "Cleric"
+	return ""
 
 ## Return Array of rules for character
 ## [{ 
@@ -309,6 +324,9 @@ func getCharacterNameByPositionAndClass(type:Enums.CLASSES, position:int) -> Str
 func getCharacterByPosition(position:int) -> Dictionary:
 	var name:String = ""
 	var health:int = 0
+	var healthMax:int = 0
+	var magic:int = 0
+	var magicMax:int = 0
 	var type:Enums.CLASSES = Enums.CLASSES.NONE
 	var attack:int = 0
 	var defence:int = 0
@@ -318,8 +336,26 @@ func getCharacterByPosition(position:int) -> Dictionary:
 	var intelligence:int = 0
 	var rules:Array = []
 	
+	var _lv:int = 1
+	var _xp:int = 0
+	var _next:int = 0
+	var _class:String = ""
+	var weapon:String = ""
+	var armor:String = ""
+	var accessory:String = ""
+	
+	
 	if position == 0:
 		var levelMultiplyer:float = 1.0 + Data.CHARACTER_1_LV * 0.1
+		
+		magic = Data.CHARACTER_1_MAGIC_CURRENT
+		magicMax = Data.CHARACTER_1_MAGIC_MAX
+		healthMax = Data.CHARACTER_1_HEALTH_MAX
+		_lv = Data.CHARACTER_1_LV
+		_xp =  Data.CHARACTER_1_XP
+		_next = Data.CHARACTER_1_XP_NEXT
+		_class = getClassName(Data.CHARACTER_1_TYPE)
+		
 		if Data.CHARACTER_1_WEAPON != null && Data.CHARACTER_1_WEAPON.size() > 0:
 			attack = (Data.CHARACTER_1_STRENGTH + Data.CHARACTER_1_WEAPON.value) * levelMultiplyer
 		else:
@@ -340,6 +376,15 @@ func getCharacterByPosition(position:int) -> Dictionary:
 		rules = Data.CHARACTER_1_RULES
 	elif position == 1:
 		var levelMultiplyer:float = 1.0 + Data.CHARACTER_2_LV * 0.1
+		
+		magic = Data.CHARACTER_2_MAGIC_CURRENT
+		magicMax = Data.CHARACTER_2_MAGIC_MAX
+		healthMax = Data.CHARACTER_2_HEALTH_MAX
+		_lv = Data.CHARACTER_2_LV
+		_xp =  Data.CHARACTER_2_XP
+		_next = Data.CHARACTER_2_XP_NEXT
+		_class = getClassName(Data.CHARACTER_2_TYPE)
+		
 		if Data.CHARACTER_2_WEAPON != null && Data.CHARACTER_2_WEAPON.size() > 0:
 			attack = (Data.CHARACTER_2_STRENGTH + Data.CHARACTER_2_WEAPON.value) * levelMultiplyer
 		else:
@@ -362,6 +407,15 @@ func getCharacterByPosition(position:int) -> Dictionary:
 		rules = Data.CHARACTER_2_RULES
 	elif position == 2:
 		var levelMultiplyer:float = 1.0 + Data.CHARACTER_3_LV * 0.1
+		
+		magic = Data.CHARACTER_3_MAGIC_CURRENT
+		magicMax = Data.CHARACTER_3_MAGIC_MAX
+		healthMax = Data.CHARACTER_3_HEALTH_MAX
+		_lv = Data.CHARACTER_3_LV
+		_xp =  Data.CHARACTER_3_XP
+		_next = Data.CHARACTER_3_XP_NEXT
+		_class = getClassName(Data.CHARACTER_3_TYPE)
+		
 		if Data.CHARACTER_3_WEAPON != null && Data.CHARACTER_3_WEAPON.size() > 0:
 			attack = Data.CHARACTER_3_STRENGTH + Data.CHARACTER_3_WEAPON.value * levelMultiplyer
 		else:
@@ -384,6 +438,15 @@ func getCharacterByPosition(position:int) -> Dictionary:
 		rules = Data.CHARACTER_3_RULES
 	else:
 		var levelMultiplyer:float = 1.0 + Data.CHARACTER_4_LV * 0.1
+		
+		magic = Data.CHARACTER_4_MAGIC_CURRENT
+		magicMax = Data.CHARACTER_4_MAGIC_MAX
+		healthMax = Data.CHARACTER_4_HEALTH_MAX
+		_lv = Data.CHARACTER_4_LV
+		_xp =  Data.CHARACTER_4_XP
+		_next = Data.CHARACTER_4_XP_NEXT
+		_class = getClassName(Data.CHARACTER_4_TYPE)
+		
 		if Data.CHARACTER_4_WEAPON != null && Data.CHARACTER_4_WEAPON.size() > 0:
 			attack = Data.CHARACTER_4_STRENGTH + Data.CHARACTER_4_WEAPON.value * levelMultiplyer
 		else:
@@ -406,8 +469,15 @@ func getCharacterByPosition(position:int) -> Dictionary:
 		rules = Data.CHARACTER_4_RULES
 	
 	return {
+		"lv": _lv,
+		"xp": _xp,
+		"next": _next,
+		"class": _class,
 		"name": name,
 		"health": health,
+		"healthMax" : healthMax,
+		"magic": magic,
+		"magicMax": magicMax,
 		"type": type,
 		"attack": attack,
 		"defence": defence,
@@ -415,6 +485,9 @@ func getCharacterByPosition(position:int) -> Dictionary:
 		"agility": agility,
 		"intelligence": intelligence,
 		"luck": luck,
-		"rules": rules
+		"rules": rules,
+		"weapon": weapon,
+		"armor": armor,
+		"accessory": accessory
 	}
 	

@@ -93,3 +93,28 @@ var CAST_REVIVE:String = "Cast revive"
 var STEAL:String = "Steal"
 var BACK_STAB:String = "Backstab"
 
+
+
+var CHARACTER_CARD_LEVEL:String = "LV: "
+var CHARACTER_CARD_XP:String = "XP: "
+var CHARACTER_CARD_NEXT:String = "- NEXT: "
+var CHARACTER_CARD_LUCK:String = "Luc: "
+var CHARACTER_CARD_AGILITY:String = "Agi: "
+var CHARACTER_CARD_STRENGTH:String = "Str: "
+var CHARACTER_CARD_INTELLIGENCE:String = "Int: "
+var CHARACTER_CARD_HP:String = "HP: "
+var CHARACTER_CARD_MP:String = "MP: "
+var CHARACTER_CARD_ATTACK:String = "Attack: "
+var CHARACTER_CARD_DEFENCE:String = "Defence: "
+var CHARACTER_CARD_ARMOR:String = "Armor: "
+var CHARACTER_CARD_WEAPON:String = "Weapon: "
+var CHARACTER_CARD_ACCESSORY:String = "Accessory: "
+
+
+var CLASS_DESCRIPTION_WARRIOR:String = "The warrior focuses on physical attack, strong enough to break any foe."
+var CLASS_DESCRIPTION_KNIGT:String = "The knight focuses on defensive and protecting the party."
+var CLASS_DESCRIPTION_WIZARD:String = "The wizard uses strog magical attacks but needs magic to use his power."
+var CLASS_DESCRIPTION_HUNTER:String = "The hunter is a supportive class that can still do alot of damage to the enemy."
+var CLASS_DESCRIPTION_THIEF:String = "The thief can uses luck for great risk and reward."
+var CLASS_DESCRIPTION_CLERIC:String = "The cleric focuses on healing the other party members."
+
