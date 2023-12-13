@@ -1,8 +1,21 @@
 extends Node
 
+
+var rng = RandomNumberGenerator.new()
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass # Replace with function body.
+	
+func skillCheck(skill:int) -> Enums.SYSTEM_SKILL_CHECK_RESULT:
+	var check = rng.randi_range(1, 20)
+	if check == 1:
+		return Enums.SYSTEM_SKILL_CHECK_RESULT.FAIL
+	elif check == 20:
+		return Enums.SYSTEM_SKILL_CHECK_RESULT.CRITICAL
+	elif check <= skill:
+		return Enums.SYSTEM_SKILL_CHECK_RESULT.SUCCESS
+	return Enums.SYSTEM_SKILL_CHECK_RESULT.FAIL
 	
 ## Get name of character
 func getCharacterName(position:int) -> String:

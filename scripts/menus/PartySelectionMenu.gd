@@ -68,7 +68,7 @@ func _on_inputDown() -> void:
 			if _selectClassIndex > 5:
 				_selectClassIndex = 5
 		updateUI()
-	
+		
 func _on_inputRight() -> void:
 	if _pressableState == pressableStates.PRESSABLE:
 		setPressableBusy()
@@ -88,7 +88,11 @@ func _on_inputAccept() -> void:
 				_state = menu_states.VIEW_CURRENT
 		elif _state == menu_states.SELECT_CLASS:
 			classAccepted() 
-			
+			updateUI()
+		elif _state == menu_states.ACCEPT_CLASS_PROMPT:
+			classChoiceAccepted() 
+			updateUI()
+			Events.emit_signal("VISIBLE_CHARACTER_CARD", false)
 		updateUI()
 		
 func _on_inputCancel() -> void:
@@ -98,6 +102,14 @@ func _on_inputCancel() -> void:
 			_state = menu_states.MAIN
 		
 	updateUI()
+
+func classChoiceAccepted() -> void:
+	_currentCharacterIndex += 1
+	_state = menu_states.MAIN
+	if _currentCharacterIndex >= 4:
+		FileStorage.saveSlot(Data.SYSTEM_SELECTED_SAVE_SLOT)
+		
+		
 
 func setLabels() -> void:
 	$selectWarrior/Panel/Label.text = Text.CLASS_WARRIOR
@@ -125,6 +137,19 @@ func updateUI() -> void:
 	else:
 		setCurrentPartyVisibility(false)
 		
+	if _state == menu_states.ACCEPT_CLASS_PROMPT:
+		confirmChosesUpdate(true)
+	else:
+		confirmChosesUpdate(true)
+	
+func confirmChosesUpdate(active:bool) -> void:
+	if active:
+		$confirmChoices.visible = true
+		$confirmChoices/Panel.theme = selectedTheme
+	else:
+		$confirmChoices.visible = false
+		$confirmChoices/Panel.theme = unselectedTheme
+		
 func classAccepted() -> void:
 	_state = menu_states.ACCEPT_CLASS_PROMPT
 	
@@ -146,6 +171,7 @@ func classAccepted() -> void:
 	Events.emit_signal("LOAD_CHARACTER_CARD", _currentCharacterIndex)
 		
 func setCurrentPartyVisibility(visible:bool) -> void:
+	loadViewPartyCards()
 	$viewCharacter1.visible = visible
 	$viewCharacter2.visible = visible
 	$viewCharacter3.visible = visible
@@ -222,3 +248,39 @@ func updateSelectClassThemes() -> void:
 		$selectThief/Panel.theme = unselectedTheme
 		$selectCleric/Panel.theme = selectedTheme
 
+func loadViewPartyCards() -> void:
+	$viewCharacter1/Panel/LabelName.text = Data.CHARACTER_1_NAME
+	$viewCharacter1/Panel/LabelClass.text = CharacterHandler.getClassName(Data.CHARACTER_1_TYPE)
+	$viewCharacter1/Panel/LabelStrength.text = str(Text.CHARACTER_CARD_STRENGTH, Data.CHARACTER_1_STRENGTH)
+	$viewCharacter1/Panel/LabelHealth.text = str(Text.CHARACTER_CARD_HP, Data.CHARACTER_1_HEALTH_CURRENT)
+	$viewCharacter1/Panel/LabelMagic.text = str(Text.CHARACTER_CARD_MP, Data.CHARACTER_1_MAGIC_CURRENT)
+	$viewCharacter1/Panel/LabelLuck.text = str(Text.CHARACTER_CARD_LUCK, Data.CHARACTER_1_LUCK)
+	$viewCharacter1/Panel/LabelAgility.text = str(Text.CHARACTER_CARD_AGILITY, Data.CHARACTER_1_AGILITY)
+	$viewCharacter1/Panel/LabelIntelligence.text = str(Text.CHARACTER_CARD_INTELLIGENCE, Data.CHARACTER_1_INTELLIGENCE)
+	
+	$viewCharacter2/Panel/LabelName.text = Data.CHARACTER_2_NAME
+	$viewCharacter2/Panel/LabelClass.text = CharacterHandler.getClassName(Data.CHARACTER_2_TYPE)
+	$viewCharacter2/Panel/LabelStrength.text = str(Text.CHARACTER_CARD_STRENGTH, Data.CHARACTER_2_STRENGTH)
+	$viewCharacter2/Panel/LabelHealth.text = str(Text.CHARACTER_CARD_HP, Data.CHARACTER_2_HEALTH_CURRENT)
+	$viewCharacter2/Panel/LabelMagic.text = str(Text.CHARACTER_CARD_MP, Data.CHARACTER_2_MAGIC_CURRENT)
+	$viewCharacter2/Panel/LabelLuck.text = str(Text.CHARACTER_CARD_LUCK, Data.CHARACTER_2_LUCK)
+	$viewCharacter2/Panel/LabelAgility.text = str(Text.CHARACTER_CARD_AGILITY, Data.CHARACTER_2_AGILITY)
+	$viewCharacter2/Panel/LabelIntelligence.text = str(Text.CHARACTER_CARD_INTELLIGENCE, Data.CHARACTER_2_INTELLIGENCE)
+	
+	$viewCharacter3/Panel/LabelName.text = Data.CHARACTER_3_NAME
+	$viewCharacter3/Panel/LabelClass.text = CharacterHandler.getClassName(Data.CHARACTER_3_TYPE)
+	$viewCharacter3/Panel/LabelStrength.text = str(Text.CHARACTER_CARD_STRENGTH, Data.CHARACTER_3_STRENGTH)
+	$viewCharacter3/Panel/LabelHealth.text = str(Text.CHARACTER_CARD_HP, Data.CHARACTER_3_HEALTH_CURRENT)
+	$viewCharacter3/Panel/LabelMagic.text = str(Text.CHARACTER_CARD_MP, Data.CHARACTER_3_MAGIC_CURRENT)
+	$viewCharacter3/Panel/LabelLuck.text = str(Text.CHARACTER_CARD_LUCK, Data.CHARACTER_3_LUCK)
+	$viewCharacter3/Panel/LabelAgility.text = str(Text.CHARACTER_CARD_AGILITY, Data.CHARACTER_3_AGILITY)
+	$viewCharacter3/Panel/LabelIntelligence.text = str(Text.CHARACTER_CARD_INTELLIGENCE, Data.CHARACTER_3_INTELLIGENCE)
+	
+	$viewCharacter4/Panel/LabelName.text = Data.CHARACTER_4_NAME
+	$viewCharacter4/Panel/LabelClass.text = CharacterHandler.getClassName(Data.CHARACTER_4_TYPE)
+	$viewCharacter4/Panel/LabelStrength.text = str(Text.CHARACTER_CARD_STRENGTH, Data.CHARACTER_4_STRENGTH)
+	$viewCharacter4/Panel/LabelHealth.text = str(Text.CHARACTER_CARD_HP, Data.CHARACTER_4_HEALTH_CURRENT)
+	$viewCharacter4/Panel/LabelMagic.text = str(Text.CHARACTER_CARD_MP, Data.CHARACTER_4_MAGIC_CURRENT)
+	$viewCharacter4/Panel/LabelLuck.text = str(Text.CHARACTER_CARD_LUCK, Data.CHARACTER_4_LUCK)
+	$viewCharacter4/Panel/LabelAgility.text = str(Text.CHARACTER_CARD_AGILITY, Data.CHARACTER_4_AGILITY)
+	$viewCharacter4/Panel/LabelIntelligence.text = str(Text.CHARACTER_CARD_INTELLIGENCE, Data.CHARACTER_4_INTELLIGENCE)

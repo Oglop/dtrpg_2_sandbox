@@ -56,6 +56,7 @@ func _on_input_right() -> void:
 				_state = Enums.PARTY_STATE.MOVED
 				Data.PARTY_X += 16
 				Events.emit_signal("PARTY_MOVED")
+				Events.emit_signal("PARTY_MOVED_TO", Vector2(Data.PARTY_X, Data.PARTY_Y))
 				Events.emit_signal("SYSTEM_WRITE_LOG", Text.MAP_TRAVEL_EAST, Enums.SYSTEM_LOG_TYPE.MAP, true)
 		
 func _on_input_up() -> void:
@@ -65,6 +66,7 @@ func _on_input_up() -> void:
 				_state = Enums.PARTY_STATE.MOVED
 				Data.PARTY_Y -= 16
 				Events.emit_signal("PARTY_MOVED")
+				Events.emit_signal("PARTY_MOVED_TO", Vector2(Data.PARTY_X, Data.PARTY_Y))
 				Events.emit_signal("SYSTEM_WRITE_LOG", Text.MAP_TRAVEL_NORTH, Enums.SYSTEM_LOG_TYPE.MAP, true)
 	
 func _on_input_left() -> void:
@@ -74,6 +76,7 @@ func _on_input_left() -> void:
 				_state = Enums.PARTY_STATE.MOVED
 				Data.PARTY_X -= 16
 				Events.emit_signal("PARTY_MOVED")
+				Events.emit_signal("PARTY_MOVED_TO", Vector2(Data.PARTY_X, Data.PARTY_Y))
 				Events.emit_signal("SYSTEM_WRITE_LOG", Text.MAP_TRAVEL_WEST, Enums.SYSTEM_LOG_TYPE.MAP, true)
 	
 func _on_input_down() -> void:
@@ -83,6 +86,7 @@ func _on_input_down() -> void:
 				_state = Enums.PARTY_STATE.MOVED
 				Data.PARTY_Y += 16
 				Events.emit_signal("PARTY_MOVED")
+				Events.emit_signal("PARTY_MOVED_TO", Vector2(Data.PARTY_X, Data.PARTY_Y))
 				Events.emit_signal("SYSTEM_WRITE_LOG", Text.MAP_TRAVEL_SOUTH, Enums.SYSTEM_LOG_TYPE.MAP, true)
 		
 func _on_partyMoved() -> void:

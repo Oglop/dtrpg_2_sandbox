@@ -115,10 +115,10 @@ func resolveUseHerbAllyAction() -> void:
 		var lowest = getPositionWithLowestHealthAny()
 		
 
-		if lowest.position != -1:
+		if lowest != defaultMinValue:
 			var herb = InventoryHandler.withdrawItem(Statics.ITEMS.POTION.name)
-			Events.emit_signal("PARTY_ADD_MAGIC", lowest.p, herb.value) # position:int, value:int
-			Events.emit_signal("SYSTEM_WRITE_LOG", str(CharacterHandler.getCharacterName(lowest.p), " drinks a potion."), Enums.SYSTEM_LOG_TYPE.BATTLE)
+			Events.emit_signal("PARTY_ADD_MAGIC", lowest, herb.value) # position:int, value:int
+			Events.emit_signal("SYSTEM_WRITE_LOG", str(CharacterHandler.getCharacterName(lowest), " drinks a potion."), Enums.SYSTEM_LOG_TYPE.BATTLE)
 
 func resolveCastHealAction(position:int) -> void:
 	var effect:int = 0

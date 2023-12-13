@@ -32,6 +32,7 @@ EnemyHandler="*res://scripts/handlers/enemyHandler.gd"
 CharacterHandler="*res://scripts/handlers/characterHandler.gd"
 InventoryHandler="*res://scripts/handlers/inventoryHandler.gd"
 ActionHandler="*res://scripts/handlers/actionHandler.gd"
+FileStorage="*res://scripts/global/fileStorage.gd"
 
 [display]
 
