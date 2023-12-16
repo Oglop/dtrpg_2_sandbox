@@ -29,6 +29,76 @@ func withdrawItem(name:String) -> Dictionary:
 	rebuildInventory()
 	return _item
 	
+func equipWeaponCharacter(position:int, weapon:Dictionary) -> bool:
+	if position == 0:
+		if Data.CHARACTER_1_WEAPON != null:
+			var equipedWeapon:Dictionary = Data.CHARACTER_1_WEAPON
+			addItem(equipedWeapon)
+		Data.CHARACTER_1_WEAPON = weapon
+	elif position == 1:
+		if Data.CHARACTER_2_WEAPON != null:
+			var equipedWeapon:Dictionary = Data.CHARACTER_2_WEAPON
+			addItem(equipedWeapon)
+		Data.CHARACTER_2_WEAPON = weapon
+	elif position == 2:
+		if Data.CHARACTER_3_WEAPON != null:
+			var equipedWeapon:Dictionary = Data.CHARACTER_3_WEAPON
+			addItem(equipedWeapon)
+		Data.CHARACTER_3_WEAPON = weapon	
+	elif position == 3:
+		if Data.CHARACTER_4_WEAPON != null:
+			var equipedWeapon:Dictionary = Data.CHARACTER_4_WEAPON
+			addItem(equipedWeapon)
+		Data.CHARACTER_4_WEAPON = weapon
+	return true
+	
+func equipArmorCharacter(position:int, armor:Dictionary) -> bool:
+	if position == 0:
+		if Data.CHARACTER_1_ARMOR != null:
+			var equipedArmor:Dictionary = Data.CHARACTER_1_ARMOR
+			addItem(equipedArmor)
+		Data.CHARACTER_1_ARMOR = armor
+	elif position == 1:
+		if Data.CHARACTER_2_ARMOR != null:
+			var equipedArmor:Dictionary = Data.CHARACTER_2_ARMOR
+			addItem(equipedArmor)
+		Data.CHARACTER_2_ARMOR = armor
+	elif position == 2:
+		if Data.CHARACTER_3_ARMOR != null:
+			var equipedArmor:Dictionary = Data.CHARACTER_3_ARMOR
+			addItem(equipedArmor)
+		Data.CHARACTER_3_ARMOR = armor	
+	elif position == 3:
+		if Data.CHARACTER_4_ARMOR != null:
+			var equipedArmor:Dictionary = Data.CHARACTER_4_ARMOR
+			addItem(equipedArmor)
+		Data.CHARACTER_4_ARMOR = armor
+	return true
+	
+func equipAccessoryCharacter(position:int, accessory:Dictionary) -> bool:
+	if position == 0:
+		if Data.CHARACTER_1_ACCESSORY != null:
+			var equipedAccessory:Dictionary = Data.CHARACTER_1_ACCESSORY
+			addItem(equipedAccessory)
+		Data.CHARACTER_1_ACCESSORY = accessory
+	elif position == 1:
+		if Data.CHARACTER_2_ACCESSORY != null:
+			var equipedAccessory:Dictionary = Data.CHARACTER_2_ACCESSORY
+			addItem(equipedAccessory)
+		Data.CHARACTER_2_ACCESSORY = accessory
+	elif position == 2:
+		if Data.CHARACTER_3_ACCESSORY != null:
+			var equipedAccessory:Dictionary = Data.CHARACTER_3_ACCESSORY
+			addItem(equipedAccessory)
+		Data.CHARACTER_3_ACCESSORY = accessory	
+	elif position == 3:
+		if Data.CHARACTER_4_ACCESSORY != null:
+			var equipedAccessory:Dictionary = Data.CHARACTER_4_ACCESSORY
+			addItem(equipedAccessory)
+		Data.CHARACTER_4_ACCESSORY = accessory
+	return true
+	
+	
 func rebuildInventory() -> void:
 	var items:Array = []
 	for item in Data.PARTY_ITEMS:

@@ -1,6 +1,9 @@
 extends Node
 
-var SAVE_FILE_SLOT_1_PATH:String = "data://slot1.save"
+var GAME_VERSION:String = "1.0.0"
+var SAVE_FILE_SLOT_1_PATH:String = "slot_1"
+var SAVE_FILE_SLOT_2_PATH:String = "slot_2"
+var SAVE_FILE_SLOT_3_PATH:String = "slot_3"
 var WINDOW_SIZE_X:int = 320
 var WINDOW_SIZE_Y:int = 280
 var MAP_SIZE:int = 256
@@ -355,6 +358,13 @@ var ITEMS:Dictionary = {
 		"type": Enums.ITEM_TYPES.WEAPON_SPEAR,
 		"name": "Spear",
 		"value": 8,
+		"magicValue": 0,
+		"quantity": 1
+	},
+	"SHORT_BOW": {
+		"type": Enums.ITEM_TYPES.WEAPON_RANGED,
+		"name": "Short Bow",
+		"value":6,
 		"magicValue": 0,
 		"quantity": 1
 	},

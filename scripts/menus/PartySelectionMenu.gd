@@ -93,6 +93,7 @@ func _on_inputAccept() -> void:
 			classChoiceAccepted() 
 			updateUI()
 			Events.emit_signal("VISIBLE_CHARACTER_CARD", false)
+	
 		updateUI()
 		
 func _on_inputCancel() -> void:
@@ -108,8 +109,6 @@ func classChoiceAccepted() -> void:
 	_state = menu_states.MAIN
 	if _currentCharacterIndex >= 4:
 		FileStorage.saveSlot(Data.SYSTEM_SELECTED_SAVE_SLOT)
-		
-		
 
 func setLabels() -> void:
 	$selectWarrior/Panel/Label.text = Text.CLASS_WARRIOR

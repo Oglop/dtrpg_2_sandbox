@@ -2,6 +2,9 @@ extends Node
 
 signal SET_GLOBAL_STATE
 signal ACTIVATE_RULES_MENU
+
+signal SPAWN_DAMAGE_NUMBER
+
 signal INPUT_RIGHT
 signal INPUT_UP
 signal INPUT_LEFT

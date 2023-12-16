@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://dil6vvnmtrh11"]
+
+[ext_resource type="Script" path="res://scripts/map/spawningPoints.gd" id="1_y6uq4"]
+
+[node name="spawningPoints" type="Node2D"]
+script = ExtResource("1_y6uq4")
+
+[node name="Marker2D1" type="Marker2D" parent="."]
+position = Vector2(35, 38)

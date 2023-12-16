@@ -1,4 +1,8 @@
 extends Node2D
+##
+## ENEMY
+##
+
 
 var _id:String = ""
 var _name:String = ""
@@ -41,15 +45,50 @@ func tryMove(partyGlobalPosition:Vector2) -> void:
 		_state = Enums.ENEMY_STATES.IN_FIGHT
 	else:
 		var direction = getDirectionToParty(partyGlobalPosition)
-		if direction.x == 1 && direction.y == 0:
-			self.global_position = Vector2(self.global_position.x + Statics.ROOM_SIZE, self.global_position.y)
-		elif direction.x == 0 && direction.y == -1:
-			self.global_position = Vector2(self.global_position.x, self.global_position.y - Statics.ROOM_SIZE)
-		elif direction.x == -1 && direction.y == 0:
-			self.global_position = Vector2(self.global_position.x - Statics.ROOM_SIZE, self.global_position.y)
-		elif direction.x == 0 && direction.y == 1:
-			self.global_position = Vector2(self.global_position.x, self.global_position.y + Statics.ROOM_SIZE)
+		rotateRaycaster(direction)
+		var isColliding = isRaycasterColliding()
+		if isColliding == false:
+			moveFromDirection(direction)
+		else:
+			var available = getAvailableDirections()
+			if available.size() > 0:
+				moveFromDirection(available[0])
+				
+func moveFromDirection(direction:Vector2) -> void:
+	if direction.x == 1 && direction.y == 0:
+		self.global_position = Vector2(self.global_position.x + Statics.ROOM_SIZE, self.global_position.y)
+	elif direction.x == 0 && direction.y == -1:
+		self.global_position = Vector2(self.global_position.x, self.global_position.y - Statics.ROOM_SIZE)
+	elif direction.x == -1 && direction.y == 0:
+		self.global_position = Vector2(self.global_position.x - Statics.ROOM_SIZE, self.global_position.y)
+	elif direction.x == 0 && direction.y == 1:
+		self.global_position = Vector2(self.global_position.x, self.global_position.y + Statics.ROOM_SIZE)
+			
+func rotateRaycaster(direction:Vector2) -> void:
+	if direction.x == 1 && direction.y == 0:
+		$RayCast2D.rotation = deg_to_rad(270)
+	elif direction.x == 0 && direction.y == -1:
+		$RayCast2D.rotation = deg_to_rad(180)
+	elif direction.x == -1 && direction.y == 0:
+		$RayCast2D.rotation = deg_to_rad(90)
+	elif direction.x == 0 && direction.y == 1:
+		$RayCast2D.rotation = deg_to_rad(0)
 		
+func getAvailableDirections() -> Array:
+	var availableDirections:Array = []
+	var directions:Array = [ Vector2(1,0), Vector2(0,-1), Vector2(-1,0), Vector2(0,1) ]
+	directions.shuffle()
+	for d in directions:
+		rotateRaycaster(d)
+		if !isRaycasterColliding():
+			availableDirections.append(d)
+	return availableDirections
+			
+func isRaycasterColliding() -> bool:
+	$RayCast2D.force_raycast_update()
+	if $RayCast2D.is_colliding():
+		return true
+	return false
 
 func getDirectionToParty(partyGlobalPosition:Vector2) -> Vector2:
 	var direction = get_direction(self.global_position, partyGlobalPosition)
@@ -69,7 +108,7 @@ func snapToGrid():
 	var gridY:int = self.global_position.y / Statics.ROOM_SIZE
 	self.global_position = Vector2(gridX * Statics.ROOM_SIZE, gridY * Statics.ROOM_SIZE)
 	
-static func get_direction(from, to):
+func get_direction(from, to):
 	var diff = to - from
 	if abs(diff.x) > abs(diff.y):
 		return Vector2(sign(diff.x), 0)

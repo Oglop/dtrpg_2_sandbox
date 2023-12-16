@@ -1,0 +1,42 @@
+[gd_scene load_steps=6 format=3 uid="uid://b53mj1d466flu"]
+
+[ext_resource type="Texture2D" uid="uid://cyauixuig0060" path="res://media/images/Sprite-0001.png" id="1_fc76x"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k0v56"]
+atlas = ExtResource("1_fc76x")
+region = Rect2(288, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iwmve"]
+atlas = ExtResource("1_fc76x")
+region = Rect2(304, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_53nw6"]
+atlas = ExtResource("1_fc76x")
+region = Rect2(320, 16, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_57yco"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k0v56")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iwmve")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_53nw6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iwmve")
+}],
+"loop": true,
+"name": &"hit",
+"speed": 10.0
+}]
+
+[node name="hit" type="AnimatedSprite2D"]
+position = Vector2(8, 8)
+sprite_frames = SubResource("SpriteFrames_57yco")
+animation = &"hit"
+frame = 1
+frame_progress = 0.6168

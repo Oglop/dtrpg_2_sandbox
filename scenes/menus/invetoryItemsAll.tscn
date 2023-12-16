@@ -1,0 +1,139 @@
+[gd_scene load_steps=4 format=3 uid="uid://d221eyn85jllp"]
+
+[ext_resource type="Script" path="res://scripts/menus/invetoryItemsAll.gd" id="1_bmupq"]
+[ext_resource type="Theme" uid="uid://dss6di43qaueh" path="res://media/themes/textBoxTheme.tres" id="2_25bf5"]
+[ext_resource type="PackedScene" uid="uid://cpauodrvt187h" path="res://scenes/menus/menuArrow.tscn" id="3_r2j3x"]
+
+[node name="invetoryItemsAll" type="CanvasLayer"]
+script = ExtResource("1_bmupq")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+offset_left = 4.0
+offset_top = 6.0
+offset_right = 114.0
+offset_bottom = 159.0
+
+[node name="Panel" type="Panel" parent="MarginContainer"]
+layout_mode = 2
+theme = ExtResource("2_25bf5")
+
+[node name="LabelItem1" type="Label" parent="MarginContainer/Panel"]
+layout_mode = 0
+offset_left = 9.0
+offset_top = 4.0
+offset_right = 87.0
+offset_bottom = 20.0
+text = "Potion    999"
+
+[node name="LabelItem2" type="Label" parent="MarginContainer/Panel"]
+layout_mode = 0
+offset_left = 9.0
+offset_top = 16.0
+offset_right = 87.0
+offset_bottom = 32.0
+text = "Potion    999"
+
+[node name="LabelItem3" type="Label" parent="MarginContainer/Panel"]
+layout_mode = 0
+offset_left = 9.0
+offset_top = 28.0
+offset_right = 87.0
+offset_bottom = 44.0
+text = "Potion    999"
+
+[node name="LabelItem4" type="Label" parent="MarginContainer/Panel"]
+layout_mode = 0
+offset_left = 9.0
+offset_top = 40.0
+offset_right = 87.0
+offset_bottom = 56.0
+text = "Potion    999"
+
+[node name="LabelItem5" type="Label" parent="MarginContainer/Panel"]
+layout_mode = 0
+offset_left = 9.0
+offset_top = 52.0
+offset_right = 87.0
+offset_bottom = 68.0
+text = "Potion    999"
+
+[node name="LabelItem6" type="Label" parent="MarginContainer/Panel"]
+layout_mode = 0
+offset_left = 9.0
+offset_top = 64.0
+offset_right = 87.0
+offset_bottom = 80.0
+text = "Potion    999"
+
+[node name="LabelItem7" type="Label" parent="MarginContainer/Panel"]
+layout_mode = 0
+offset_left = 9.0
+offset_top = 76.0
+offset_right = 87.0
+offset_bottom = 92.0
+text = "Potion    999"
+
+[node name="LabelItem8" type="Label" parent="MarginContainer/Panel"]
+layout_mode = 0
+offset_left = 9.0
+offset_top = 88.0
+offset_right = 87.0
+offset_bottom = 104.0
+text = "Potion    999"
+
+[node name="LabelItem9" type="Label" parent="MarginContainer/Panel"]
+layout_mode = 0
+offset_left = 9.0
+offset_top = 100.0
+offset_right = 87.0
+offset_bottom = 116.0
+text = "Potion    999"
+
+[node name="LabelItem10" type="Label" parent="MarginContainer/Panel"]
+layout_mode = 0
+offset_left = 9.0
+offset_top = 112.0
+offset_right = 87.0
+offset_bottom = 128.0
+text = "Potion    999"
+
+[node name="LabelItem11" type="Label" parent="MarginContainer/Panel"]
+layout_mode = 0
+offset_left = 9.0
+offset_top = 124.0
+offset_right = 87.0
+offset_bottom = 140.0
+text = "Potion    999"
+
+[node name="LabelItem12" type="Label" parent="MarginContainer/Panel"]
+layout_mode = 0
+offset_left = 9.0
+offset_top = 136.0
+offset_right = 87.0
+offset_bottom = 152.0
+text = "Potion    999"
+
+[node name="menuArrow" parent="." instance=ExtResource("3_r2j3x")]
+position = Vector2(15, 20)
+
+[node name="Timer" type="Timer" parent="."]
+
+[node name="equipMarginContainer" type="MarginContainer" parent="."]
+offset_left = 123.0
+offset_top = 6.0
+offset_right = 182.0
+offset_bottom = 23.0
+
+[node name="Panel" type="Panel" parent="equipMarginContainer"]
+layout_mode = 2
+theme = ExtResource("2_25bf5")
+
+[node name="Label" type="Label" parent="equipMarginContainer/Panel"]
+layout_mode = 0
+offset_left = 6.0
+offset_top = 2.0
+offset_right = 44.0
+offset_bottom = 18.0
+text = "Equip"
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

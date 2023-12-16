@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://cpauodrvt187h"]
+
+[ext_resource type="Texture2D" uid="uid://cyauixuig0060" path="res://media/images/Sprite-0001.png" id="1_cb06h"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3771x"]
+atlas = ExtResource("1_cb06h")
+region = Rect2(192, 32, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_3okpl"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3771x")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="menuArrow" type="AnimatedSprite2D"]
+position = Vector2(8, 8)
+sprite_frames = SubResource("SpriteFrames_3okpl")

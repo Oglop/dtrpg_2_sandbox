@@ -4,6 +4,7 @@ extends Node
 @onready var playerSprite = preload("res://scenes/player/playerSprites.tscn")
 @onready var enemy = preload("res://scenes/map/enemy.tscn")
 @onready var messageSign = preload("res://scenes/map/messageSign.tscn")
+@onready var damageNumbers = preload("res://scenes/effects/damageNumbers.tscn")
 
 func getScene(type:Enums.SCENE_TYPE):
 	if type == Enums.SCENE_TYPE.PARTY:
@@ -14,4 +15,6 @@ func getScene(type:Enums.SCENE_TYPE):
 		return enemy.instantiate()
 	elif type == Enums.SCENE_TYPE.MESSAGE_SIGN:
 		return messageSign.instantiate()
+	elif type == Enums.SCENE_TYPE.DAMAGE_NUMBERS:
+		return damageNumbers.instantiate()
 

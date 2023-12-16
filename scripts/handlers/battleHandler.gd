@@ -3,10 +3,32 @@ extends Node
 # damage = (attack / defense) * (HP_CONSTANT * AVG_BATTLE_LENGTH)
 
 var rng = RandomNumberGenerator.new()
+var _damageNumbersQueue:Array = []
+var _damageNumbersTimerWait:float = 0.3
+enum DAMAGE_QUEUE_STATES {
+	READY,
+	BUSY
+}
+var _damageNumbersQueueState:DAMAGE_QUEUE_STATES = DAMAGE_QUEUE_STATES.READY
 
 func _ready():
 	Events.connect("PARTY_COMBAT_AT", _on_combatAt)
 
+func _process(delta):
+	if _damageNumbersQueueState == DAMAGE_QUEUE_STATES.READY &&  _damageNumbersQueue.size() > 0:
+		_damageNumbersQueueState = DAMAGE_QUEUE_STATES.BUSY
+		unqueueDamageNumber()
+		
+func queueDamageNumber(position:Vector2, value:int) -> void:
+	_damageNumbersQueue.append({ "position": position, "value": value })
+
+func unqueueDamageNumber() -> void:
+	if _damageNumbersQueue.size() > 0:
+		var dmg = _damageNumbersQueue.pop_front()
+		#position:Vector2, value:int, isHealing:bool, isCritical:bool
+		Events.emit_signal("SPAWN_DAMAGE_NUMBER", dmg.position, dmg.value, false, false )
+		await get_tree().create_timer(_damageNumbersTimerWait).timeout
+		_damageNumbersQueueState = DAMAGE_QUEUE_STATES.READY
 
 func getEnemyById(id:String) -> Dictionary:
 	for enemy in Data.ENEMIES:
@@ -222,9 +244,4 @@ func resolveRules(position:int) -> Enums.ACTION:
 			# resolveAction(position, rule.action)
 			
 	return Enums.ACTION.NONE
-	
-	
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass

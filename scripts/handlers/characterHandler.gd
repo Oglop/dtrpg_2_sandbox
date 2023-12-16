@@ -171,12 +171,13 @@ func getStartingWeaponByClass(type:Enums.CLASSES) -> Dictionary:
 	elif type == Enums.CLASSES.WIZARD:
 		return Statics.ITEMS.STAFF
 	elif type == Enums.CLASSES.HUNTER:
-		return Statics.ITEMS.SPEAR
+		return Statics.ITEMS.SHORT_BOW
 	elif type == Enums.CLASSES.THIEF:
 		return Statics.ITEMS.SHORT_SWORD
 	elif type == Enums.CLASSES.CLERIC:
 		return Statics.ITEMS.CLUB
 	return {}
+
 	
 func getStartingArmorByClass(type:Enums.CLASSES) -> Dictionary:
 	if type == Enums.CLASSES.WARRIOR:
@@ -370,14 +371,19 @@ func getCharacterByPosition(position:int) -> Dictionary:
 		_class = getClassName(Data.CHARACTER_1_TYPE)
 		
 		if Data.CHARACTER_1_WEAPON != null && Data.CHARACTER_1_WEAPON.size() > 0:
+			weapon = Data.CHARACTER_1_WEAPON.name
 			attack = (Data.CHARACTER_1_STRENGTH + Data.CHARACTER_1_WEAPON.value) * levelMultiplyer
 		else:
 			attack = Data.CHARACTER_1_STRENGTH * levelMultiplyer
 		
 		if Data.CHARACTER_1_ARMOR != null && Data.CHARACTER_1_ARMOR.size() > 0:
+			armor = Data.CHARACTER_1_ARMOR.name
 			defence = Data.CHARACTER_1_ARMOR.value * levelMultiplyer
 		else:
 			defence = 1  * levelMultiplyer
+		
+		if Data.CHARACTER_1_ACCESSORY != null && Data.CHARACTER_1_ACCESSORY.size() > 0:
+			accessory = Data.CHARACTER_1_ACCESSORY.name
 		
 		health = Data.CHARACTER_1_HEALTH_CURRENT
 		type = Data.CHARACTER_1_TYPE
@@ -399,14 +405,19 @@ func getCharacterByPosition(position:int) -> Dictionary:
 		_class = getClassName(Data.CHARACTER_2_TYPE)
 		
 		if Data.CHARACTER_2_WEAPON != null && Data.CHARACTER_2_WEAPON.size() > 0:
+			weapon = Data.CHARACTER_2_WEAPON.name
 			attack = (Data.CHARACTER_2_STRENGTH + Data.CHARACTER_2_WEAPON.value) * levelMultiplyer
 		else:
 			attack = Data.CHARACTER_2_STRENGTH * levelMultiplyer
 		
 		if Data.CHARACTER_2_ARMOR != null && Data.CHARACTER_2_ARMOR.size() > 0:
+			armor = Data.CHARACTER_2_ARMOR.name
 			defence = Data.CHARACTER_2_ARMOR.value * levelMultiplyer
 		else:
 			defence = 1 * levelMultiplyer
+			
+		if Data.CHARACTER_2_ACCESSORY != null && Data.CHARACTER_2_ACCESSORY.size() > 0:
+			accessory = Data.CHARACTER_2_ACCESSORY.name
 			
 		health = Data.CHARACTER_2_HEALTH_CURRENT
 		type = Data.CHARACTER_2_TYPE
@@ -430,14 +441,19 @@ func getCharacterByPosition(position:int) -> Dictionary:
 		_class = getClassName(Data.CHARACTER_3_TYPE)
 		
 		if Data.CHARACTER_3_WEAPON != null && Data.CHARACTER_3_WEAPON.size() > 0:
+			weapon = Data.CHARACTER_3_WEAPON.name
 			attack = Data.CHARACTER_3_STRENGTH + Data.CHARACTER_3_WEAPON.value * levelMultiplyer
 		else:
 			attack = Data.CHARACTER_3_STRENGTH * levelMultiplyer
 		
 		if Data.CHARACTER_3_ARMOR != null && Data.CHARACTER_3_ARMOR.size() > 0:
+			armor = Data.CHARACTER_3_ARMOR.name
 			defence = Data.CHARACTER_3_ARMOR.value * levelMultiplyer
 		else:
 			defence = 1 * levelMultiplyer
+			
+		if Data.CHARACTER_3_ACCESSORY != null && Data.CHARACTER_3_ACCESSORY.size() > 0:
+			accessory = Data.CHARACTER_3_ACCESSORY.name
 			
 		health = Data.CHARACTER_3_HEALTH_CURRENT
 		type = Data.CHARACTER_3_TYPE
@@ -461,14 +477,19 @@ func getCharacterByPosition(position:int) -> Dictionary:
 		_class = getClassName(Data.CHARACTER_4_TYPE)
 		
 		if Data.CHARACTER_4_WEAPON != null && Data.CHARACTER_4_WEAPON.size() > 0:
+			weapon = Data.CHARACTER_4_WEAPON.name
 			attack = Data.CHARACTER_4_STRENGTH + Data.CHARACTER_4_WEAPON.value * levelMultiplyer
 		else:
 			attack = Data.CHARACTER_4_STRENGTH * levelMultiplyer
 		
 		if Data.CHARACTER_4_ARMOR != null && Data.CHARACTER_4_ARMOR.size() > 0:
+			armor = Data.CHARACTER_4_ARMOR.name
 			defence = Data.CHARACTER_4_ARMOR.value * levelMultiplyer
 		else:
 			defence = 1 * levelMultiplyer
+			
+		if Data.CHARACTER_4_ACCESSORY != null && Data.CHARACTER_4_ACCESSORY.size() > 0:
+			accessory = Data.CHARACTER_4_ACCESSORY.name
 			
 		health = Data.CHARACTER_4_HEALTH_CURRENT
 		type = Data.CHARACTER_4_TYPE
