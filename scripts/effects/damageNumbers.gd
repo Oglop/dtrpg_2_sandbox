@@ -1,29 +1,33 @@
 extends Node2D
 
-var _y:float = self.global_position.y
-var _deathTimer:float = 1.2
+var _deathTimer:float = 0.6
 var _value:int = 0
 var _isHealing:bool = false
 var _isCritical:bool = false
 var _verticalVelocity:float = 0.2
 
 func setProperties(position:Vector2, value:int, isHealing:bool, isCritical:bool) -> void:
-	self.global_position = position
 	_value = value
 	_isCritical = isCritical
 	_isHealing = isHealing
-	$CanvasLayer/Label.text = str(_value)
-	$Timer.start(_deathTimer)
-	
-# Called when the node enters the scene tree for the first time.
+	setStyle()
+
+func setStyle() -> void:
+	if _isHealing:
+		$Control/Label.text = str(_value)
+		$Control/Label.add_theme_color_override("font_color", Color("58d025"))
+	else:
+		$Control/Label.text = str(_value * -1)
+		$Control/Label.add_theme_color_override("font_color", Color("ff0000"))
+		
+	if _isCritical:
+		$Control/Label.add_theme_font_size_override("font_size", 24)
+
 func _ready():
-	pass # Replace with function body.
+	$Timer.start(_deathTimer)
 
 func _physics_process(delta):
-	_y -= _verticalVelocity
-	self.global_position = Vector2(self.global_position.x, _y)
-	$CanvasLayer/MarginContainer/Label.global_position = Vector2(self.global_position.x, _y)
-
+	$Control/Label.global_position.y -= _verticalVelocity
 
 func _on_timer_timeout():
 	self.queue_free()

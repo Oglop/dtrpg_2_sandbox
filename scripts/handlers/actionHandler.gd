@@ -6,6 +6,9 @@ var defaultMinValue:int = 99999
 func _ready():
 	pass # Replace with function body.
 	
+func getPartyMemberGlobalPosition(position:int) -> Vector2:
+	return Vector2(Globals.X_POSITIONS[position], Globals.Y_POSITIONS[position])
+	
 func percentage(part:int, whole:int) -> int:
 	if part == 0 || whole == 0:
 		return 0
@@ -69,12 +72,14 @@ func resolveAttackAction(attack:int, defence:int, attackerDexterity:int, attacke
 	
 	Events.emit_signal("SYSTEM_WRITE_LOG", str(attackerName, " attacks ", defenderName, " and misses."), Enums.SYSTEM_LOG_TYPE.BATTLE)
 	return 0
+
 	
 func resolvePotionSelfAction(position:int) -> void:
 	if InventoryHandler.itemExists("Potion"):
 		var item = InventoryHandler.withdrawItem("Potion")
 		Events.emit_signal("PARTY_ADD_HEALTH", position, item.value)
 		Events.emit_signal("UPDATE_HP_BOX")
+		Events.emit_signal("QUEUE_DAMAGE_NUMBER", getPartyMemberGlobalPosition(position), item.value, false, true)
 		Events.emit_signal("SYSTEM_WRITE_LOG", str(CharacterHandler.getCharacterName(position), " drinks a potion."), Enums.SYSTEM_LOG_TYPE.BATTLE)
 
 func resolveUsePotionAllyAction() -> void:
@@ -82,6 +87,7 @@ func resolveUsePotionAllyAction() -> void:
 		var targetPosition = getPositionWithLowestHealthAny()
 		if targetPosition != defaultMinValue:
 			var potion = InventoryHandler.withdrawItem(Statics.ITEMS.POTION.name)
+			Events.emit_signal("QUEUE_DAMAGE_NUMBER", getPartyMemberGlobalPosition(targetPosition), potion.value, false, true)
 			Events.emit_signal("PARTY_ADD_HEALTH", targetPosition, potion.value) # position:int, value:int
 			Events.emit_signal("SYSTEM_WRITE_LOG", str(CharacterHandler.getCharacterName(targetPosition), " drinks a potion."), Enums.SYSTEM_LOG_TYPE.BATTLE)
 			
@@ -99,6 +105,7 @@ func resolveUseElexir(position:int) -> void:
 		characters.shuffle()
 		if characters.size() > 0:
 			var elexir = InventoryHandler.withdrawItem(Statics.ITEMS.ELEXIR.name)
+			Events.emit_signal("QUEUE_DAMAGE_NUMBER", getPartyMemberGlobalPosition(characters[0]), elexir.value, false, true)
 			Events.emit_signal("PARTY_REVIVE_CHARACTER", characters[0], elexir.value)
 			Events.emit_signal("SYSTEM_WRITE_LOG", str(CharacterHandler.getCharacterName(position), " uses an elexir on ", CharacterHandler.getCharacterName(characters[0]), "."), Enums.SYSTEM_LOG_TYPE.BATTLE)
 		
@@ -106,17 +113,17 @@ func resolveHerbSelfAction(position:int) -> void:
 	if InventoryHandler.itemExists(Statics.ITEMS.HERB.name):
 		var item = InventoryHandler.withdrawItem(Statics.ITEMS.HERB.name)
 		Events.emit_signal("PARTY_ADD_MAGIC", position, item.value)
+		Events.emit_signal("QUEUE_DAMAGE_NUMBER", getPartyMemberGlobalPosition(position), item.value, false, true)
 		Events.emit_signal("UPDATE_HP_BOX")
 		Events.emit_signal("SYSTEM_WRITE_LOG", str(CharacterHandler.getCharacterName(position), " uses a herb."), Enums.SYSTEM_LOG_TYPE.BATTLE)
 
 func resolveUseHerbAllyAction() -> void:
 	if InventoryHandler.itemExists(Statics.ITEMS.POTION.name):
-
 		var lowest = getPositionWithLowestHealthAny()
 		
-
 		if lowest != defaultMinValue:
 			var herb = InventoryHandler.withdrawItem(Statics.ITEMS.POTION.name)
+			Events.emit_signal("QUEUE_DAMAGE_NUMBER", getPartyMemberGlobalPosition(lowest), herb.value, false, true)
 			Events.emit_signal("PARTY_ADD_MAGIC", lowest, herb.value) # position:int, value:int
 			Events.emit_signal("SYSTEM_WRITE_LOG", str(CharacterHandler.getCharacterName(lowest), " drinks a potion."), Enums.SYSTEM_LOG_TYPE.BATTLE)
 
@@ -147,6 +154,7 @@ func resolveCastHealAction(position:int) -> void:
 		var randomness = rng.randi_range(-Statics.SPELLS.HEAL.randomness, Statics.SPELLS.HEAL.randomness)
 		effect = effect + randomness
 		var targetPosition = getPositionWithLowestHealthAny()
+		Events.emit_signal("QUEUE_DAMAGE_NUMBER", getPartyMemberGlobalPosition(targetPosition), effect, false, true)
 		Events.emit_signal("PARTY_ADD_HEALTH", targetPosition, effect) # position:int, value:int
 		Events.emit_signal("SYSTEM_WRITE_LOG", str(CharacterHandler.getCharacterName(position), " casts heal on ", str(CharacterHandler.getCharacterName(targetPosition)), Enums.SYSTEM_LOG_TYPE.BATTLE))
 

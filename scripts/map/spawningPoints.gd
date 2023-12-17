@@ -15,5 +15,5 @@ func spawnAndSnap() -> void:
 	var spawningPoints:Array = self.get_children()
 	for spawningPoint in spawningPoints:
 		var position = snapToGrid(spawningPoint.global_position)
-		Events.emit_signal("ADD_ENEMY_TO_MAP", position)
+		Events.emit_signal("ADD_ENEMY_TO_MAP", Enums.ENEMY_TYPES.GOBLIN, position) 
 	

@@ -13,20 +13,21 @@ var _damageNumbersQueueState:DAMAGE_QUEUE_STATES = DAMAGE_QUEUE_STATES.READY
 
 func _ready():
 	Events.connect("PARTY_COMBAT_AT", _on_combatAt)
+	Events.connect("QUEUE_DAMAGE_NUMBER", _on_queueDamageNumber)
 
 func _process(delta):
 	if _damageNumbersQueueState == DAMAGE_QUEUE_STATES.READY &&  _damageNumbersQueue.size() > 0:
 		_damageNumbersQueueState = DAMAGE_QUEUE_STATES.BUSY
 		unqueueDamageNumber()
 		
-func queueDamageNumber(position:Vector2, value:int) -> void:
-	_damageNumbersQueue.append({ "position": position, "value": value })
+func _on_queueDamageNumber(position:Vector2, value:int, isCritical:bool, isHeal:bool) -> void:
+	_damageNumbersQueue.append({ "position": position, "value": value, "isCritical": isCritical, "isHeal": isHeal  })
 
 func unqueueDamageNumber() -> void:
 	if _damageNumbersQueue.size() > 0:
 		var dmg = _damageNumbersQueue.pop_front()
 		#position:Vector2, value:int, isHealing:bool, isCritical:bool
-		Events.emit_signal("SPAWN_DAMAGE_NUMBER", dmg.position, dmg.value, false, false )
+		Events.emit_signal("SPAWN_DAMAGE_NUMBER", dmg.position, dmg.value, dmg.isCritical, dmg.isHeal )
 		await get_tree().create_timer(_damageNumbersTimerWait).timeout
 		_damageNumbersQueueState = DAMAGE_QUEUE_STATES.READY
 
@@ -103,6 +104,7 @@ func resolveEnemyAttack(enemyDetail:Dictionary) -> void:
 		Data.CHARACTER_4_HEALTH_CURRENT -= dmg
 		if Data.CHARACTER_4_HEALTH_CURRENT < 0:
 			Data.CHARACTER_4_HEALTH_CURRENT = 0
+	Events.emit_signal("QUEUE_DAMAGE_NUMBER", ActionHandler.getPartyMemberGlobalPosition(characterPosition), dmg, false, false)
 	Events.emit_signal("SYSTEM_WRITE_LOG", str(enemyDetail.name, " hit ", character.name, " for ", dmg, " damage." ), Enums.SYSTEM_LOG_TYPE.BATTLE)
 	Events.emit_signal("UPDATE_HP_BOX")
 	
