@@ -20,6 +20,7 @@ func _on_spawnEnemy(id:String, position:Vector2, type:Enums.ENEMY_TYPES) -> void
 	
 func _on_spawnDamageNumber(position:Vector2, value:int, isHealing:bool, isCritical:bool) -> void:
 	var dmg = SceneLoader.getScene(Enums.SCENE_TYPE.DAMAGE_NUMBERS)
+	position.x += 8
 	dmg.set_global_position(position)
 	dmg.setProperties(position, value, isHealing, isCritical)
 	self.add_child(dmg)

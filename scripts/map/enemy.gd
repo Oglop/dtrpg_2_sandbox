@@ -26,7 +26,7 @@ func _on_partyMovedTo(partyGlobalPosition:Vector2) -> void:
 	var distance:int = self.global_position.distance_to(partyGlobalPosition)
 	#var distance = abs(partyGlobalPosition.direction_to() - self.global_position)
 	if distance > Statics.ROOM_SIZE * 20:
-		self.queue_free()
+		_state = Enums.ENEMY_STATES.INACTIVE
 	if distance < Statics.ROOM_SIZE * 8:
 		if _state == Enums.ENEMY_STATES.INACTIVE:
 			_state = Enums.ENEMY_STATES.CHASING

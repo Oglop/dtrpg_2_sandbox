@@ -145,7 +145,7 @@ func getRandomEnemy(enemy:Dictionary) -> Dictionary:
 		return alive[0]
 	return {}
 
-func resolveTurn(position:Vector2, enemy:Dictionary) -> void:
+func resolveTurn(enemyPosition:Vector2, enemy:Dictionary) -> void:
 	var enemyAttacking:bool = false
 	var detail:Dictionary = {}
 	var health:int = 0
@@ -200,7 +200,7 @@ func resolveTurn(position:Vector2, enemy:Dictionary) -> void:
 				Events.emit_signal("SYSTEM_WRITE_LOG", str(CharacterHandler.getCharacterName(actionTaker), " is idling."), Enums.SYSTEM_LOG_TYPE.BATTLE)
 			else:
 				var enemeyDetail = getRandomEnemy(enemy)
-				resolveAction(actionTaker, enemeyDetail, action)
+				resolveAction(actionTaker, enemeyDetail, action, enemyPosition)
 		
 		# if no characters loose
 		if !isPartyAlive():
@@ -216,10 +216,10 @@ func resolveTurn(position:Vector2, enemy:Dictionary) -> void:
 
 ## actionResolve
 ## resolve action for character in position
-func resolveAction(position:int, enemeyDetail:Dictionary, action:Enums.ACTION) -> void:
+func resolveAction(position:int, enemeyDetail:Dictionary, action:Enums.ACTION, enemyPosition:Vector2) -> void:
 	var attacker = CharacterHandler.getCharacterByPosition(position)
 	if action == Enums.ACTION.ATTACK:
-		var damage = ActionHandler.resolveAttackAction(attacker.attack, enemeyDetail.defence, attacker.agility, attacker.luck, attacker.name, enemeyDetail.name)
+		var damage = ActionHandler.resolveAttackAction(attacker.attack, enemeyDetail.defence, attacker.agility, attacker.luck, attacker.name, enemeyDetail.name, enemyPosition)
 		enemeyDetail.health -= damage
 	elif action == Enums.ACTION.USE_POTION_SELF:
 		ActionHandler.resolvePotionSelfAction(position)
@@ -233,7 +233,9 @@ func resolveAction(position:int, enemeyDetail:Dictionary, action:Enums.ACTION) -
 		ActionHandler.resolveUseHerbAllyAction()
 	elif action == Enums.ACTION.CAST_HEAL:
 		ActionHandler.resolveCastHealAction(position)
-		
+	elif action == Enums.ACTION.CAST_FIREBALL:
+		var damage = ActionHandler.resolveCastFireballAction(position, attacker.name, enemeyDetail, enemyPosition)
+		enemeyDetail.health -= damage
 	
 ## resolveRules
 ## postion
