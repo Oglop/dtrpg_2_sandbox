@@ -1,0 +1,83 @@
+[gd_scene load_steps=3 format=3 uid="uid://pcy3fvfptfqx"]
+
+[ext_resource type="Script" path="res://scripts/menus/characterSelect.gd" id="1_ifbkf"]
+[ext_resource type="Theme" uid="uid://dss6di43qaueh" path="res://media/themes/textBoxTheme.tres" id="2_jww3g"]
+
+[node name="characterSelect" type="CanvasLayer"]
+script = ExtResource("1_ifbkf")
+
+[node name="MarginContainer1" type="MarginContainer" parent="."]
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 52.0
+offset_bottom = 18.0
+
+[node name="Panel" type="Panel" parent="MarginContainer1"]
+layout_mode = 2
+theme = ExtResource("2_jww3g")
+
+[node name="Label" type="Label" parent="MarginContainer1/Panel"]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 42.0
+offset_bottom = 18.0
+text = "WWMWM"
+
+[node name="MarginContainer2" type="MarginContainer" parent="."]
+offset_left = 2.0
+offset_top = 20.0
+offset_right = 52.0
+offset_bottom = 36.0
+
+[node name="Panel" type="Panel" parent="MarginContainer2"]
+layout_mode = 2
+theme = ExtResource("2_jww3g")
+
+[node name="Label" type="Label" parent="MarginContainer2/Panel"]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 44.0
+offset_bottom = 18.0
+text = "WWMWM"
+
+[node name="MarginContainer3" type="MarginContainer" parent="."]
+offset_left = 2.0
+offset_top = 38.0
+offset_right = 52.0
+offset_bottom = 54.0
+
+[node name="Panel" type="Panel" parent="MarginContainer3"]
+layout_mode = 2
+theme = ExtResource("2_jww3g")
+
+[node name="Label" type="Label" parent="MarginContainer3/Panel"]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 44.0
+offset_bottom = 18.0
+text = "WWMWM"
+
+[node name="MarginContainer4" type="MarginContainer" parent="."]
+offset_left = 2.0
+offset_top = 56.0
+offset_right = 52.0
+offset_bottom = 72.0
+
+[node name="Panel" type="Panel" parent="MarginContainer4"]
+layout_mode = 2
+theme = ExtResource("2_jww3g")
+
+[node name="Label" type="Label" parent="MarginContainer4/Panel"]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 44.0
+offset_bottom = 18.0
+text = "WWMWM"
+
+[node name="Timer" type="Timer" parent="."]
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

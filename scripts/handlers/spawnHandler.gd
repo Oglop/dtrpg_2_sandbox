@@ -5,6 +5,7 @@ func _ready():
 	Events.connect("PARTY_SPAWN_CHARACTER", _on_partySpawnCharacter)
 	Events.connect("SPAWN_ENEMY_ACTOR", _on_spawnEnemy)
 	Events.connect("SPAWN_DAMAGE_NUMBER", _on_spawnDamageNumber)
+	Events.connect("SPAWN_FIREBALL", _on_spawnFireball)
 	
 func _on_partySpawnCharacter(position:int, type:Enums.CLASSES) -> void:
 	var playerSpriteScene = SceneLoader.getScene(Enums.SCENE_TYPE.PLAYER_SPRITE)
@@ -24,3 +25,8 @@ func _on_spawnDamageNumber(position:Vector2, value:int, isHealing:bool, isCritic
 	dmg.set_global_position(position)
 	dmg.setProperties(position, value, isHealing, isCritical)
 	self.add_child(dmg)
+	
+func _on_spawnFireball(position:Vector2) -> void:
+	var  fb = SceneLoader.getScene(Enums.SCENE_TYPE.FIREBALL)
+	fb.global_position = position
+	self.add_child(fb)
