@@ -4,37 +4,44 @@ var unselectedTheme:Theme = preload("res://media/themes/textBoxTheme.tres")
 var selectedTheme:Theme = preload("res://media/themes/selectedTeme.tres")
 
 var _timerWait:float = 0.2
-var _active:bool = true
-var _inputBlocked:bool = false
+var _active:bool = false
+var _inputBlocked:bool = true
 var _index:int = 0
-
-func setActive(active:bool) -> void:
-	_active = active
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	Events.connect("INPUT_UP", _on_inputUp)
 	Events.connect("INPUT_DOWN", _on_inputDown)
+	Events.connect("INPUT_ACCEPT", _on_inputAccept)
+	Events.connect("INPUT_CANCEL", _on_inputCancel)
+	Events.connect("CHARACTER_SELECT_ACTIVE", _on_characterSelectActive)
 	updateUI()
 
-func inputBlock() -> void:
-	$Timer.start(_timerWait)
+func inputBlock(delay:float = 0.4) -> void:
+	$Timer.start(delay)
 	_inputBlocked = true
+	
+func _on_characterSelectActive(active:bool) -> void:
+	inputBlock()
+	_active = active
+	updateUI()
 	
 func _on_inputUp() -> void:
 	if _active && !_inputBlocked:
-		inputBlock()
+		inputBlock(_timerWait)
 		_index -= 1
 		if _index < 0:
 			_index = 0
+		Events.emit_signal("CHARACTER_SELECT_CHANGED", _index)
 		updateUI()
 	
 func _on_inputDown() -> void:
 	if _active && !_inputBlocked:
-		inputBlock()
+		inputBlock(_timerWait)
 		_index += 1
 		if _index > 3:
 			_index = 3
+		Events.emit_signal("CHARACTER_SELECT_CHANGED", _index)
 		updateUI()
 		
 func _on_inputAccept() -> void:

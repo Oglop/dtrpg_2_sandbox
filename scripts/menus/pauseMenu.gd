@@ -95,6 +95,7 @@ func _on_inputAccept() -> void:
 		setInputBlocked()
 		if _state == MENU_STATES.MAIN:
 			if _mainIndex == 0:
+				Events.emit_signal("SET_INVENTORY_ITEMS_ALL_ACTIVE", true)
 				_state = MENU_STATES.INVENTORY
 			elif _mainIndex == 1:
 				_state = MENU_STATES.STATUS
@@ -114,6 +115,7 @@ func _on_inputCancel() -> void:
 			_state = MENU_STATES.MAIN
 		if _state == MENU_STATES.INVENTORY:
 			_state = MENU_STATES.MAIN
+			Events.emit_signal("SET_INVENTORY_ITEMS_ALL_ACTIVE", false)
 		if _state == MENU_STATES.RULES:
 			_state = MENU_STATES.MAIN
 	updateUI()
@@ -133,12 +135,12 @@ func updateUI() -> void:
 		setCharacterCardVisible(false)
 		
 		
-	if _state == MENU_STATES.INVENTORY || _state == MENU_STATES.INVENTORY_EQUIP || _state == MENU_STATES.INVENTORY_USE || _state == MENU_STATES.INVENTORY_EQUIP_CHARACTER || _state == MENU_STATES.INVENTORY_USE_CHARACTER:
-		setInventoryMenuVisible(true)
-#		setCharacterCardVisible(true)
-	else:
-		setInventoryMenuVisible(false)
-#		setCharacterCardVisible(false)
+#	if _state == MENU_STATES.INVENTORY || _state == MENU_STATES.INVENTORY_EQUIP || _state == MENU_STATES.INVENTORY_USE || _state == MENU_STATES.INVENTORY_EQUIP_CHARACTER || _state == MENU_STATES.INVENTORY_USE_CHARACTER:
+#		setInventoryMenuVisible(true)
+##		setCharacterCardVisible(true)
+#	else:
+#		setInventoryMenuVisible(false)
+##		setCharacterCardVisible(false)
 		
 	if _state == MENU_STATES.RULES:
 		setRulesMenuVisible(true)
@@ -175,6 +177,7 @@ func setCharacterSelectVisible(visible:bool) -> void:
 	
 func setCharacterCardVisible(visible:bool) -> void:
 	$characterCard.visible = visible
+	Events.emit_signal("VISIBLE_CHARACTER_CARD", visible)
 
 func setRulesMenuVisible(visible:bool) -> void:
 	$rulesMenu.visible = visible 

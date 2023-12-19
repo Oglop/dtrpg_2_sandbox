@@ -3,6 +3,7 @@ extends MarginContainer
 func _ready():
 	Events.connect("LOAD_CHARACTER_CARD", _on_loadCharacterCardByPosition)
 	Events.connect("VISIBLE_CHARACTER_CARD", _on_setVisisble)
+	Events.connect("CHARACTER_SELECT_CHANGED",  _on_loadCharacterCardByPosition)
 
 func _on_setVisisble(visible:bool) -> void:
 	self.visible = visible

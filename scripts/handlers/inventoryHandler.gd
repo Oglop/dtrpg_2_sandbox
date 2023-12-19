@@ -98,6 +98,9 @@ func equipAccessoryCharacter(position:int, accessory:Dictionary) -> bool:
 		Data.CHARACTER_4_ACCESSORY = accessory
 	return true
 	
+func useConsumable(item:Dictionary, position:int) -> void:
+	pass
+	
 	
 func rebuildInventory() -> void:
 	var items:Array = []

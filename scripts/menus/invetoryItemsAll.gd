@@ -1,5 +1,6 @@
 extends CanvasLayer
 
+var _active:bool = false
 var _wait:float = 0.2
 var _state:MENU_STATE = MENU_STATE.MAIN
 var _pressableState:PRESSABLE = PRESSABLE.NO
@@ -14,12 +15,20 @@ enum PRESSABLE {
 }
 
 var _viewableScrollIndex:int = 0
+var _actualIndex:int = 0
 var _viewableSize:int = 12
 var _viewableList:Array = []
 
 func _ready():
 	Events.connect("INPUT_UP", _on_inputUp)
 	Events.connect("INPUT_DOWN", _on_inputDown)
+	Events.connect("INPUT_ACCEPT", _on_inputAccept)
+	Events.connect("INPUT_CANCEL", _on_inputCancel)
+	Events.connect("SET_INVENTORY_ITEMS_ALL_ACTIVE", _on_setActive)
+	Events.connect("CHARACTER_SELECT_ACCEPTED",_on_characterSelectAccepted )
+	Events.connect("CHARACTER_SELECT_CANCEL", _on_characterSelectCancel)
+	
+	
 	Events.emit_signal("INVENTORY_ADD", Statics.ITEMS.POTION)
 	Events.emit_signal("INVENTORY_ADD", Statics.ITEMS.POTION)
 	Events.emit_signal("INVENTORY_ADD", Statics.ITEMS.POTION)
@@ -29,40 +38,87 @@ func _ready():
 	Events.emit_signal("INVENTORY_ADD", Statics.ITEMS.ELIXIR)
 	Events.emit_signal("INVENTORY_ADD", Statics.ITEMS.ELIXIR)
 	
-	
 	updateViewableList(_viewableScrollIndex)
 	updateLabels()
 	setIndexArrowPosition(_viewableScrollIndex)
-	setUnpressable()
+	
+	_on_setActive(false)
 
-func setUnpressable() -> void:
-	$Timer.start(_wait)
+func setUnpressable(delay = 0.2) -> void:
+	$Timer.start(delay)
 	_pressableState = PRESSABLE.NO
 
+func _on_setActive(active:bool) -> void:
+	_active = active
+	self.visible = active
+	if active:
+		_viewableScrollIndex = 0
+		_actualIndex = 0
+		setUnpressable(0.4)
+		
+func _on_characterSelectAccepted(position:int) -> void:
+	Events.emit_signal("CHARACTER_SELECT_ACTIVE", false)
+	if _state == MENU_STATE.USE:
+		var item = InventoryHandler.withdrawItem(Data.PARTY_ITEMS[_actualIndex].name)
+		InventoryHandler.useConsumable(item, position)
+		_state = MENU_STATE.MAIN
+	updateViewableList(_viewableScrollIndex)
+	updateLabels()
+	
+func _on_characterSelectCancel() -> void:
+	Events.emit_signal("CHARACTER_SELECT_ACTIVE", false)
+	if _state == MENU_STATE.USE:
+		_state = MENU_STATE.MAIN
+
 func _on_inputDown() -> void:
-	if _pressableState == PRESSABLE.YES:
-		setUnpressable()
-		setViewableScrollIndex(true)
-		setIndexArrowPosition(_viewableScrollIndex)
+	if _active:
+		if _pressableState == PRESSABLE.YES:
+			setUnpressable()
+			if _state == MENU_STATE.MAIN:
+				setViewableScrollIndex(true)
+				setIndexArrowPosition(_viewableScrollIndex)
 	
 func _on_inputUp() -> void:
-	if _pressableState == PRESSABLE.YES:
-		setUnpressable()
-		setViewableScrollIndex(false)
-		setIndexArrowPosition(_viewableScrollIndex)
+	if _active:
+		if _pressableState == PRESSABLE.YES:
+			setUnpressable()
+			if _state == MENU_STATE.MAIN:
+				setViewableScrollIndex(false)
+				setIndexArrowPosition(_viewableScrollIndex)
+			
+func _on_inputAccept() -> void:
+	if _active:
+		if _pressableState == PRESSABLE.YES:
+			var type = Data.PARTY_ITEMS[_actualIndex].type
+			if type == Enums.ITEM_TYPES.CONSUMABLE:
+				_state = MENU_STATE.USE
+				Events.emit_signal("CHARACTER_SELECT_ACTIVE", true)
+			setUnpressable()
 		
+func _on_inputCancel() -> void:
+	if _active:
+		if _pressableState == PRESSABLE.YES:
+			if _state == MENU_STATE.USE:
+				_state = MENU_STATE.MAIN
+		setUnpressable()
+				
 func setViewableScrollIndex(increment:bool) -> void:
-	
 	if increment:
 		_viewableScrollIndex += 1
+		_actualIndex += 1
 	else:
 		_viewableScrollIndex -= 1
+		_actualIndex -= 1
 		
-	if _viewableScrollIndex > Data.PARTY_ITEMS.size() - 1: #_viewableList.size():
-		_viewableScrollIndex = Data.PARTY_ITEMS.size() - 1 #_viewableList.size()
+	if _actualIndex > Data.PARTY_ITEMS.size() - 1:
+		_actualIndex = Data.PARTY_ITEMS.size() - 1
+	if _actualIndex < 0:
+			_actualIndex = 0
+		
+	if _viewableScrollIndex > Data.PARTY_ITEMS.size() - 1:
+		_viewableScrollIndex = Data.PARTY_ITEMS.size() - 1
 	if _viewableScrollIndex < 0:
 			_viewableScrollIndex = 0
-		
 		
 func updateViewableList(viewableScrollIndex:int) -> void:
 	_viewableList = []

@@ -162,6 +162,31 @@ func getRulesByClass(type:Enums.CLASSES) -> Array:
 	elif type == Enums.CLASSES.CLERIC:
 		return Statics.CLASSES_ATRIBUTES.CLERIC.RULES
 	return []
+
+func addActionsByLevelAndClass(type:Enums.CLASSES, lv:int) -> Array:
+	var actions:Array
+	var lvIndex:String = ""
+	for n in range(1, lv):
+		lvIndex = str("LV", n)
+		if type == Enums.CLASSES.WARRIOR:
+			if Statics.CLASSES_ATRIBUTES.WARRIOR.ACTIONS_LEVEL[lvIndex] != null:
+				actions.append_array(Statics.CLASSES_ATRIBUTES.WARRIOR.ACTIONS_LEVEL[lvIndex])
+		elif type == Enums.CLASSES.KNIGHT:
+			if Statics.CLASSES_ATRIBUTES.KNIGHT.ACTIONS_LEVEL[lvIndex] != null:
+				actions.append_array(Statics.CLASSES_ATRIBUTES.KNIGHT.ACTIONS_LEVEL[lvIndex])
+		elif type == Enums.CLASSES.WIZARD:
+			if Statics.CLASSES_ATRIBUTES.WIZARD.ACTIONS_LEVEL[lvIndex] != null:
+				actions.append_array(Statics.CLASSES_ATRIBUTES.WIZARD.ACTIONS_LEVEL[lvIndex])
+		elif type == Enums.CLASSES.HUNTER:
+			if Statics.CLASSES_ATRIBUTES.HUNTER.ACTIONS_LEVEL[lvIndex] != null:
+				actions.append_array(Statics.CLASSES_ATRIBUTES.HUNTER.ACTIONS_LEVEL[lvIndex])
+		elif type == Enums.CLASSES.THIEF:
+			if Statics.CLASSES_ATRIBUTES.THIEF.ACTIONS_LEVEL[lvIndex] != null:
+				actions.append_array(Statics.CLASSES_ATRIBUTES.THIEF.ACTIONS_LEVEL[lvIndex])
+		elif type == Enums.CLASSES.CLERIC:
+			if Statics.CLASSES_ATRIBUTES.CLERIC.ACTIONS_LEVEL[lvIndex] != null:
+				actions.append_array(Statics.CLASSES_ATRIBUTES.CLERIC.ACTIONS_LEVEL[lvIndex])
+	return actions
 	
 func getStartingWeaponByClass(type:Enums.CLASSES) -> Dictionary:
 	if type == Enums.CLASSES.WARRIOR:

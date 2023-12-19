@@ -242,12 +242,14 @@ var CLASSES_ATRIBUTES:Dictionary = {
 		],
 		"AVAILABLE_ACTIONS": [
 			Enums.ACTION.ATTACK,
-			Enums.ACTION.STEAL,
-			Enums.ACTION.BACK_STAB,
 			Enums.ACTION.USE_POTION_SELF,
 			Enums.ACTION.DEFEND,
 			Enums.ACTION.USE_POTION_ALLY,
-		]
+		],
+		"ACTIONS_LEVEL": {
+			"LV3": [ Enums.ACTION.STEAL ],
+			"LV6": [ Enums.ACTION.BACK_STAB ]
+		}
 	},
 	"CLERIC": {
 		"HEALTH_BASE": 24,
