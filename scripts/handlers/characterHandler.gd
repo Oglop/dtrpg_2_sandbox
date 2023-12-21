@@ -43,6 +43,32 @@ func getClassName(type:Enums.CLASSES) -> String:
 		return "Cleric"
 	return ""
 
+func getEquipableByTypeAndPosition(position:int, itemType:Enums.ITEM_TYPES) -> bool:
+	if position == 0:
+		return Data.CHARACTER_1_EQUIPABLE.find(itemType) >= 0
+	elif position == 1:
+		return Data.CHARACTER_2_EQUIPABLE.find(itemType) >= 0
+	elif position == 2:
+		return Data.CHARACTER_3_EQUIPABLE.find(itemType) >= 0
+	elif position == 3:
+		return Data.CHARACTER_4_EQUIPABLE.find(itemType) >= 0
+	return false
+		
+func getCharacterEquipableByClass(type:Enums.CLASSES) -> Array:
+	if type == Enums.CLASSES.WARRIOR:
+		return Statics.CLASSES_ATRIBUTES.WARRIOR.EQUIP_TYPES
+	elif type == Enums.CLASSES.KNIGHT:
+		return Statics.CLASSES_ATRIBUTES.KNIGHT.EQUIP_TYPES
+	elif type == Enums.CLASSES.WIZARD:
+		return Statics.CLASSES_ATRIBUTES.WIZARD.EQUIP_TYPES
+	elif type == Enums.CLASSES.HUNTER:
+		return Statics.CLASSES_ATRIBUTES.HUNTER.EQUIP_TYPES
+	elif type == Enums.CLASSES.THIEF:
+		return Statics.CLASSES_ATRIBUTES.THIEF.EQUIP_TYPES
+	elif type == Enums.CLASSES.CLERIC:
+		return Statics.CLASSES_ATRIBUTES.CLERIC.EQUIP_TYPES
+	return []
+
 ## Return Array of rules for character
 ## [{ 
 ##   rule: Enums.RULE
@@ -230,6 +256,7 @@ func setNewCharacterOfType(type:Enums.CLASSES, position:int) -> void:
 	var weapon:Dictionary = getStartingWeaponByClass(type)
 	var armor:Dictionary = getStartingArmorByClass(type)
 	var name:String = getCharacterNameByPositionAndClass(type, position)
+	var equiplables:Array = getCharacterEquipableByClass(type)
 	if position == 0:
 		Data.CHARACTER_1_TYPE = type
 		Data.CHARACTER_1_NAME = name
@@ -247,6 +274,7 @@ func setNewCharacterOfType(type:Enums.CLASSES, position:int) -> void:
 		Data.CHARACTER_1_RULES = rules
 		Data.CHARACTER_1_WEAPON = weapon
 		Data.CHARACTER_1_ARMOR = armor
+		Data.CHARACTER_1_EQUIPABLE = equiplables
 		Data.CHARACTER_1_ACCESSORY = {}
 	elif position == 1:
 		Data.CHARACTER_2_TYPE = type
@@ -265,6 +293,7 @@ func setNewCharacterOfType(type:Enums.CLASSES, position:int) -> void:
 		Data.CHARACTER_2_RULES = rules
 		Data.CHARACTER_2_WEAPON = weapon
 		Data.CHARACTER_2_ARMOR = armor
+		Data.CHARACTER_2_EQUIPABLE = equiplables
 		Data.CHARACTER_2_ACCESSORY = {}
 	elif position == 2:
 		Data.CHARACTER_3_TYPE = type
@@ -283,6 +312,7 @@ func setNewCharacterOfType(type:Enums.CLASSES, position:int) -> void:
 		Data.CHARACTER_3_RULES = rules
 		Data.CHARACTER_3_WEAPON = weapon
 		Data.CHARACTER_3_ARMOR = armor
+		Data.CHARACTER_3_EQUIPABLE = equiplables
 		Data.CHARACTER_3_ACCESSORY = {}
 	elif position == 3:
 		Data.CHARACTER_4_TYPE = type
@@ -301,6 +331,7 @@ func setNewCharacterOfType(type:Enums.CLASSES, position:int) -> void:
 		Data.CHARACTER_4_RULES = rules
 		Data.CHARACTER_4_WEAPON = weapon
 		Data.CHARACTER_4_ARMOR = armor
+		Data.CHARACTER_4_EQUIPABLE = equiplables
 		Data.CHARACTER_4_ACCESSORY = {}
 	
 func getCharacterNameByPositionAndClass(type:Enums.CLASSES, position:int) -> String:

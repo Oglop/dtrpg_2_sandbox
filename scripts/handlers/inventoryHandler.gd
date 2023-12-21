@@ -31,22 +31,22 @@ func withdrawItem(name:String) -> Dictionary:
 	
 func equipWeaponCharacter(position:int, weapon:Dictionary) -> bool:
 	if position == 0:
-		if Data.CHARACTER_1_WEAPON != null:
+		if !Data.CHARACTER_1_WEAPON.is_empty():
 			var equipedWeapon:Dictionary = Data.CHARACTER_1_WEAPON
 			addItem(equipedWeapon)
 		Data.CHARACTER_1_WEAPON = weapon
 	elif position == 1:
-		if Data.CHARACTER_2_WEAPON != null:
+		if !Data.CHARACTER_2_WEAPON.is_empty():
 			var equipedWeapon:Dictionary = Data.CHARACTER_2_WEAPON
 			addItem(equipedWeapon)
 		Data.CHARACTER_2_WEAPON = weapon
 	elif position == 2:
-		if Data.CHARACTER_3_WEAPON != null:
+		if !Data.CHARACTER_3_WEAPON.is_empty():
 			var equipedWeapon:Dictionary = Data.CHARACTER_3_WEAPON
 			addItem(equipedWeapon)
 		Data.CHARACTER_3_WEAPON = weapon	
 	elif position == 3:
-		if Data.CHARACTER_4_WEAPON != null:
+		if !Data.CHARACTER_4_WEAPON.is_empty():
 			var equipedWeapon:Dictionary = Data.CHARACTER_4_WEAPON
 			addItem(equipedWeapon)
 		Data.CHARACTER_4_WEAPON = weapon

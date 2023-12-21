@@ -1,0 +1,42 @@
+[gd_scene load_steps=3 format=3 uid="uid://vqq81h2igfeo"]
+
+[ext_resource type="Script" path="res://scripts/menus/compareEquipables.gd" id="1_qvhku"]
+[ext_resource type="Theme" uid="uid://dss6di43qaueh" path="res://media/themes/textBoxTheme.tres" id="2_mhwg0"]
+
+[node name="compareEquipables" type="CanvasLayer"]
+script = ExtResource("1_qvhku")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+offset_left = 35.0
+offset_top = 207.0
+offset_right = 289.0
+offset_bottom = 224.0
+
+[node name="Panel" type="Panel" parent="MarginContainer"]
+layout_mode = 2
+theme = ExtResource("2_mhwg0")
+
+[node name="LabelEquiped" type="Label" parent="MarginContainer/Panel"]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 3.0
+offset_right = 103.0
+offset_bottom = 19.0
+text = "Shart SwordAAA"
+
+[node name="LabelCompare" type="Label" parent="MarginContainer/Panel"]
+layout_mode = 0
+offset_left = 112.0
+offset_top = 3.0
+offset_right = 143.0
+offset_bottom = 19.0
+text = "+20"
+horizontal_alignment = 1
+
+[node name="LabelUnequiped" type="Label" parent="MarginContainer/Panel"]
+layout_mode = 0
+offset_left = 151.0
+offset_top = 3.0
+offset_right = 256.0
+offset_bottom = 19.0
+text = "Short SwordAAA "

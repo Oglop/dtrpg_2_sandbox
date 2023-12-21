@@ -118,22 +118,4 @@ position = Vector2(15, 20)
 
 [node name="Timer" type="Timer" parent="."]
 
-[node name="equipMarginContainer" type="MarginContainer" parent="."]
-offset_left = 123.0
-offset_top = 6.0
-offset_right = 182.0
-offset_bottom = 23.0
-
-[node name="Panel" type="Panel" parent="equipMarginContainer"]
-layout_mode = 2
-theme = ExtResource("2_25bf5")
-
-[node name="Label" type="Label" parent="equipMarginContainer/Panel"]
-layout_mode = 0
-offset_left = 6.0
-offset_top = 2.0
-offset_right = 44.0
-offset_bottom = 18.0
-text = "Equip"
-
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

@@ -20,14 +20,16 @@ var _inputWait:float = 0.2
 var _inputBlocked:INPUT_BLOCKED = INPUT_BLOCKED.NO
 var _state:MENU_STATES = MENU_STATES.MAIN
 var _mainIndex:int = 0
-var _inventoryIndex:int = 0
-var _inventoryUseIndex:int = 0
-var _inventoryEquipIndex:int = 0
-var _characterIndex:int = 0
+#var _inventoryIndex:int = 0
+#var _inventoryUseIndex:int = 0
+#var _inventoryEquipIndex:int = 0
+#var _characterIndex:int = 0
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	Data.CHARACTER_1_EQUIPABLE.append(Enums.ITEM_TYPES.WEAPON_SWORD)
+	
 	Events.connect("SET_GLOBAL_STATE", _on_globalStateChange)
 	Events.connect("INPUT_UP", _on_inputUp)
 	Events.connect("INPUT_DOWN", _on_inputDown)
@@ -50,8 +52,7 @@ func setInputBlocked() -> void:
 		_inputBlocked = INPUT_BLOCKED.YES
 		$Timer.start(_inputWait)
 		
-		
-		
+
 func _on_characterSelectAccepted(position:int) -> void:
 	pass
 	
@@ -71,8 +72,6 @@ func setMainIndex(increase:bool) -> void:
 	if _mainIndex > 2:
 		_mainIndex = 2
 		
-
-		
 func _on_inputUp() -> void:
 	if _inputBlocked == INPUT_BLOCKED.NO:
 		setInputBlocked()
@@ -80,8 +79,7 @@ func _on_inputUp() -> void:
 			setMainIndex(false)
 			
 		updateUI()
-		
-	
+
 func _on_inputDown() -> void:
 	if _inputBlocked == INPUT_BLOCKED.NO:
 		setInputBlocked()
@@ -124,15 +122,16 @@ func updateUI() -> void:
 	if _state == MENU_STATES.MAIN:
 		setMainVisible(true)
 		setCharacterSelectVisible(false)
+		setCharacterCardVisible(false)
 		setMainTheme()
 	else:
 		setMainVisible(false)
 		
-	if _state == MENU_STATES.STATUS:
-		setCharacterCardVisible(true)
-		setCharacterSelectVisible(true)
-	else:
-		setCharacterCardVisible(false)
+#	if _state == MENU_STATES.STATUS:
+#		setCharacterCardVisible(true)
+#		setCharacterSelectVisible(true)
+#	else:
+#		setCharacterCardVisible(false)
 		
 		
 #	if _state == MENU_STATES.INVENTORY || _state == MENU_STATES.INVENTORY_EQUIP || _state == MENU_STATES.INVENTORY_USE || _state == MENU_STATES.INVENTORY_EQUIP_CHARACTER || _state == MENU_STATES.INVENTORY_USE_CHARACTER:
@@ -163,24 +162,24 @@ func setMainTheme() -> void:
 		$statusMarginContainer/Panel.theme = unselectedTheme
 		$rulesMarginContainer/Panel.theme = selectedTheme
 
-func setMainVisible(visible:bool) -> void:
-	$itemsMarginContainer.visible = visible
-	$statusMarginContainer.visible = visible
-	$rulesMarginContainer.visible = visible
+func setMainVisible(newVisible:bool) -> void:
+	$itemsMarginContainer.visible = newVisible
+	$statusMarginContainer.visible = newVisible
+	$rulesMarginContainer.visible = newVisible
 
-func setInventoryMenuVisible(visible:bool) -> void:
-	$invetoryItemsAll.visible = visible
+func setInventoryMenuVisible(newVisible:bool) -> void:
+	$invetoryItemsAll.visible = newVisible
 	
-func setCharacterSelectVisible(visible:bool) -> void:
-	$characterSelect.visible = visible
+func setCharacterSelectVisible(newVisible:bool) -> void:
+	$characterSelect.visible = newVisible
 	
 	
-func setCharacterCardVisible(visible:bool) -> void:
-	$characterCard.visible = visible
-	Events.emit_signal("VISIBLE_CHARACTER_CARD", visible)
+func setCharacterCardVisible(newVisible:bool) -> void:
+	$characterCard.visible = newVisible
+	Events.emit_signal("VISIBLE_CHARACTER_CARD", newVisible)
 
-func setRulesMenuVisible(visible:bool) -> void:
-	$rulesMenu.visible = visible 
+func setRulesMenuVisible(newVisible:bool) -> void:
+	$rulesMenu.visible = newVisible 
 
 func _on_timer_timeout():
 	$Timer.stop()

@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://coxp4akgp43gp"]
+[gd_scene load_steps=8 format=3 uid="uid://coxp4akgp43gp"]
 
 [ext_resource type="Script" path="res://scripts/menus/pauseMenu.gd" id="1_rv7vb"]
 [ext_resource type="Theme" uid="uid://dss6di43qaueh" path="res://media/themes/textBoxTheme.tres" id="2_biebt"]
 [ext_resource type="PackedScene" uid="uid://e16thel45nxq" path="res://scenes/menus/characterCard.tscn" id="3_mrxwh"]
 [ext_resource type="PackedScene" uid="uid://pcy3fvfptfqx" path="res://scenes/menus/characterSelect.tscn" id="4_e2je2"]
 [ext_resource type="PackedScene" uid="uid://d221eyn85jllp" path="res://scenes/menus/invetoryItemsAll.tscn" id="5_kepv1"]
+[ext_resource type="PackedScene" uid="uid://vqq81h2igfeo" path="res://scenes/menus/compareEquipables.tscn" id="6_5xhyi"]
 [ext_resource type="PackedScene" uid="uid://ce2b2fr1xm175" path="res://scenes/menus/rulesMenu.tscn" id="6_g582p"]
 
 [node name="pauseMenu" type="CanvasLayer"]
@@ -63,15 +64,17 @@ offset_bottom = 18.0
 text = "Rules"
 
 [node name="characterCard" parent="." instance=ExtResource("3_mrxwh")]
-offset_left = 78.0
+offset_left = 104.0
 offset_top = 7.0
-offset_right = 287.0
+offset_right = 313.0
 offset_bottom = 114.0
-
-[node name="characterSelect" parent="." instance=ExtResource("4_e2je2")]
 
 [node name="invetoryItemsAll" parent="." instance=ExtResource("5_kepv1")]
 
 [node name="rulesMenu" parent="." instance=ExtResource("6_g582p")]
+
+[node name="compareEquipables" parent="." instance=ExtResource("6_5xhyi")]
+
+[node name="characterSelect" parent="." instance=ExtResource("4_e2je2")]
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
