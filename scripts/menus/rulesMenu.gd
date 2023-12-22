@@ -58,11 +58,13 @@ func _ready():
 	
 	
 func _on_globalStateChange(globalState:Enums.SYSTEM_GLOBAL_STATES) -> void:
+	await self.get_tree().create_timer(0.4)
 	if globalState == Enums.SYSTEM_GLOBAL_STATES.IN_RULES_MENU:
 		state = menu_states.MAIN_MENU
 		updateUI()
 	
 func _on_activateRulesMenu(position:int) -> void:
+	await self.get_tree().create_timer(0.4)
 	_characterPosition = position
 	state = menu_states.MAIN_MENU
 	mainMenuSelected = 0
@@ -358,6 +360,8 @@ func _on_pressCancel() -> void:
 				state = menu_states.MAIN_MENU
 			elif state == menu_states.SELECT_ACTION:
 				state = menu_states.SELECT_RULE
+			elif state == menu_states.MAIN_MENU:
+				Events.emit_signal("SET_GLOBAL_STATE", Enums.SYSTEM_GLOBAL_STATES.IN_PAUSE_SCREEN)
 		updateUI()
 	
 func parseTextFromRule(rule:Enums.RULE) -> String:

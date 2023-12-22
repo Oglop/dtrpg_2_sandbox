@@ -6,6 +6,7 @@ var selectedTheme:Theme = preload("res://media/themes/selectedTeme.tres")
 enum MENU_STATES { 
 	MAIN, 
 	RULES,
+	RULES_MENU,
 	INVENTORY, 
 	INVENTORY_USE,
 	INVENTORY_USE_CHARACTER,
@@ -20,15 +21,9 @@ var _inputWait:float = 0.2
 var _inputBlocked:INPUT_BLOCKED = INPUT_BLOCKED.NO
 var _state:MENU_STATES = MENU_STATES.MAIN
 var _mainIndex:int = 0
-#var _inventoryIndex:int = 0
-#var _inventoryUseIndex:int = 0
-#var _inventoryEquipIndex:int = 0
-#var _characterIndex:int = 0
 
-
-# Called when the node enters the scene tree for the first time.
 func _ready():
-	Data.CHARACTER_1_EQUIPABLE.append(Enums.ITEM_TYPES.WEAPON_SWORD)
+	Events.emit_signal("VISIBLE_CHARACTER_CARD", false)
 	Events.emit_signal("HIDE_COMPARE_EQUIPABLES")
 	Events.connect("SET_GLOBAL_STATE", _on_globalStateChange)
 	Events.connect("INPUT_UP", _on_inputUp)
@@ -38,6 +33,8 @@ func _ready():
 	Events.connect("CHARACTER_SELECT_ACCEPTED", _on_characterSelectAccepted)
 	Events.connect("CHARACTER_SELECT_CANCEL", _on_characterSelectCancel)
 	updateUI()
+	
+
 
 func _on_globalStateChange() -> void:
 	if Data.SYSTEM_STATE == Enums.SYSTEM_GLOBAL_STATES.IN_PAUSE_SCREEN:
@@ -54,13 +51,22 @@ func setInputBlocked() -> void:
 		
 
 func _on_characterSelectAccepted(position:int) -> void:
-	pass
+	if Data.SYSTEM_STATE == Enums.SYSTEM_GLOBAL_STATES.IN_PAUSE_SCREEN:
+		setInputBlocked()
+		if _state == MENU_STATES.RULES:
+			_state == MENU_STATES.RULES_MENU
+			Events.emit_signal("SET_GLOBAL_STATE", Enums.SYSTEM_GLOBAL_STATES.IN_RULES_MENU)
+			Events.emit_signal("ACTIVATE_RULES_MENU", position)
 	
 func _on_characterSelectCancel() -> void:
-	if _state == MENU_STATES.STATUS:
-		_state = MENU_STATES.MAIN
-		
-	setInputBlocked()
+	if Data.SYSTEM_STATE == Enums.SYSTEM_GLOBAL_STATES.IN_PAUSE_SCREEN:
+		if _state == MENU_STATES.STATUS:
+			_state = MENU_STATES.MAIN
+		if _state == MENU_STATES.RULES:
+			_state = MENU_STATES.MAIN
+		if _state == MENU_STATES.RULES_MENU:
+			_state = MENU_STATES.RULES
+		setInputBlocked()
 		
 func setMainIndex(increase:bool) -> void:
 	if increase:
@@ -73,56 +79,67 @@ func setMainIndex(increase:bool) -> void:
 		_mainIndex = 2
 		
 func _on_inputUp() -> void:
-	if _inputBlocked == INPUT_BLOCKED.NO:
-		setInputBlocked()
-		if _state == MENU_STATES.MAIN:
-			setMainIndex(false)
+	if Data.SYSTEM_STATE == Enums.SYSTEM_GLOBAL_STATES.IN_PAUSE_SCREEN:
+		if _inputBlocked == INPUT_BLOCKED.NO:
+			setInputBlocked()
+			if _state == MENU_STATES.MAIN:
+				setMainIndex(false)
 			
 		updateUI()
 
 func _on_inputDown() -> void:
-	if _inputBlocked == INPUT_BLOCKED.NO:
-		setInputBlocked()
-		if _state == MENU_STATES.MAIN:
-			setMainIndex(true)
+	if Data.SYSTEM_STATE == Enums.SYSTEM_GLOBAL_STATES.IN_PAUSE_SCREEN:
+		if _inputBlocked == INPUT_BLOCKED.NO:
+			setInputBlocked()
+			if _state == MENU_STATES.MAIN:
+				setMainIndex(true)
 			
 		updateUI()
 	
 func _on_inputAccept() -> void:
-	if _inputBlocked == INPUT_BLOCKED.NO:
-		setInputBlocked()
-		if _state == MENU_STATES.MAIN:
-			if _mainIndex == 0:
-				Events.emit_signal("SET_INVENTORY_ITEMS_ALL_ACTIVE", true)
-				_state = MENU_STATES.INVENTORY
-			elif _mainIndex == 1:
-				_state = MENU_STATES.STATUS
-			elif _mainIndex == 2:
-				_state = MENU_STATES.RULES
+	if Data.SYSTEM_STATE == Enums.SYSTEM_GLOBAL_STATES.IN_PAUSE_SCREEN:
+		if _inputBlocked == INPUT_BLOCKED.NO:
+			setInputBlocked()
+			if _state == MENU_STATES.MAIN:
+				if _mainIndex == 0:
+					Events.emit_signal("SET_INVENTORY_ITEMS_ALL_ACTIVE", true)
+					_state = MENU_STATES.INVENTORY
+				elif _mainIndex == 1:
+					_state = MENU_STATES.STATUS
+					Events.emit_signal("CHARACTER_SELECT_ACTIVE",true)
+					Events.emit_signal("CHARACTER_SELECT_CHANGED", 0)
+					Events.emit_signal("VISIBLE_CHARACTER_CARD", true)
+				elif _mainIndex == 2:
+					_state = MENU_STATES.RULES
+					Events.emit_signal("CHARACTER_SELECT_ACTIVE",true)
+	#				Events.emit_signal("CHARACTER_SELECT_CHANGED", 0)
+	#				Events.emit_signal("VISIBLE_CHARACTER_CARD", false)
 		
 		
 	updateUI()
 	
 func _on_inputCancel() -> void:
-	if _inputBlocked == INPUT_BLOCKED.NO:
-		setInputBlocked()
-		if _state == MENU_STATES.MAIN:
-			Events.emit_signal("SET_GLOBAL_STATE", Enums.SYSTEM_GLOBAL_STATES.ON_MAP)
-			
-		if _state == MENU_STATES.STATUS:
-			_state = MENU_STATES.MAIN
-		if _state == MENU_STATES.INVENTORY:
-			_state = MENU_STATES.MAIN
-			Events.emit_signal("SET_INVENTORY_ITEMS_ALL_ACTIVE", false)
-		if _state == MENU_STATES.RULES:
-			_state = MENU_STATES.MAIN
-	updateUI()
+	if Data.SYSTEM_STATE == Enums.SYSTEM_GLOBAL_STATES.IN_PAUSE_SCREEN:
+		if _inputBlocked == INPUT_BLOCKED.NO:
+			setInputBlocked()
+			if _state == MENU_STATES.MAIN:
+				Events.emit_signal("SET_GLOBAL_STATE", Enums.SYSTEM_GLOBAL_STATES.ON_MAP)
+				
+			if _state == MENU_STATES.STATUS:
+				_state = MENU_STATES.MAIN
+			if _state == MENU_STATES.INVENTORY:
+				_state = MENU_STATES.MAIN
+				Events.emit_signal("SET_INVENTORY_ITEMS_ALL_ACTIVE", false)
+			if _state == MENU_STATES.RULES:
+				_state = MENU_STATES.MAIN
+				Events.emit_signal("CHARACTER_SELECT_ACTIVE",false)
+		updateUI()
 
 func updateUI() -> void:
 	if _state == MENU_STATES.MAIN:
 		setMainVisible(true)
-		setCharacterSelectVisible(false)
-		setCharacterCardVisible(false)
+#		setCharacterSelectVisible(false)
+#		setCharacterCardVisible(false)
 		setMainTheme()
 	else:
 		setMainVisible(false)
@@ -141,10 +158,10 @@ func updateUI() -> void:
 #		setInventoryMenuVisible(false)
 #		setCharacterCardVisible(false)
 		
-	if _state == MENU_STATES.RULES:
-		setRulesMenuVisible(true)
-	else:
-		setRulesMenuVisible(false)
+#	if _state == MENU_STATES.RULES:
+#		setRulesMenuVisible(true)
+#	else:
+#		setRulesMenuVisible(false)
 
 
 

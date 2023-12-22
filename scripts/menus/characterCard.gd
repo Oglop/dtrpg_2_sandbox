@@ -9,7 +9,7 @@ func _on_setVisisble(visible:bool) -> void:
 	self.visible = visible
 
 func _on_loadCharacterCardByPosition(position:int) -> void:
-	_on_setVisisble(true)
+#	_on_setVisisble(true)
 	var character = CharacterHandler.getCharacterByPosition(position)
 	$Panel/LabelName.text = character.name
 	$Panel/LabelLevel.text = str(Text.CHARACTER_CARD_LEVEL, character.lv)
