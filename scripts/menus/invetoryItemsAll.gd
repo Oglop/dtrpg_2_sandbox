@@ -55,17 +55,27 @@ func _on_setActive(active:bool) -> void:
 	_active = active
 	self.visible = active
 	if active:
+		setIndexArrowPosition(_viewableScrollIndex)
 		_viewableScrollIndex = 0
 #		_actualIndex = 0
 		setUnpressable(0.4)
 		
-func _on_characterSelectChanged(position:int, canEquip:bool = false) -> void:
+func _on_characterSelectChanged(position:int) -> void:
 	if _state == MENU_STATE.EQUIP_WEAPON || _state == MENU_STATE.EQUIP_ARMOR || _state == MENU_STATE.EQUIP_ACCESSORY:
-		Events.emit_signal("COMPARE_EQUIPABLES", Data.CHARACTER_1_WEAPON, Data.PARTY_ITEMS[_viewableScrollIndex], canEquip)
+		var canEquip = CharacterHandler.getEquipableByTypeAndPosition(position, Data.PARTY_ITEMS[_viewableScrollIndex].type)
+		if position == 0:
+			Events.emit_signal("COMPARE_EQUIPABLES", Data.CHARACTER_1_WEAPON, Data.PARTY_ITEMS[_viewableScrollIndex], canEquip)
+		elif position == 1:
+			Events.emit_signal("COMPARE_EQUIPABLES", Data.CHARACTER_2_WEAPON, Data.PARTY_ITEMS[_viewableScrollIndex], canEquip)
+		elif position == 2:
+			Events.emit_signal("COMPARE_EQUIPABLES", Data.CHARACTER_3_WEAPON, Data.PARTY_ITEMS[_viewableScrollIndex], canEquip)
+		elif position == 3:
+			Events.emit_signal("COMPARE_EQUIPABLES", Data.CHARACTER_4_WEAPON, Data.PARTY_ITEMS[_viewableScrollIndex], canEquip)
 		
 func _on_characterSelectAccepted(position:int) -> void:
 	setUnpressable()
 	Events.emit_signal("CHARACTER_SELECT_ACTIVE", false)
+	Events.emit_signal("HIDE_COMPARE_EQUIPABLES")
 	if _state == MENU_STATE.USE:
 		var item = InventoryHandler.withdrawItem(Data.PARTY_ITEMS[_viewableScrollIndex].name)
 		InventoryHandler.useConsumable(item, position)
@@ -78,9 +88,11 @@ func _on_characterSelectAccepted(position:int) -> void:
 #		_actualIndex = 0
 	updateViewableList(_viewableScrollIndex)
 	updateLabels()
+	setIndexArrowPosition(_viewableScrollIndex)
 	
 func _on_characterSelectCancel() -> void:
 	Events.emit_signal("CHARACTER_SELECT_ACTIVE", false)
+	Events.emit_signal("HIDE_COMPARE_EQUIPABLES")
 	if _state == MENU_STATE.USE:
 		_state = MENU_STATE.MAIN
 

@@ -11,17 +11,35 @@ func _on_hideCompareEquipables() -> void:
 	
 func _on_compareEquipables(equipedItem:Dictionary, unequipedItem:Dictionary, canEquip:bool) -> void:
 	self.visible = true
-	if !canEquip:
-		$MarginContainer/Panel/LabelUnequiped.text = "-"
+	var comparer:String = "="
+	var value:int = 0
+	var equipedValue:int = 0 
+	var equipedName:String = ""
+	
 	if canEquip:
-		var equipedValue:int = 0 
-		var comparer:String = "="
-		var value:int = 0
-		if equipedItem != null && equipedItem.size() > 0:
-			equipedValue = equipedItem.value
-			value = unequipedItem.value - equipedValue
-			if value > 0:
-				comparer = "+"
-			elif value < 0:
-				comparer = "-"
+		$MarginContainer/Panel/LabelUnequiped.text = unequipedItem.name
+	else:
+		$MarginContainer/Panel/LabelUnequiped.text = "-"
+	
+	if equipedItem != null && equipedItem.size() > 0:
+		equipedValue = equipedItem.value
+		value = unequipedItem.value - equipedValue
+		equipedName = equipedItem.name
+		if value > 0:
+			comparer = "+"
+		elif value < 0:
+			comparer = "-"
+	else: 
+		equipedName = "-"
+		value = unequipedItem.value
+			
+	if canEquip:
+		$MarginContainer/Panel/LabelEquiped.text = equipedName
 		$MarginContainer/Panel/LabelCompare.text = str(comparer, value)
+	else:
+		$MarginContainer/Panel/LabelEquiped.text = equipedName
+		$MarginContainer/Panel/LabelCompare.text = "-"
+		
+		
+		
+		

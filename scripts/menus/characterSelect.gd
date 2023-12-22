@@ -31,6 +31,7 @@ func _on_characterSelectActiveType(type:Enums.ITEM_TYPES) -> void:
 	_character2CanEquip = CharacterHandler.getEquipableByTypeAndPosition(1, type)
 	_character3CanEquip = CharacterHandler.getEquipableByTypeAndPosition(2, type)
 	_character4CanEquip = CharacterHandler.getEquipableByTypeAndPosition(3, type)
+	Events.emit_signal("CHARACTER_SELECT_CHANGED", _index)
 	inputBlock()
 	_active = true
 	updateUI()
@@ -88,12 +89,10 @@ func _on_inputCancel() -> void:
 	if _active && !_inputBlocked:
 		inputBlock(_timerWait)
 		_equipType = Enums.ITEM_TYPES.NONE
-		
 		Events.emit_signal("VISIBLE_CHARACTER_CARD", false)
 		Events.emit_signal("CHARACTER_SELECT_CANCEL")
-		
+		Events.emit_signal("HIDE_COMPARE_EQUIPABLES")
 
-		
 func updateUI() -> void:
 	if _active:
 		self.visible = true

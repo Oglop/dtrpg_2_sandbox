@@ -29,7 +29,7 @@ var _mainIndex:int = 0
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	Data.CHARACTER_1_EQUIPABLE.append(Enums.ITEM_TYPES.WEAPON_SWORD)
-	
+	Events.emit_signal("HIDE_COMPARE_EQUIPABLES")
 	Events.connect("SET_GLOBAL_STATE", _on_globalStateChange)
 	Events.connect("INPUT_UP", _on_inputUp)
 	Events.connect("INPUT_DOWN", _on_inputDown)
@@ -136,10 +136,10 @@ func updateUI() -> void:
 		
 #	if _state == MENU_STATES.INVENTORY || _state == MENU_STATES.INVENTORY_EQUIP || _state == MENU_STATES.INVENTORY_USE || _state == MENU_STATES.INVENTORY_EQUIP_CHARACTER || _state == MENU_STATES.INVENTORY_USE_CHARACTER:
 #		setInventoryMenuVisible(true)
-##		setCharacterCardVisible(true)
+#		setCharacterCardVisible(true)
 #	else:
 #		setInventoryMenuVisible(false)
-##		setCharacterCardVisible(false)
+#		setCharacterCardVisible(false)
 		
 	if _state == MENU_STATES.RULES:
 		setRulesMenuVisible(true)
