@@ -138,32 +138,9 @@ func _on_inputCancel() -> void:
 func updateUI() -> void:
 	if _state == MENU_STATES.MAIN:
 		setMainVisible(true)
-#		setCharacterSelectVisible(false)
-#		setCharacterCardVisible(false)
 		setMainTheme()
 	else:
 		setMainVisible(false)
-		
-#	if _state == MENU_STATES.STATUS:
-#		setCharacterCardVisible(true)
-#		setCharacterSelectVisible(true)
-#	else:
-#		setCharacterCardVisible(false)
-		
-		
-#	if _state == MENU_STATES.INVENTORY || _state == MENU_STATES.INVENTORY_EQUIP || _state == MENU_STATES.INVENTORY_USE || _state == MENU_STATES.INVENTORY_EQUIP_CHARACTER || _state == MENU_STATES.INVENTORY_USE_CHARACTER:
-#		setInventoryMenuVisible(true)
-#		setCharacterCardVisible(true)
-#	else:
-#		setInventoryMenuVisible(false)
-#		setCharacterCardVisible(false)
-		
-#	if _state == MENU_STATES.RULES:
-#		setRulesMenuVisible(true)
-#	else:
-#		setRulesMenuVisible(false)
-
-
 
 func setMainTheme() -> void:
 	if _mainIndex == 0:
