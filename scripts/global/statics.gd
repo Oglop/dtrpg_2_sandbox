@@ -23,11 +23,11 @@ var ROOM_STARTING_POSITIONS:Dictionary = {
 	}
 }
 
-var LEVEL_1_6_XP_BASE:int = 1.2
-var LEVEL_7_12_XP_BASE:int = 2.2
-var LEVEL_13_18_XP_BASE:int = 2.8
-var LEVEL_19_26_XP_BASE:int = 3.4
-var LEVEL_27_99_XP_BASE:int = 5.6
+var LEVEL_1_6_XP_BASE:float = 1.2
+var LEVEL_7_12_XP_BASE:float = 2.2
+var LEVEL_13_18_XP_BASE:float = 2.8
+var LEVEL_19_26_XP_BASE:float = 3.4
+var LEVEL_27_99_XP_BASE:float = 5.6
 
 var CLASSES_ATRIBUTES:Dictionary = {
 	"WARRIOR": {

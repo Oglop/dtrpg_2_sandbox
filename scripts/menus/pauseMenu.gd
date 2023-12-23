@@ -23,6 +23,10 @@ var _state:MENU_STATES = MENU_STATES.MAIN
 var _mainIndex:int = 0
 
 func _ready():
+	#Data.SYSTEM_STATE = Enums.SYSTEM_GLOBAL_STATES.IN_PAUSE_SCREEN
+	#_on_globalStateChange()
+	
+	
 	Events.emit_signal("VISIBLE_CHARACTER_CARD", false)
 	Events.emit_signal("HIDE_COMPARE_EQUIPABLES")
 	Events.connect("SET_GLOBAL_STATE", _on_globalStateChange)
@@ -32,10 +36,15 @@ func _ready():
 	Events.connect("INPUT_CANCEL", _on_inputCancel)
 	Events.connect("CHARACTER_SELECT_ACCEPTED", _on_characterSelectAccepted)
 	Events.connect("CHARACTER_SELECT_CANCEL", _on_characterSelectCancel)
+	Events.connect("INPUT_OPTIONS", _on_inputOptions)
 	updateUI()
 	
-
-
+func _on_inputOptions() -> void:
+	if Data.SYSTEM_STATE != Enums.SYSTEM_GLOBAL_STATES.IN_PAUSE_SCREEN: 
+		Data.SYSTEM_STATE = Enums.SYSTEM_GLOBAL_STATES.IN_PAUSE_SCREEN
+		_on_globalStateChange()
+		Events.emit_signal("HP_BOX_VISIBLE", false)
+		
 func _on_globalStateChange() -> void:
 	if Data.SYSTEM_STATE == Enums.SYSTEM_GLOBAL_STATES.IN_PAUSE_SCREEN:
 		self.visible = true
@@ -112,8 +121,6 @@ func _on_inputAccept() -> void:
 				elif _mainIndex == 2:
 					_state = MENU_STATES.RULES
 					Events.emit_signal("CHARACTER_SELECT_ACTIVE",true)
-	#				Events.emit_signal("CHARACTER_SELECT_CHANGED", 0)
-	#				Events.emit_signal("VISIBLE_CHARACTER_CARD", false)
 		
 		
 	updateUI()
@@ -132,15 +139,18 @@ func _on_inputCancel() -> void:
 				Events.emit_signal("SET_INVENTORY_ITEMS_ALL_ACTIVE", false)
 			if _state == MENU_STATES.RULES:
 				_state = MENU_STATES.MAIN
-				Events.emit_signal("CHARACTER_SELECT_ACTIVE",false)
+				Events.emit_signal("CHARACTER_SELECT_ACTIVE", false)
 		updateUI()
 
 func updateUI() -> void:
-	if _state == MENU_STATES.MAIN:
-		setMainVisible(true)
-		setMainTheme()
-	else:
+	if Data.SYSTEM_STATE != Enums.SYSTEM_GLOBAL_STATES.IN_PAUSE_SCREEN:
 		setMainVisible(false)
+	else:
+		if _state == MENU_STATES.MAIN:
+			setMainVisible(true)
+			setMainTheme()
+		else:
+			setMainVisible(false)
 
 func setMainTheme() -> void:
 	if _mainIndex == 0:

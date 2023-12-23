@@ -3,25 +3,51 @@ extends Node
 # damage = (attack / defense) * (HP_CONSTANT * AVG_BATTLE_LENGTH)
 
 var rng = RandomNumberGenerator.new()
+var _damageFXQueue:Array = []
+var _damageFXTimerWait:float = 0.3
 var _damageNumbersQueue:Array = []
 var _damageNumbersTimerWait:float = 0.3
 enum DAMAGE_QUEUE_STATES {
 	READY,
 	BUSY
 }
+enum DAMAGE_FX_STATES {
+	READY,
+	BUSY
+}
+
 var _damageNumbersQueueState:DAMAGE_QUEUE_STATES = DAMAGE_QUEUE_STATES.READY
+var _damageFXQueueState:DAMAGE_FX_STATES = DAMAGE_FX_STATES.READY
 
 func _ready():
 	Events.connect("PARTY_COMBAT_AT", _on_combatAt)
 	Events.connect("QUEUE_DAMAGE_NUMBER", _on_queueDamageNumber)
+	Events.connect("QUEUE_FX", _on_queueFX)
 
 func _process(delta):
 	if _damageNumbersQueueState == DAMAGE_QUEUE_STATES.READY &&  _damageNumbersQueue.size() > 0:
 		_damageNumbersQueueState = DAMAGE_QUEUE_STATES.BUSY
 		unqueueDamageNumber()
+	if _damageFXQueueState == DAMAGE_FX_STATES.READY &&  _damageNumbersQueue.size() > 0:
+		_damageFXQueueState = DAMAGE_FX_STATES.BUSY
+		unqueueDamageFX()
+	
+
+func _on_queueFX(position:Vector2, type:Enums.BATTLE_DAMAGE_FXS) -> void:
+	_damageFXQueue.append({ "position": position, "type": type })
 		
 func _on_queueDamageNumber(position:Vector2, value:int, isCritical:bool, isHeal:bool) -> void:
 	_damageNumbersQueue.append({ "position": position, "value": value, "isCritical": isCritical, "isHeal": isHeal  })
+
+func unqueueDamageFX() -> void:
+	if _damageFXQueue.size() > 0:
+		var fx = _damageFXQueue.pop_front()
+		if fx.type == Enums.BATTLE_DAMAGE_FXS.FIREBALL:
+			Events.emit_signal("SPAWN_DAMAGE_FX_FIREBALL", fx.position)
+		elif fx.type == Enums.BATTLE_DAMAGE_FXS.CUT:
+			Events.emit_signal("SPAWN_DAMAGE_FX_CUT", fx.position)
+		await get_tree().create_timer(_damageFXTimerWait).timeout
+		_damageFXQueueState = DAMAGE_FX_STATES.READY
 
 func unqueueDamageNumber() -> void:
 	if _damageNumbersQueue.size() > 0:

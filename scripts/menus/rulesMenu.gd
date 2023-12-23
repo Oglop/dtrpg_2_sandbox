@@ -58,13 +58,13 @@ func _ready():
 	
 	
 func _on_globalStateChange(globalState:Enums.SYSTEM_GLOBAL_STATES) -> void:
-	await self.get_tree().create_timer(0.4)
+	await self.get_tree().create_timer(0.4).timeout
 	if globalState == Enums.SYSTEM_GLOBAL_STATES.IN_RULES_MENU:
 		state = menu_states.MAIN_MENU
 		updateUI()
 	
 func _on_activateRulesMenu(position:int) -> void:
-	await self.get_tree().create_timer(0.4)
+	await self.get_tree().create_timer(0.4).timeout
 	_characterPosition = position
 	state = menu_states.MAIN_MENU
 	mainMenuSelected = 0

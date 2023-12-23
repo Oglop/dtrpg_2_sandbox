@@ -27,24 +27,26 @@ func _on_globalStateChange(globalState:Enums.SYSTEM_GLOBAL_STATES) -> void:
 		self.visible = false
 	
 func _on_pressAccept() -> void:
-	if _state == states.AWAITING_INPUT:
-		if _readIndex < _messages.size() - 1:
-			_readIndex += 1
-			updateLabels()
-			handleButtonPressed()
-		else:
-			Events.emit_signal("SET_GLOBAL_STATE", Enums.SYSTEM_GLOBAL_STATES.ON_MAP)
-			handleButtonPressed()
+	if Data.SYSTEM_STATE == Enums.SYSTEM_GLOBAL_STATES.IN_MESSAGE_BOX:
+		if _state == states.AWAITING_INPUT:
+			if _readIndex < _messages.size() - 1:
+				_readIndex += 1
+				updateLabels()
+				handleButtonPressed()
+			else:
+				Events.emit_signal("SET_GLOBAL_STATE", Enums.SYSTEM_GLOBAL_STATES.ON_MAP)
+				handleButtonPressed()
 	
 func _on_pressCancel() -> void:
-	if _state == states.AWAITING_INPUT:
-		if _readIndex == 0 && _messages.size() == 1:
-			Events.emit_signal("SET_GLOBAL_STATE", Enums.SYSTEM_GLOBAL_STATES.ON_MAP)
-			handleButtonPressed()
-		if _readIndex > 0:
-			_readIndex -= 1
-			updateLabels()
-			handleButtonPressed()
+	if Data.SYSTEM_STATE == Enums.SYSTEM_GLOBAL_STATES.IN_MESSAGE_BOX:
+		if _state == states.AWAITING_INPUT:
+			if _readIndex == 0 && _messages.size() == 1:
+				Events.emit_signal("SET_GLOBAL_STATE", Enums.SYSTEM_GLOBAL_STATES.ON_MAP)
+				handleButtonPressed()
+			if _readIndex > 0:
+				_readIndex -= 1
+				updateLabels()
+				handleButtonPressed()
 	
 func _on_queueMessages(title:String, messages:Array) -> void:
 	_title = title
@@ -63,8 +65,9 @@ func updateLabels() -> void:
 		$MarginContainer/Panel/LabelMessage.text = _messages[_readIndex]
 
 func handleButtonPressed() -> void:
-	$Timer.start(BUTTON_WAIT)
-	_state = states.BUSY
+	if Data.SYSTEM_STATE == Enums.SYSTEM_GLOBAL_STATES.ON_MAP:
+		$Timer.start(BUTTON_WAIT)
+		_state = states.BUSY
 
 func _on_timer_timeout():
 	$Timer.stop()

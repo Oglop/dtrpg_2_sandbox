@@ -8,19 +8,25 @@ func _ready():
 	self.visible = false
 	Events.connect("PARTY_MOVED", _on_playerMoved)
 	Events.connect("UPDATE_HP_BOX", _on_updateHealth)
+	Events.connect("HP_BOX_VISIBLE", _on_setHpBoxVisiblility)
+
+func _on_setHpBoxVisiblility(visible:bool) -> void:
+	self.visible = false
 
 func _on_playerMoved():
 	self.visible = false
 	$Timer.start(TIME_OUT)
 	
 func _on_timer_timeout():
-	self.visible = true
-	$Timer.stop()
+	if Data.SYSTEM_STATE != Enums.SYSTEM_GLOBAL_STATES.IN_PAUSE_SCREEN:
+		self.visible = true
+		$Timer.stop()
 	
 func _on_updateHealth():
-	self.visible = true
-	$Timer.stop()
-	updateHealthBox()
+	if Data.SYSTEM_STATE != Enums.SYSTEM_GLOBAL_STATES.IN_PAUSE_SCREEN:
+		self.visible = true
+		$Timer.stop()
+		updateHealthBox()
 	
 func updateHealthBox():
 	$MarginContainer/Panel/LabelCharacter1.text = Data.CHARACTER_1_NAME
