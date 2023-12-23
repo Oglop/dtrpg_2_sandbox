@@ -28,12 +28,13 @@ func _process(delta):
 	if _damageNumbersQueueState == DAMAGE_QUEUE_STATES.READY &&  _damageNumbersQueue.size() > 0:
 		_damageNumbersQueueState = DAMAGE_QUEUE_STATES.BUSY
 		unqueueDamageNumber()
-	if _damageFXQueueState == DAMAGE_FX_STATES.READY &&  _damageNumbersQueue.size() > 0:
+	if _damageFXQueueState == DAMAGE_FX_STATES.READY &&  _damageFXQueue.size() > 0:
 		_damageFXQueueState = DAMAGE_FX_STATES.BUSY
 		unqueueDamageFX()
 	
 
 func _on_queueFX(position:Vector2, type:Enums.BATTLE_DAMAGE_FXS) -> void:
+	print(str("queue: ", type))
 	_damageFXQueue.append({ "position": position, "type": type })
 		
 func _on_queueDamageNumber(position:Vector2, value:int, isCritical:bool, isHeal:bool) -> void:
@@ -43,8 +44,10 @@ func unqueueDamageFX() -> void:
 	if _damageFXQueue.size() > 0:
 		var fx = _damageFXQueue.pop_front()
 		if fx.type == Enums.BATTLE_DAMAGE_FXS.FIREBALL:
+			print("spawn fireball")
 			Events.emit_signal("SPAWN_DAMAGE_FX_FIREBALL", fx.position)
 		elif fx.type == Enums.BATTLE_DAMAGE_FXS.CUT:
+			print("spawn fireball")
 			Events.emit_signal("SPAWN_DAMAGE_FX_CUT", fx.position)
 		await get_tree().create_timer(_damageFXTimerWait).timeout
 		_damageFXQueueState = DAMAGE_FX_STATES.READY
@@ -130,8 +133,11 @@ func resolveEnemyAttack(enemyDetail:Dictionary) -> void:
 		Data.CHARACTER_4_HEALTH_CURRENT -= dmg
 		if Data.CHARACTER_4_HEALTH_CURRENT < 0:
 			Data.CHARACTER_4_HEALTH_CURRENT = 0
-	Events.emit_signal("QUEUE_DAMAGE_NUMBER", ActionHandler.getPartyMemberGlobalPosition(characterPosition), dmg, false, false)
+			
+	var postion:Vector2 = ActionHandler.getPartyMemberGlobalPosition(characterPosition)
+	Events.emit_signal("QUEUE_DAMAGE_NUMBER", postion, dmg, false, false)
 	Events.emit_signal("SYSTEM_WRITE_LOG", str(enemyDetail.name, " hit ", character.name, " for ", dmg, " damage." ), Enums.SYSTEM_LOG_TYPE.BATTLE)
+	Events.emit_signal("QUEUE_FX", postion, Enums.BATTLE_DAMAGE_FXS.CUT)
 	Events.emit_signal("UPDATE_HP_BOX")
 	
 	

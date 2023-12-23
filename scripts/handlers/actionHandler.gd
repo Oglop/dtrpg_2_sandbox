@@ -63,12 +63,14 @@ func resolveAttackAction(attack:int, defence:int, attackerDexterity:int, attacke
 		var damage = attack + rng.randi_range(1, attackerLuck) - defence
 		if damage > 0:
 			Events.emit_signal("QUEUE_DAMAGE_NUMBER", enemyPosition, damage, false, false)
+			Events.emit_signal("QUEUE_FX", enemyPosition, Enums.BATTLE_DAMAGE_FXS.CUT)
 			Events.emit_signal("SYSTEM_WRITE_LOG", str(attackerName, " hits ", defenderName, " for ", damage, " damage."), Enums.SYSTEM_LOG_TYPE.BATTLE)
 			return damage
 	elif checkHit == Enums.SYSTEM_SKILL_CHECK_RESULT.CRITICAL: 
 		var damage = attack + rng.randi_range(1, attackerLuck)
 		if damage > 0:
 			Events.emit_signal("QUEUE_DAMAGE_NUMBER", enemyPosition, damage, false, true)
+			Events.emit_signal("QUEUE_FX", enemyPosition, Enums.BATTLE_DAMAGE_FXS.CUT)
 			Events.emit_signal("SYSTEM_WRITE_LOG", str(attackerName, " criticly hits ", defenderName, " for ", damage, " damage."), Enums.SYSTEM_LOG_TYPE.BATTLE)
 			return damage
 	
@@ -82,6 +84,7 @@ func resolvePotionSelfAction(position:int) -> void:
 		Events.emit_signal("PARTY_ADD_HEALTH", position, item.value)
 		Events.emit_signal("UPDATE_HP_BOX")
 		Events.emit_signal("QUEUE_DAMAGE_NUMBER", getPartyMemberGlobalPosition(position), item.value, true, false)
+		
 		Events.emit_signal("SYSTEM_WRITE_LOG", str(CharacterHandler.getCharacterName(position), " drinks a potion."), Enums.SYSTEM_LOG_TYPE.BATTLE)
 
 func resolveUsePotionAllyAction() -> void:
