@@ -97,9 +97,20 @@ func equipAccessoryCharacter(position:int, accessory:Dictionary) -> bool:
 			addItem(equipedAccessory)
 		Data.CHARACTER_4_ACCESSORY = accessory
 	return true
-	
+
+
 func useConsumable(item:Dictionary, position:int) -> void:
-	pass
+	if item.name == Statics.ITEMS.POTION.name:
+		if CharacterHandler.isCharacterAlive(position):
+			Events.emit_signal("PARTY_ADD_HEALTH", position, item.value)
+	if item.name == Statics.ITEMS.ELIXIR.name:
+		if !CharacterHandler.isCharacterAlive(position):
+			Events.emit_signal("PARTY_REVIVE_CHARACTER", position, item.value)
+	if item.name == Statics.ITEMS.HERB.name:
+		if CharacterHandler.isCharacterAlive(position):
+			Events.emit_signal("PARTY_ADD_MAGIC", position, item.value)
+			
+			
 	
 	
 func rebuildInventory() -> void:

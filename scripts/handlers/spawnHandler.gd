@@ -29,10 +29,14 @@ func _on_spawnDamageNumber(position:Vector2, value:int, isHealing:bool, isCritic
 	
 func _on_spawnFireball(position:Vector2) -> void:
 	var  fb = SceneLoader.getScene(Enums.SCENE_TYPE.FIREBALL)
+	position.x += 8
+	position.y += 4
 	fb.global_position = position
 	self.add_child(fb)
 	
 func _on_spawnFXCut(position:Vector2) -> void:
 	var fx = SceneLoader.getScene(Enums.SCENE_TYPE.CUT)
+	position.x += 8
+	position.y += 4
 	fx.set_global_position(position)
 	self.add_child(fx)

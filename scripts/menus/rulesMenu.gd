@@ -64,7 +64,7 @@ func _on_globalStateChange(globalState:Enums.SYSTEM_GLOBAL_STATES) -> void:
 		updateUI()
 	
 func _on_activateRulesMenu(position:int) -> void:
-	await self.get_tree().create_timer(0.4).timeout
+#	await self.get_tree().create_timer(0.4).timeout
 	_characterPosition = position
 	state = menu_states.MAIN_MENU
 	mainMenuSelected = 0

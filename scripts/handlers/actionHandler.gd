@@ -84,7 +84,7 @@ func resolvePotionSelfAction(position:int) -> void:
 		Events.emit_signal("PARTY_ADD_HEALTH", position, item.value)
 		Events.emit_signal("UPDATE_HP_BOX")
 		Events.emit_signal("QUEUE_DAMAGE_NUMBER", getPartyMemberGlobalPosition(position), item.value, true, false)
-		
+		Events.emit_signal("PARTY_USED_ITEM", 0)
 		Events.emit_signal("SYSTEM_WRITE_LOG", str(CharacterHandler.getCharacterName(position), " drinks a potion."), Enums.SYSTEM_LOG_TYPE.BATTLE)
 
 func resolveUsePotionAllyAction() -> void:
@@ -112,6 +112,7 @@ func resolveUseElexir(position:int) -> void:
 			var elexir = InventoryHandler.withdrawItem(Statics.ITEMS.ELEXIR.name)
 			Events.emit_signal("QUEUE_DAMAGE_NUMBER", getPartyMemberGlobalPosition(characters[0]), elexir.value, true, false)
 			Events.emit_signal("PARTY_REVIVE_CHARACTER", characters[0], elexir.value)
+			Events.emit_signal("PARTY_USED_ITEM", 0)
 			Events.emit_signal("SYSTEM_WRITE_LOG", str(CharacterHandler.getCharacterName(position), " uses an elexir on ", CharacterHandler.getCharacterName(characters[0]), "."), Enums.SYSTEM_LOG_TYPE.BATTLE)
 		
 func resolveHerbSelfAction(position:int) -> void:
@@ -120,6 +121,7 @@ func resolveHerbSelfAction(position:int) -> void:
 		Events.emit_signal("PARTY_ADD_MAGIC", position, item.value)
 		Events.emit_signal("QUEUE_DAMAGE_NUMBER", getPartyMemberGlobalPosition(position), item.value, true, false)
 		Events.emit_signal("UPDATE_HP_BOX")
+		Events.emit_signal("PARTY_USED_ITEM", 0)
 		Events.emit_signal("SYSTEM_WRITE_LOG", str(CharacterHandler.getCharacterName(position), " uses a herb."), Enums.SYSTEM_LOG_TYPE.BATTLE)
 
 func resolveUseHerbAllyAction() -> void:
@@ -130,6 +132,7 @@ func resolveUseHerbAllyAction() -> void:
 			var herb = InventoryHandler.withdrawItem(Statics.ITEMS.POTION.name)
 			Events.emit_signal("QUEUE_DAMAGE_NUMBER", getPartyMemberGlobalPosition(lowest), herb.value, true, false)
 			Events.emit_signal("PARTY_ADD_MAGIC", lowest, herb.value) # position:int, value:int
+			Events.emit_signal("PARTY_USED_ITEM", 0)
 			Events.emit_signal("SYSTEM_WRITE_LOG", str(CharacterHandler.getCharacterName(lowest), " drinks a potion."), Enums.SYSTEM_LOG_TYPE.BATTLE)
 
 func resolveCastHealAction(position:int) -> void:
@@ -192,6 +195,7 @@ func resolveCastFireballAction(position:int, attackerName:String, enemyDetail:Di
 		var randomness = rng.randi_range(-Statics.SPELLS.HEAL.randomness, Statics.SPELLS.HEAL.randomness)
 		effect = effect + randomness
 		Events.emit_signal("QUEUE_DAMAGE_NUMBER", enemyPosition, effect, false, false)
+		Events.emit_signal("QUEUE_FX", enemyPosition, Enums.BATTLE_DAMAGE_FXS.FIREBALL)
 		Events.emit_signal("SYSTEM_WRITE_LOG", str(attackerName, " cast fireball at ", enemyDetail.name, " for ", effect, " damage."), Enums.SYSTEM_LOG_TYPE.BATTLE)
 		return effect
 		

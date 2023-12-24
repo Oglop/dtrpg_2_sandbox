@@ -334,6 +334,16 @@ func setNewCharacterOfType(type:Enums.CLASSES, position:int) -> void:
 		Data.CHARACTER_4_EQUIPABLE = equiplables
 		Data.CHARACTER_4_ACCESSORY = {}
 	
+func isCharacterAlive(position:int) -> bool:
+	if position == 0:
+		return Data.CHARACTER_1_HEALTH_CURRENT > 0
+	elif position == 1:
+		return Data.CHARACTER_2_HEALTH_CURRENT > 0
+	elif position == 2:
+		return Data.CHARACTER_3_HEALTH_CURRENT > 0
+	else:
+		return Data.CHARACTER_4_HEALTH_CURRENT > 0
+	
 func getCharacterNameByPositionAndClass(type:Enums.CLASSES, position:int) -> String:
 	if position == 0:
 		if type == Enums.CLASSES.WARRIOR:

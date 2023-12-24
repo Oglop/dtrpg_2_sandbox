@@ -41,9 +41,9 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_e71qm")
 }],
-"loop": true,
+"loop": false,
 "name": &"fireball",
-"speed": 8.0
+"speed": 10.0
 }]
 
 [node name="fireball" type="AnimatedSprite2D"]

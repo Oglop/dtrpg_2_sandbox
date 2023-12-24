@@ -30,6 +30,7 @@ func _ready():
 	Events.connect("CHARACTER_SELECT_ACCEPTED",_on_characterSelectAccepted )
 	Events.connect("CHARACTER_SELECT_CANCEL", _on_characterSelectCancel)
 	Events.connect("CHARACTER_SELECT_CHANGED", _on_characterSelectChanged)
+	Events.connect("PARTY_USED_ITEM", updateViewableList)
 	
 	
 	Events.emit_signal("INVENTORY_ADD", Statics.ITEMS.POTION)
@@ -59,6 +60,9 @@ func _on_setActive(active:bool) -> void:
 		_viewableScrollIndex = 0
 #		_actualIndex = 0
 		setUnpressable(0.4)
+		updateViewableList(_viewableScrollIndex)
+		updateLabels()
+		setIndexArrowPosition(_viewableScrollIndex)
 		
 func _on_characterSelectChanged(position:int) -> void:
 	if _state == MENU_STATE.EQUIP_WEAPON || _state == MENU_STATE.EQUIP_ARMOR || _state == MENU_STATE.EQUIP_ACCESSORY:
@@ -85,7 +89,6 @@ func _on_characterSelectAccepted(position:int) -> void:
 		InventoryHandler.equipWeaponCharacter(position, weapon)
 		_state = MENU_STATE.MAIN
 		_viewableScrollIndex = 0
-#		_actualIndex = 0
 	updateViewableList(_viewableScrollIndex)
 	updateLabels()
 	setIndexArrowPosition(_viewableScrollIndex)
@@ -120,6 +123,7 @@ func _on_inputAccept() -> void:
 				if type == Enums.ITEM_TYPES.CONSUMABLE:
 					_state = MENU_STATE.USE
 					Events.emit_signal("CHARACTER_SELECT_ACTIVE", true)
+					
 				elif (type == Enums.ITEM_TYPES.ARMOR_HEAVY || 
 						type == Enums.ITEM_TYPES.ARMOR_LIGHT):
 					_state = MENU_STATE.EQUIP_ARMOR

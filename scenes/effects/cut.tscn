@@ -34,15 +34,13 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_tv37o")
 }],
-"loop": true,
+"loop": false,
 "name": &"cut",
-"speed": 10.0
+"speed": 12.0
 }]
 
 [node name="cut" type="AnimatedSprite2D"]
 position = Vector2(8, 8)
 sprite_frames = SubResource("SpriteFrames_wx5hd")
 animation = &"cut"
-frame = 3
-frame_progress = 0.23839
 script = ExtResource("2_no6dd")
