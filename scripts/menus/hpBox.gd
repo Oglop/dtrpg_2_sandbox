@@ -18,7 +18,7 @@ func _on_playerMoved():
 	$Timer.start(TIME_OUT)
 	
 func _on_timer_timeout():
-	if Data.SYSTEM_STATE != Enums.SYSTEM_GLOBAL_STATES.IN_PAUSE_SCREEN:
+	if Data.SYSTEM_STATE == Enums.SYSTEM_GLOBAL_STATES.ON_MAP:
 		self.visible = true
 		$Timer.stop()
 	

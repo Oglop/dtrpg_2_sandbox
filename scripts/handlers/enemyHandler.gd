@@ -20,8 +20,11 @@ func getEnemyDescription(type:Enums.ENEMY_TYPES) -> String:
 func getEnemyStats(type:Enums.ENEMY_TYPES) -> Dictionary:
 	var stats:Dictionary = {}
 	if type == Enums.ENEMY_TYPES.GOBLIN:
-		return Statics.ENEMY_STATS.GOBLIN;
-	
+		return Statics.ENEMY_STATS.GOBLIN
+	elif type == Enums.ENEMY_TYPES.BLOB:
+		return Statics.ENEMY_STATS.BLOB
+	elif type == Enums.ENEMY_TYPES.SKELETON:
+		return Statics.ENEMY_STATS.SKELETON
 	return stats
 
 
@@ -59,6 +62,10 @@ func getEnemyMeta(type:Enums.ENEMY_TYPES) -> Dictionary:
 	var stats:Dictionary = {}
 	if type == Enums.ENEMY_TYPES.GOBLIN:
 		return Statics.ENEMY_SPAWNS.GOBLIN
+	elif type == Enums.ENEMY_TYPES.BLOB:
+		return Statics.ENEMY_SPAWNS.BLOB
+	elif type == Enums.ENEMY_TYPES.SKELETON:
+		return Statics.ENEMY_SPAWNS.SKELETON
 	return stats
 	
 	

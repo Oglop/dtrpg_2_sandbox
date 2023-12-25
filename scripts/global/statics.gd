@@ -404,19 +404,54 @@ var ENEMY_SPAWNS:Dictionary = {
 		"description": "A vile band of goblins.",
 		"min":2,
 		"max":5
+	},
+	"BLOB": {
+		"description": "Some slimy mucus.",
+		"min":5,
+		"max":8
+	},
+	"SKELETON": {
+		"description": "Some ancient walking bones.",
+		"min":1,
+		"max":3
 	}
 }
 
 var ENEMY_STATS:Dictionary = {
 	"GOBLIN": {
 		"name": "Goblin",
+		"type":Enums.ENEMY_TYPES.GOBLIN,
 		"crownsMin": 3,
 		"crownsMax": 6,
-		"xp":10,
-		"health": 30,
+		"xp":6,
+		"health": 10,
+		"attack": 6,
+		"defence": 3,
+		"itemDrop": ["POTION"],
+		"itemDropRate":15
+	},
+	"BLOB": {
+		"name": "Blob",
+		"type":Enums.ENEMY_TYPES.BLOB,
+		"crownsMin": 2,
+		"crownsMax": 8,
+		"xp":8,
+		"health": 14,
 		"attack": 10,
 		"defence": 5,
-		"itemDrop": "POTION",
+		"itemDrop": [],
+		"itemDropRate":15
+	},
+	"SKELETON": {
+		"name": "Skeleton",
+		"type":Enums.ENEMY_TYPES.SKELETON,
+		"crownsMin": 3,
+		"crownsMax": 5,
+		"xp":12,
+		"health": 14,
+		"attack": 10,
+		"defence": 5,
+		"itemDrop": [],
 		"itemDropRate":15
 	}
 }

@@ -1,7 +1,15 @@
-[gd_scene load_steps=7 format=3 uid="uid://cqkro3glhhlut"]
+[gd_scene load_steps=11 format=3 uid="uid://cqkro3glhhlut"]
 
 [ext_resource type="Script" path="res://scripts/map/enemy.gd" id="1_r880x"]
 [ext_resource type="Texture2D" uid="uid://cyauixuig0060" path="res://media/images/Sprite-0001.png" id="2_ututs"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qkrbd"]
+atlas = ExtResource("2_ututs")
+region = Rect2(160, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b5so1"]
+atlas = ExtResource("2_ututs")
+region = Rect2(176, 16, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_shhi6"]
 atlas = ExtResource("2_ututs")
@@ -11,8 +19,27 @@ region = Rect2(128, 16, 16, 16)
 atlas = ExtResource("2_ututs")
 region = Rect2(144, 16, 16, 16)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_sdj5d"]
+atlas = ExtResource("2_ututs")
+region = Rect2(224, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y5kl2"]
+atlas = ExtResource("2_ututs")
+region = Rect2(240, 16, 16, 16)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_53ibv"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qkrbd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b5so1")
+}],
+"loop": true,
+"name": &"blob",
+"speed": 5.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_shhi6")
@@ -23,6 +50,17 @@ animations = [{
 "loop": true,
 "name": &"goblin",
 "speed": 4.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sdj5d")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y5kl2")
+}],
+"loop": true,
+"name": &"skeleton",
+"speed": 5.0
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wjgh4"]
@@ -34,14 +72,16 @@ script = ExtResource("1_r880x")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(8, 8)
 sprite_frames = SubResource("SpriteFrames_53ibv")
-animation = &"goblin"
+animation = &"skeleton"
 autoplay = "goblin"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2(8, 8)
 shape = SubResource("RectangleShape2D_wjgh4")
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
+visible = false
 position = Vector2(8, 8)
 rotation = 4.71239
 target_position = Vector2(0, 16)

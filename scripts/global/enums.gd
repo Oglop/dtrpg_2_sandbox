@@ -71,7 +71,9 @@ enum ACTION {
 
 enum ENEMY_TYPES {
 	NONE,
-	GOBLIN
+	GOBLIN,
+	BLOB,
+	SKELETON
 }
 
 enum ENEMY_STATES {
