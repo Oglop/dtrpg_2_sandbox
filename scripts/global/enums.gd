@@ -22,6 +22,12 @@ enum SCENE_TYPE {
 	FIREBALL,
 	CUT
 }
+
+enum STATUS_EFFECTS {
+	STUN,
+	BURNING,
+	POISON
+}
 enum RULE {
 	NONE,
 	ALWAYS,
@@ -106,5 +112,6 @@ enum ITEM_NAMES {
 
 enum BATTLE_DAMAGE_FXS {
 	FIREBALL,
-	CUT
+	CUT,
+	LAVA_WAVE
 }

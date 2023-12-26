@@ -1,11 +1,83 @@
 extends Node
 
-
+var REMOVE_POISON_CHANCE:int = 15
 var rng = RandomNumberGenerator.new()
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass # Replace with function body.
+	
+func percentage(part:int, whole:int) -> int:
+	if part == 0 || whole == 0:
+		return 0
+	return (part / whole) * 100
+	
+func percentageOf(percent:int, whole:int) -> int:
+	if percent == 0 || whole == 0:
+		return 0
+	var part = whole * 0.1
+	return part * percent
+	
+func removeStun() -> void:
+	var index:int = Data.CHARACTER_1_STATUS_EFFECTS.find(Enums.STATUS_EFFECTS.STUN)
+	if index != -1:
+		Data.CHARACTER_1_STATUS_EFFECTS.remove_at(index)
+		Events.emit_signal("SYSTEM_WRITE_LOG", str(getCharacterName(0), " shrugs off the stun."), Enums.SYSTEM_LOG_TYPE.BATTLE)
+		index = -1
+	index = Data.CHARACTER_2_STATUS_EFFECTS.find(Enums.STATUS_EFFECTS.STUN)
+	if index != -1:
+		Data.CHARACTER_2_STATUS_EFFECTS.remove_at(index)
+		Events.emit_signal("SYSTEM_WRITE_LOG", str(getCharacterName(1), " shrugs off the stun."), Enums.SYSTEM_LOG_TYPE.BATTLE)
+		index = -1
+	index = Data.CHARACTER_3_STATUS_EFFECTS.find(Enums.STATUS_EFFECTS.STUN)
+	if index != -1:
+		Data.CHARACTER_3_STATUS_EFFECTS.remove_at(index)
+		Events.emit_signal("SYSTEM_WRITE_LOG", str(getCharacterName(2), " shrugs off the stun."), Enums.SYSTEM_LOG_TYPE.BATTLE)
+		index = -1
+	index = Data.CHARACTER_4_STATUS_EFFECTS.find(Enums.STATUS_EFFECTS.STUN)
+	if index != -1:
+		Data.CHARACTER_4_STATUS_EFFECTS.remove_at(index)
+		Events.emit_signal("SYSTEM_WRITE_LOG", str(getCharacterName(3), " shrugs off the stun."), Enums.SYSTEM_LOG_TYPE.BATTLE)
+		index = -1
+		
+func handlePoisonStatus() -> void:
+	var index:int = Data.CHARACTER_1_STATUS_EFFECTS.find(Enums.STATUS_EFFECTS.POISON)
+	if index != -1:
+		var dmg = percentageOf(10, Data.CHARACTER_1_HEALTH_MAX)
+		Events.emit_signal("CHARACTER_TAKE_DAMAGE", 0, dmg)
+		Events.emit_signal("SYSTEM_WRITE_LOG", str(getCharacterName(0), " is hurt by the posion."), Enums.SYSTEM_LOG_TYPE.BATTLE)
+		if skillCheck(REMOVE_POISON_CHANCE) != Enums.SYSTEM_SKILL_CHECK_RESULT.FAIL:
+			Data.CHARACTER_1_STATUS_EFFECTS.remove_at(index)
+			index = -1
+	index = Data.CHARACTER_2_STATUS_EFFECTS.find(Enums.STATUS_EFFECTS.POISON)
+	if index != -1:
+		var dmg = percentageOf(10, Data.CHARACTER_2_HEALTH_MAX)
+		Events.emit_signal("CHARACTER_TAKE_DAMAGE", 1, dmg)
+		Events.emit_signal("SYSTEM_WRITE_LOG", str(getCharacterName(1), " is hurt by the posion."), Enums.SYSTEM_LOG_TYPE.BATTLE)
+		if skillCheck(REMOVE_POISON_CHANCE) != Enums.SYSTEM_SKILL_CHECK_RESULT.FAIL:
+			Data.CHARACTER_2_STATUS_EFFECTS.remove_at(index)
+			index = -1
+	index = Data.CHARACTER_3_STATUS_EFFECTS.find(Enums.STATUS_EFFECTS.POISON)
+	if index != -1:
+		var dmg = percentageOf(10, Data.CHARACTER_3_HEALTH_MAX)
+		Events.emit_signal("CHARACTER_TAKE_DAMAGE", 2, dmg)
+		Events.emit_signal("SYSTEM_WRITE_LOG", str(getCharacterName(2), " is hurt by the posion."), Enums.SYSTEM_LOG_TYPE.BATTLE)
+		if skillCheck(REMOVE_POISON_CHANCE) != Enums.SYSTEM_SKILL_CHECK_RESULT.FAIL:
+			Data.CHARACTER_3_STATUS_EFFECTS.remove_at(index)
+			index = -1
+	index = Data.CHARACTER_4_STATUS_EFFECTS.find(Enums.STATUS_EFFECTS.POISON)
+	if index != -1:
+		var dmg = percentageOf(10, Data.CHARACTER_4_HEALTH_MAX)
+		Events.emit_signal("CHARACTER_TAKE_DAMAGE", 3, dmg)
+		Events.emit_signal("SYSTEM_WRITE_LOG", str(getCharacterName(3), " is hurt by the posion."), Enums.SYSTEM_LOG_TYPE.BATTLE)
+		if skillCheck(REMOVE_POISON_CHANCE) != Enums.SYSTEM_SKILL_CHECK_RESULT.FAIL:
+			Data.CHARACTER_4_STATUS_EFFECTS.remove_at(index)
+			index = -1
+	
+func handleStatusEffects() -> void:
+	# Check for stun
+	removeStun()
+	handlePoisonStatus()
 	
 func skillCheck(skill:int) -> Enums.SYSTEM_SKILL_CHECK_RESULT:
 	var check = rng.randi_range(1, 20)

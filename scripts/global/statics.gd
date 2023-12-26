@@ -323,6 +323,11 @@ var SPELLS: Dictionary = {
 		"cost": 4,
 		"effect": 6,
 		"randomness": 10
+	},
+	"LAVA_WAVE": {
+		"cost": 9,
+		"effect": 4,
+		"randomness": 3
 	}
 }
 
@@ -428,7 +433,9 @@ var ENEMY_STATS:Dictionary = {
 		"attack": 6,
 		"defence": 3,
 		"itemDrop": ["POTION"],
-		"itemDropRate":15
+		"itemDropRate":15,
+		"resistances": [],
+		"statusEffects": []
 	},
 	"BLOB": {
 		"name": "Blob",
@@ -440,7 +447,9 @@ var ENEMY_STATS:Dictionary = {
 		"attack": 10,
 		"defence": 5,
 		"itemDrop": [],
-		"itemDropRate":15
+		"itemDropRate":15,
+		"resistances": [ Enums.STATUS_EFFECTS.STUN, Enums.STATUS_EFFECTS.BURNING ],
+		"statusEffects": []
 	},
 	"SKELETON": {
 		"name": "Skeleton",
@@ -452,6 +461,8 @@ var ENEMY_STATS:Dictionary = {
 		"attack": 10,
 		"defence": 5,
 		"itemDrop": [],
-		"itemDropRate":15
+		"itemDropRate":15,
+		"resistances": [],
+		"statusEffects": []
 	}
 }

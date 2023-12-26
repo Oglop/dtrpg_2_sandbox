@@ -192,7 +192,7 @@ func resolveCastFireballAction(position:int, attackerName:String, enemyDetail:Di
 		manaIsSpent = true
 		
 	if manaIsSpent:
-		var randomness = rng.randi_range(-Statics.SPELLS.HEAL.randomness, Statics.SPELLS.HEAL.randomness)
+		var randomness = rng.randi_range(-Statics.SPELLS.FIREBALL.randomness, Statics.SPELLS.FIREBALL.randomness)
 		effect = effect + randomness
 		Events.emit_signal("QUEUE_DAMAGE_NUMBER", enemyPosition, effect, false, false)
 		Events.emit_signal("QUEUE_FX", enemyPosition, Enums.BATTLE_DAMAGE_FXS.FIREBALL)
@@ -210,9 +210,75 @@ func resolveBackstabAction(position:int, attack:int, defence:int, attackerDexter
 	
 
 func resolveDoubleStrikeAction(attack:int, defence:int, attackerDexterity:int, attackerLuck:int, attackerName:String, defenderName:String, enemyPosition:Vector2) -> int:
-	return 0
+	var dmg = resolveAttackAction(attack, defence, attackerDexterity, attackerLuck, attackerName, defenderName, enemyPosition)
+	dmg = resolveAttackAction(attack, defence, attackerDexterity, attackerLuck, attackerName, defenderName, enemyPosition)	
+	return dmg
+	
+func resolveLavewaveAction(position:int, attackerName:String, enemy:Dictionary, enemyPosition:Vector2) -> void:
+	var spell = Statics.SPELLS.LAVA_WAVE
+	var effect:int = 0
+	var manaIsSpent:bool = false
+	if position == 0 && Data.CHARACTER_1_MAGIC_CURRENT >= spell.cost:
+		Data.CHARACTER_1_MAGIC_CURRENT -= spell.cost
+		var levelMultiplyer:float = 1.0 + Data.CHARACTER_1_LV * 0.1
+		effect = (Data.CHARACTER_1_INTELLIGENCE * spell.effect) * levelMultiplyer
+		manaIsSpent = true
+	elif position == 1 && Data.CHARACTER_2_MAGIC_CURRENT >= spell.cost:
+		Data.CHARACTER_2_MAGIC_CURRENT -= spell.cost
+		var levelMultiplyer:float = 1.0 + Data.CHARACTER_2_LV * 0.1
+		effect = (Data.CHARACTER_2_INTELLIGENCE * spell.effect) * levelMultiplyer
+		manaIsSpent = true
+	elif position == 2 && Data.CHARACTER_3_MAGIC_CURRENT >= spell.cost:
+		Data.CHARACTER_3_MAGIC_CURRENT -= spell.cost
+		var levelMultiplyer:float = 1.0 + Data.CHARACTER3_LV * 0.1
+		effect = (Data.CHARACTER_3_INTELLIGENCE * spell.effect) * levelMultiplyer
+		manaIsSpent = true
+	elif position == 3 && Data.CHARACTER_4_MAGIC_CURRENT >= spell.cost:
+		Data.CHARACTER_4_MAGIC_CURRENT -= spell.cost
+		var levelMultiplyer:float = 1.0 + Data.CHARACTER_4_LV * 0.1
+		effect = (Data.CHARACTER_4_INTELLIGENCE * spell.effect) * levelMultiplyer
+		manaIsSpent = true
+		
+	if manaIsSpent:
+		for e in enemy.enemyDetails:
+			var randomness = rng.randi_range(-spell.randomness, spell.randomness)
+			effect = effect + randomness
+			e.health -= effect
+			Events.emit_signal("QUEUE_DAMAGE_NUMBER", enemyPosition, effect, false, false)
+			Events.emit_signal("QUEUE_FX", enemyPosition, Enums.BATTLE_DAMAGE_FXS.LAVA_WAVE)
+			Events.emit_signal("SYSTEM_WRITE_LOG", str(attackerName, " cast lava wave at ", e.name, " for ", effect, " damage."), Enums.SYSTEM_LOG_TYPE.BATTLE)
+	else:
+		Events.emit_signal("SYSTEM_WRITE_LOG", str(attackerName, " are unable to cast spell."), Enums.SYSTEM_LOG_TYPE.BATTLE)
 	
 	
+func resoleStunAction(position:int, enemyDetail:Dictionary) -> void:
+	if !enemyDetail.statusEffects.has(Enums.STATUS_EFFECTS.STUN):
+		var stunChance:int = 0
+		var attackerName:String = ""
+		if position == 0:
+			stunChance = Data.CHARACTER_1_STRENGTH
+			attackerName = Data.CHARACTER_1_NAME
+		elif position == 1:
+			stunChance = Data.CHARACTER_2_STRENGTH
+			attackerName = Data.CHARACTER_2_NAME
+		elif position == 2:
+			stunChance = Data.CHARACTER_3_STRENGTH
+			attackerName = Data.CHARACTER_3_NAME
+		elif position == 3:
+			stunChance = Data.CHARACTER_4_STRENGTH
+			attackerName = Data.CHARACTER_4_NAME
+			
+		var skillCheckResult = CharacterHandler.skillCheck(stunChance)
+		
+		if skillCheckResult == Enums.SYSTEM_SKILL_CHECK_RESULT.SUCCESS:
+			enemyDetail.statusEffects.append(Enums.STATUS_EFFECTS.STUN)
+			Events.emit_signal("SYSTEM_WRITE_LOG", str(attackerName, " stuns ", enemyDetail.name, " with a heavy blow."), Enums.SYSTEM_LOG_TYPE.BATTLE)
+		elif skillCheckResult == Enums.SYSTEM_SKILL_CHECK_RESULT.CRITICAL:
+			enemyDetail.statusEffects.append(Enums.STATUS_EFFECTS.STUN)
+			enemyDetail.statusEffects.append(Enums.STATUS_EFFECTS.STUN)
+			Events.emit_signal("SYSTEM_WRITE_LOG", str(attackerName, " stuns ", enemyDetail.name, " with a heavy blow."), Enums.SYSTEM_LOG_TYPE.BATTLE)
+			
+		
 	#CAST_REVIVE,
 	#PROTECT,
 	#DEFEND,
