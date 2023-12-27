@@ -1,0 +1,53 @@
+[gd_scene load_steps=9 format=3 uid="uid://boo31v2480kx0"]
+
+[ext_resource type="Script" path="res://scripts/effects/lavawave.gd" id="1_htwyv"]
+[ext_resource type="Texture2D" uid="uid://cyauixuig0060" path="res://media/images/Sprite-0001.png" id="1_ii7hi"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d4xe3"]
+atlas = ExtResource("1_ii7hi")
+region = Rect2(240, 96, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rfhal"]
+atlas = ExtResource("1_ii7hi")
+region = Rect2(256, 96, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vd4qu"]
+atlas = ExtResource("1_ii7hi")
+region = Rect2(272, 96, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fxmcv"]
+atlas = ExtResource("1_ii7hi")
+region = Rect2(288, 96, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_385mw"]
+atlas = ExtResource("1_ii7hi")
+region = Rect2(304, 96, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_wduyp"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d4xe3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rfhal")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vd4qu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fxmcv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_385mw")
+}],
+"loop": true,
+"name": &"wave",
+"speed": 6.0
+}]
+
+[node name="lavawave" type="AnimatedSprite2D"]
+position = Vector2(8, 8)
+sprite_frames = SubResource("SpriteFrames_wduyp")
+animation = &"wave"
+script = ExtResource("1_htwyv")

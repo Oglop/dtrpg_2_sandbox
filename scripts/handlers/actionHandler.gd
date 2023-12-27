@@ -278,7 +278,26 @@ func resoleStunAction(position:int, enemyDetail:Dictionary) -> void:
 			enemyDetail.statusEffects.append(Enums.STATUS_EFFECTS.STUN)
 			Events.emit_signal("SYSTEM_WRITE_LOG", str(attackerName, " stuns ", enemyDetail.name, " with a heavy blow."), Enums.SYSTEM_LOG_TYPE.BATTLE)
 			
+func resolvePoisonAction(position:int, enemy:Dictionary) -> void:
+	var intelligence:int = 0
+	if position == 0:
+		intelligence = Data.CHARACTER_1_INTELLIGENCE
+	elif position == 1:
+		intelligence = Data.CHARACTER_2_INTELLIGENCE
+	elif position == 2:
+		intelligence = Data.CHARACTER_3_INTELLIGENCE
+	elif position == 3:
+		intelligence = Data.CHARACTER_4_INTELLIGENCE
+	for detail in enemy.enemyDetails.shuffle():
+		if !detail.statusEffects.has(Enums.STATUS_EFFECTS.POISON):
+			var skillCheckResult = CharacterHandler.skillCheck(intelligence)
+			if skillCheckResult != Enums.SYSTEM_SKILL_CHECK_RESULT.FAIL:
+				detail.statusEffects.append(Enums.STATUS_EFFECTS.POISON)
+				Events.emit_signal("SYSTEM_WRITE_LOG", str(detail.name, " is hit by the poison."), Enums.SYSTEM_LOG_TYPE.BATTLE)
+			if skillCheckResult != Enums.SYSTEM_SKILL_CHECK_RESULT.CRITICAL:
+				break
 		
+	
 	#CAST_REVIVE,
 	#PROTECT,
 	#DEFEND,
