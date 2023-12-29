@@ -34,7 +34,6 @@ func _process(delta):
 	
 
 func _on_queueFX(position:Vector2, type:Enums.BATTLE_DAMAGE_FXS) -> void:
-	print(str("queue: ", type))
 	_damageFXQueue.append({ "position": position, "type": type })
 		
 func _on_queueDamageNumber(position:Vector2, value:int, isCritical:bool, isHeal:bool) -> void:
@@ -44,11 +43,13 @@ func unqueueDamageFX() -> void:
 	if _damageFXQueue.size() > 0:
 		var fx = _damageFXQueue.pop_front()
 		if fx.type == Enums.BATTLE_DAMAGE_FXS.FIREBALL:
-			print("spawn fireball")
 			Events.emit_signal("SPAWN_DAMAGE_FX_FIREBALL", fx.position)
 		elif fx.type == Enums.BATTLE_DAMAGE_FXS.CUT:
-			print("spawn fireball")
 			Events.emit_signal("SPAWN_DAMAGE_FX_CUT", fx.position)
+		elif fx.type == Enums.BATTLE_DAMAGE_FXS.POSION:
+			Events.emit_signal("SPAWN_DAMAGE_FX_POISON", fx.position)
+		elif fx.type == Enums.BATTLE_DAMAGE_FXS.LAVA_WAVE:
+			Events.emit_signal("SPAWN_DAMAGE_FX_LAVAWAVE", fx.position)
 		await get_tree().create_timer(_damageFXTimerWait).timeout
 		_damageFXQueueState = DAMAGE_FX_STATES.READY
 
@@ -214,7 +215,7 @@ func resolveTurn(enemyPosition:Vector2, enemy:Dictionary) -> void:
 			magic = Data.CHARACTER_4_MAGIC_CURRENT
 			magicMax = Data.CHARACTER_4_MAGIC_MAX
 		else:
-			detail = enemy.details[100 - actionTaker]
+			detail = enemy.details[actionTaker - 100]
 			health = detail.health
 			healthMax = detail.healthMax
 			magic = 0
@@ -232,7 +233,7 @@ func resolveTurn(enemyPosition:Vector2, enemy:Dictionary) -> void:
 				Events.emit_signal("SYSTEM_WRITE_LOG", str(CharacterHandler.getCharacterName(actionTaker), " is idling."), Enums.SYSTEM_LOG_TYPE.BATTLE)
 			else:
 				var enemeyDetail = getRandomEnemy(enemy)
-				resolveAction(actionTaker, enemeyDetail, action, enemyPosition)
+				resolveAction(actionTaker, enemeyDetail, action, enemyPosition, enemy)
 		
 		# if no characters loose
 		if !isPartyAlive():
@@ -243,12 +244,11 @@ func resolveTurn(enemyPosition:Vector2, enemy:Dictionary) -> void:
 		if enemy.details.size() == 0:
 			EnemyHandler.removeEnemy(enemy.id)
 			break
-		
 
 
 ## actionResolve
 ## resolve action for character in position
-func resolveAction(position:int, enemeyDetail:Dictionary, action:Enums.ACTION, enemyPosition:Vector2) -> void:
+func resolveAction(position:int, enemeyDetail:Dictionary, action:Enums.ACTION, enemyPosition:Vector2, enemy:Dictionary) -> void:
 	var attacker = CharacterHandler.getCharacterByPosition(position)
 	if action == Enums.ACTION.ATTACK:
 		var damage = ActionHandler.resolveAttackAction(attacker.attack, enemeyDetail.defence, attacker.agility, attacker.luck, attacker.name, enemeyDetail.name, enemyPosition)
@@ -268,6 +268,14 @@ func resolveAction(position:int, enemeyDetail:Dictionary, action:Enums.ACTION, e
 	elif action == Enums.ACTION.CAST_FIREBALL:
 		var damage = ActionHandler.resolveCastFireballAction(position, attacker.name, enemeyDetail, enemyPosition)
 		enemeyDetail.health -= damage
+	elif action == Enums.ACTION.LAVA_WAVE:
+		ActionHandler.resolveLavawaveAction(position, enemy, enemyPosition)
+	elif action == Enums.ACTION.PROTECT:
+		ActionHandler.resolveProtectAction(position)
+	elif action == Enums.ACTION.DEFEND:
+		ActionHandler.resolveDefendAction(position)
+	elif action == Enums.ACTION.BARRAGE:
+		ActionHandler.resolveBarrageAction(position, attacker.attack, attacker.agility, enemy, enemyPosition)
 	
 ## resolveRules
 ## postion

@@ -8,6 +8,7 @@ extends Node
 @onready var fireball = preload("res://scenes/effects/fireball.tscn")
 @onready var cut = preload("res://scenes/effects/cut.tscn")
 @onready var lavawave = preload("res://scenes/effects/lavawave.tscn")
+@onready var poison = preload("res://scenes/effects/poison.tscn")
 
 func getScene(type:Enums.SCENE_TYPE):
 	if type == Enums.SCENE_TYPE.PARTY:
@@ -26,4 +27,6 @@ func getScene(type:Enums.SCENE_TYPE):
 		return cut.instantiate()
 	elif type == Enums.SCENE_TYPE.LAVAWAVE:
 		return lavawave.instantiate()
+	elif type == Enums.SCENE_TYPE.POISON:
+		return poison.instantiate()
 

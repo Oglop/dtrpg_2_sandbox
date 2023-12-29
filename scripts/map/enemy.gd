@@ -2,29 +2,46 @@ extends Node2D
 ##
 ## ENEMY
 ##
-
-
+enum TURN_ENDED_STATUSES {
+	HAS_FOUGHT,
+	IDLE
+}
 var _id:String = ""
 var _name:String = ""
 var _description:String = ""
 var _type:Enums.ENEMY_TYPES = Enums.ENEMY_TYPES.NONE
 var _state:Enums.ENEMY_STATES = Enums.ENEMY_STATES.INACTIVE
-
+var _turnEndedStatus:TURN_ENDED_STATUSES = TURN_ENDED_STATUSES.IDLE
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	Events.connect("DELETE_ENEMY_ACTOR", _on_enemy_defeated)
 	Events.connect("PARTY_MOVED_TO", _on_partyMovedTo)
+	Events.connect("TURN_ENDED", _on_turnEnded)
 	
-#var distance = abs($KinematicBody.global_position - $SoftBody.global_position)
 
 func _on_enemy_defeated(id:String) -> void:
 	if _id == id:
 		self.queue_free()
 
+func _on_turnEnded() -> void:
+		checkForFight()
+		_turnEndedStatus = TURN_ENDED_STATUSES.IDLE
+		
+func checkForFight() -> void:
+	if _turnEndedStatus == TURN_ENDED_STATUSES.IDLE:
+		
+		var dir:Vector2 = getDirectionToParty(Vector2(Globals.X_POSITIONS[0], Globals.Y_POSITIONS[0]))
+		rotateRaycaster(dir)
+		$RayCast2D.force_raycast_update()
+		if $RayCast2D.collide_with_areas:
+			$CollisionShape2D.force_update_transform()
+			Events.emit_signal("ENEMY_IS_COLLIDING_WITH_AREA", _id, global_position, _name, _type)
+
+func setTurnEndedStatusHasFought() -> void:
+	_turnEndedStatus = TURN_ENDED_STATUSES.HAS_FOUGHT
+
 func _on_partyMovedTo(partyGlobalPosition:Vector2) -> void:
-	
 	var distance:int = self.global_position.distance_to(partyGlobalPosition)
-	#var distance = abs(partyGlobalPosition.direction_to() - self.global_position)
 	if distance > Statics.ROOM_SIZE * 20:
 		_state = Enums.ENEMY_STATES.INACTIVE
 	if distance < Statics.ROOM_SIZE * 8:

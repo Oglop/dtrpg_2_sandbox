@@ -41,7 +41,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_385mw")
 }],
-"loop": true,
+"loop": false,
 "name": &"wave",
 "speed": 6.0
 }]
@@ -50,4 +50,6 @@ animations = [{
 position = Vector2(8, 8)
 sprite_frames = SubResource("SpriteFrames_wduyp")
 animation = &"wave"
+frame = 4
+frame_progress = 1.0
 script = ExtResource("1_htwyv")

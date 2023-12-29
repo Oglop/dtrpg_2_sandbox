@@ -16,6 +16,7 @@ func _ready():
 	Events.connect("PARTY_ADD_MAGIC", _on_addMagic)
 	Events.connect("PARTY_REVIVE_CHARACTER", _on_partyReviveCharacter)
 	Events.connect("SET_GLOBAL_STATE", _on_globalStateChange)
+	Events.connect("ENEMY_IS_COLLIDING_WITH_AREA", _on_enemyCollidedWithArea)
 	
 	
 	self.global_position = Vector2(Data.PARTY_X, Data.PARTY_Y)
@@ -33,6 +34,19 @@ func _on_partyReviveCharacter(position:int, value:int) -> void:
 func _on_globalStateChange(globalState:Enums.SYSTEM_GLOBAL_STATES) -> void:
 	pass
 	
+	#Events.emit_signal("ENEMY_IS_COLLIDING_WITH_AREA", self._id, self.global_position, self._name, self._type)
+func _on_enemyCollidedWithArea(id:String, enemyPosition:Vector2, name:String, type:Enums.ENEMY_TYPES):
+	fightCheck($rightCheck/partyCollisionShapeRight, id, enemyPosition, name, type)
+	fightCheck($upCheck/partyCollisionShapeUp, id, enemyPosition, name, type)
+	fightCheck($leftCheck/partyCollisionShapeLeft, id, enemyPosition, name, type)
+	fightCheck($downCheck/partyCollisionShapeDown, id, enemyPosition, name, type)
+	
+func fightCheck(area:CollisionShape2D, id:String, enemyPosition:Vector2, name:String, type:Enums.ENEMY_TYPES) -> void:
+	if int(area.global_position.x / 16) == int(enemyPosition.x / 16) && int(area.global_position.y / 16) == int(enemyPosition.y / 16):
+		_state = Enums.PARTY_STATE.FIGHTING
+		$partyFightTimer.start(Statics.FIGHT_WAIT)
+		Events.emit_signal("PARTY_COMBAT_AT", id, enemyPosition, name, type)
+	
 func travelCheck(area:Area2D) -> bool:
 	var bodies = area.get_overlapping_bodies()
 	for body in bodies:
@@ -40,6 +54,7 @@ func travelCheck(area:Area2D) -> bool:
 			_state = Enums.PARTY_STATE.FIGHTING
 			$partyFightTimer.start(Statics.FIGHT_WAIT)
 			Events.emit_signal("PARTY_COMBAT_AT", body._id, body.global_position, body._name, body._type)
+			body.setTurnEndedStatusHasFought()
 		elif body.is_in_group("sign") && _state == Enums.PARTY_STATE.IDLE:
 			Events.emit_signal("MESSAGE_BOX_QUEUE_MESSAGES", body.getTitle(), body.getMessages())
 			Events.emit_signal("SET_GLOBAL_STATE", Enums.SYSTEM_GLOBAL_STATES.IN_MESSAGE_BOX)
@@ -98,6 +113,7 @@ func _on_partyMoved() -> void:
 	self.global_position = Vector2(Data.PARTY_X, Data.PARTY_Y)
 	Events.emit_signal("UPDATE_SPRITE_POSITIONS")
 	$partyMoveTimer.start(Statics.MOVE_SPEED_WAIT)
+	Events.emit_signal("TURN_ENDED")
 
 
 func _on_partyAddCrowns(crowns:int) -> void:
@@ -133,9 +149,9 @@ func _on_addHealth(position:int, value:int) -> void:
 			
 func _on_addMagic(position:int, value:int) -> void:
 	if position == 0:
-			Data.CHARACTER_1_MAGIC_CURRENT += value
-			if Data.CHARACTER_1_MAGIC_CURRENT > Data.CHARACTER_1_MAGIC_MAX:
-				Data.CHARACTER_1_MAGIC_CURRENT = Data.CHARACTER_1_MAGIC_MAX
+		Data.CHARACTER_1_MAGIC_CURRENT += value
+		if Data.CHARACTER_1_MAGIC_CURRENT > Data.CHARACTER_1_MAGIC_MAX:
+			Data.CHARACTER_1_MAGIC_CURRENT = Data.CHARACTER_1_MAGIC_MAX
 	elif position == 1:
 		Data.CHARACTER_2_MAGIC_CURRENT += value
 		if Data.CHARACTER_2_MAGIC_CURRENT > Data.CHARACTER_2_MAGIC_MAX:

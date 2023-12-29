@@ -202,7 +202,7 @@ func resolveCastFireballAction(position:int, attackerName:String, enemyDetail:Di
 	Events.emit_signal("SYSTEM_WRITE_LOG", str(attackerName, " are unable to cast spell."), Enums.SYSTEM_LOG_TYPE.BATTLE)
 	return 0
 	
-func resolveStealAction(position:int) -> void:
+func resolveStealAction(position:int, attackerDexterity:int, attackerLuck:int) -> void:
 	pass
 	
 func resolveBackstabAction(position:int, attack:int, defence:int, attackerDexterity:int, attackerLuck:int, attackerName:String, defenderName:String, enemyPosition:Vector2) -> int:
@@ -214,7 +214,7 @@ func resolveDoubleStrikeAction(attack:int, defence:int, attackerDexterity:int, a
 	dmg = resolveAttackAction(attack, defence, attackerDexterity, attackerLuck, attackerName, defenderName, enemyPosition)	
 	return dmg
 	
-func resolveLavewaveAction(position:int, attackerName:String, enemy:Dictionary, enemyPosition:Vector2) -> void:
+func resolveLavawaveAction(position:int, enemy:Dictionary, enemyPosition:Vector2) -> void:
 	var spell = Statics.SPELLS.LAVA_WAVE
 	var effect:int = 0
 	var manaIsSpent:bool = false
@@ -246,9 +246,9 @@ func resolveLavewaveAction(position:int, attackerName:String, enemy:Dictionary, 
 			e.health -= effect
 			Events.emit_signal("QUEUE_DAMAGE_NUMBER", enemyPosition, effect, false, false)
 			Events.emit_signal("QUEUE_FX", enemyPosition, Enums.BATTLE_DAMAGE_FXS.LAVA_WAVE)
-			Events.emit_signal("SYSTEM_WRITE_LOG", str(attackerName, " cast lava wave at ", e.name, " for ", effect, " damage."), Enums.SYSTEM_LOG_TYPE.BATTLE)
+			Events.emit_signal("SYSTEM_WRITE_LOG", str(CharacterHandler.getCharacterName(position), " cast lava wave at ", e.name, " for ", effect, " damage."), Enums.SYSTEM_LOG_TYPE.BATTLE)
 	else:
-		Events.emit_signal("SYSTEM_WRITE_LOG", str(attackerName, " are unable to cast spell."), Enums.SYSTEM_LOG_TYPE.BATTLE)
+		Events.emit_signal("SYSTEM_WRITE_LOG", str(CharacterHandler.getCharacterName(position), " are unable to cast spell."), Enums.SYSTEM_LOG_TYPE.BATTLE)
 	
 	
 func resoleStunAction(position:int, enemyDetail:Dictionary) -> void:
@@ -278,7 +278,7 @@ func resoleStunAction(position:int, enemyDetail:Dictionary) -> void:
 			enemyDetail.statusEffects.append(Enums.STATUS_EFFECTS.STUN)
 			Events.emit_signal("SYSTEM_WRITE_LOG", str(attackerName, " stuns ", enemyDetail.name, " with a heavy blow."), Enums.SYSTEM_LOG_TYPE.BATTLE)
 			
-func resolvePoisonAction(position:int, enemy:Dictionary) -> void:
+func resolvePoisonAction(position:int, enemy:Dictionary, enemyPosition:Vector2) -> void:
 	var intelligence:int = 0
 	if position == 0:
 		intelligence = Data.CHARACTER_1_INTELLIGENCE
@@ -294,18 +294,108 @@ func resolvePoisonAction(position:int, enemy:Dictionary) -> void:
 			if skillCheckResult != Enums.SYSTEM_SKILL_CHECK_RESULT.FAIL:
 				detail.statusEffects.append(Enums.STATUS_EFFECTS.POISON)
 				Events.emit_signal("SYSTEM_WRITE_LOG", str(detail.name, " is hit by the poison."), Enums.SYSTEM_LOG_TYPE.BATTLE)
+				Events.emit_signal("QUEUE_FX", enemyPosition, Enums.BATTLE_DAMAGE_FXS.POSION)
 			if skillCheckResult != Enums.SYSTEM_SKILL_CHECK_RESULT.CRITICAL:
 				break
+	
+func resolveBarrageAction(position:int, attack:int, agility:int, enemy:Dictionary, enemyPosition:Vector2) -> void:
+	Events.emit_signal("SYSTEM_WRITE_LOG", str(CharacterHandler.getCharacterName(position)," fires multiple arrows."), Enums.SYSTEM_LOG_TYPE.BATTLE)
+	for detail in enemy.enemyDetails.shuffle():
+		var skillCheckResult = CharacterHandler.skillCheck(agility)
 		
+		var dmg:int = 0
+		if skillCheckResult == Enums.SYSTEM_SKILL_CHECK_RESULT.SUCCESS:
+			dmg = (attack * 0.5) + rng.randi_range(1, agility) - detail.defence
+			detail.health -= dmg
+#				
+		if skillCheckResult == Enums.SYSTEM_SKILL_CHECK_RESULT.CRITICAL:
+			dmg = attack + rng.randi_range(1, agility) - detail.defence
+			detail.health -= dmg
+		Events.emit_signal("SYSTEM_WRITE_LOG", str(detail.name, " is hit by the barrage."), Enums.SYSTEM_LOG_TYPE.BATTLE)
+		
+func resolveMeditateAction(position:int) -> void:
+	var intelligence:int = 0
+	var levelMultiplyer:float = 0.0
+	if position == 0:
+		intelligence = Data.CHARACTER_1_INTELLIGENCE
+		levelMultiplyer = 1.0 + Data.CHARACTER_1_LV * 0.1
+	elif position == 1:
+		intelligence = Data.CHARACTER_2_INTELLIGENCE
+		levelMultiplyer = 1.0 + Data.CHARACTER_2_LV * 0.1
+	elif position == 2:
+		intelligence = Data.CHARACTER_3_INTELLIGENCE
+		levelMultiplyer = 1.0 + Data.CHARACTER_3_LV * 0.1
+	elif position == 3:
+		intelligence = Data.CHARACTER_4_INTELLIGENCE
+		levelMultiplyer = 1.0 + Data.CHARACTER_4_LV * 0.1
+	Events.emit_signal("PARTY_ADD_MAGIC", position, intelligence * levelMultiplyer)
+	Events.emit_signal("SYSTEM_WRITE_LOG", str(CharacterHandler.getCharacterName(position), " is meditating."), Enums.SYSTEM_LOG_TYPE.BATTLE)
 	
-	#CAST_REVIVE,
-	#PROTECT,
-	#DEFEND,
-	#STEAL,
-	#BACK_STAB,
+func resolveProtectAction(position:int) -> void:
+	if position == 0:
+		if !Data.CHARACTER_1_STATUS_EFFECTS.has(Enums.STATUS_EFFECTS.PROTECTING):
+			Data.CHARACTER_1_STATUS_EFFECTS.append(Enums.STATUS_EFFECTS.PROTECTING)
+			
+		if !Data.CHARACTER_2_STATUS_EFFECTS.has(Enums.STATUS_EFFECTS.PROTECTING):
+			Data.CHARACTER_2_STATUS_EFFECTS.append(Enums.STATUS_EFFECTS.PROTECTING)
+		if !Data.CHARACTER_3_STATUS_EFFECTS.has(Enums.STATUS_EFFECTS.PROTECTING):
+			Data.CHARACTER_3_STATUS_EFFECTS.append(Enums.STATUS_EFFECTS.PROTECTING)
+		if !Data.CHARACTER_4_STATUS_EFFECTS.has(Enums.STATUS_EFFECTS.PROTECTING):
+			Data.CHARACTER_4_STATUS_EFFECTS.append(Enums.STATUS_EFFECTS.PROTECTING)
+	elif position == 1:
+		if !Data.CHARACTER_2_STATUS_EFFECTS.has(Enums.STATUS_EFFECTS.PROTECTING):
+			Data.CHARACTER_2_STATUS_EFFECTS.append(Enums.STATUS_EFFECTS.PROTECTING)
+			
+		if !Data.CHARACTER_1_STATUS_EFFECTS.has(Enums.STATUS_EFFECTS.PROTECTING):
+			Data.CHARACTER_1_STATUS_EFFECTS.append(Enums.STATUS_EFFECTS.PROTECTING)
+		if !Data.CHARACTER_3_STATUS_EFFECTS.has(Enums.STATUS_EFFECTS.PROTECTING):
+			Data.CHARACTER_3_STATUS_EFFECTS.append(Enums.STATUS_EFFECTS.PROTECTING)
+		if !Data.CHARACTER_4_STATUS_EFFECTS.has(Enums.STATUS_EFFECTS.PROTECTING):
+			Data.CHARACTER_4_STATUS_EFFECTS.append(Enums.STATUS_EFFECTS.PROTECTING)
+	elif position == 2:
+		if !Data.CHARACTER_3_STATUS_EFFECTS.has(Enums.STATUS_EFFECTS.PROTECTING):
+			Data.CHARACTER_3_STATUS_EFFECTS.append(Enums.STATUS_EFFECTS.PROTECTING)
+			
+		if !Data.CHARACTER_1_STATUS_EFFECTS.has(Enums.STATUS_EFFECTS.PROTECTING):
+			Data.CHARACTER_1_STATUS_EFFECTS.append(Enums.STATUS_EFFECTS.PROTECTING)
+		if !Data.CHARACTER_2_STATUS_EFFECTS.has(Enums.STATUS_EFFECTS.PROTECTING):
+			Data.CHARACTER_2_STATUS_EFFECTS.append(Enums.STATUS_EFFECTS.PROTECTING)
+		if !Data.CHARACTER_4_STATUS_EFFECTS.has(Enums.STATUS_EFFECTS.PROTECTING):
+			Data.CHARACTER_4_STATUS_EFFECTS.append(Enums.STATUS_EFFECTS.PROTECTING)
+	elif position == 3:
+		if !Data.CHARACTER_4_STATUS_EFFECTS.has(Enums.STATUS_EFFECTS.PROTECTING):
+			Data.CHARACTER_4_STATUS_EFFECTS.append(Enums.STATUS_EFFECTS.PROTECTING)
+			
+		if !Data.CHARACTER_1_STATUS_EFFECTS.has(Enums.STATUS_EFFECTS.PROTECTING):
+			Data.CHARACTER_1_STATUS_EFFECTS.append(Enums.STATUS_EFFECTS.PROTECTING)
+		if !Data.CHARACTER_2_STATUS_EFFECTS.has(Enums.STATUS_EFFECTS.PROTECTING):
+			Data.CHARACTER_2_STATUS_EFFECTS.append(Enums.STATUS_EFFECTS.PROTECTING)
+		if !Data.CHARACTER_3_STATUS_EFFECTS.has(Enums.STATUS_EFFECTS.PROTECTING):
+			Data.CHARACTER_3_STATUS_EFFECTS.append(Enums.STATUS_EFFECTS.PROTECTING)
+			
+	Events.emit_signal("SYSTEM_WRITE_LOG", str(CharacterHandler.getCharacterName(position), " is protecting the party."), Enums.SYSTEM_LOG_TYPE.BATTLE)
+		
+func resolveDefendAction(position:int) -> void:
+	if position == 0:
+		if !Data.CHARACTER_1_STATUS_EFFECTS.has(Enums.STATUS_EFFECTS.DEFENDING):
+			Data.CHARACTER_1_STATUS_EFFECTS.append(Enums.STATUS_EFFECTS.DEFENDING)
+	elif position == 1:
+		if !Data.CHARACTER_2_STATUS_EFFECTS.has(Enums.STATUS_EFFECTS.DEFENDING):
+			Data.CHARACTER_2_STATUS_EFFECTS.append(Enums.STATUS_EFFECTS.DEFENDING)
+	elif position == 2:
+		if !Data.CHARACTER_3_STATUS_EFFECTS.has(Enums.STATUS_EFFECTS.DEFENDING):
+			Data.CHARACTER_3_STATUS_EFFECTS.append(Enums.STATUS_EFFECTS.DEFENDING)
+	elif position == 3:
+		if !Data.CHARACTER_4_STATUS_EFFECTS.has(Enums.STATUS_EFFECTS.DEFENDING):
+			Data.CHARACTER_4_STATUS_EFFECTS.append(Enums.STATUS_EFFECTS.DEFENDING)
+	Events.emit_signal("SYSTEM_WRITE_LOG", str(CharacterHandler.getCharacterName(position), " is defending."), Enums.SYSTEM_LOG_TYPE.BATTLE)
 	
+func resolveDodgeAction(position:int) -> void:
+	pass
 	
+## bless heal
+func resolveBlessAction(position:int) -> void:
+	pass
 	
-	
-
-
+func resolveHealManyAction() -> void:
+	pass

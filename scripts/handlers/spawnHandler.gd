@@ -7,6 +7,8 @@ func _ready():
 	Events.connect("SPAWN_DAMAGE_NUMBER", _on_spawnDamageNumber)
 	Events.connect("SPAWN_DAMAGE_FX_FIREBALL", _on_spawnFireball)
 	Events.connect("SPAWN_DAMAGE_FX_CUT", _on_spawnFXCut)
+	Events.connect("SPAWN_DAMAGE_FX_POISON", _on_spawnPoison)
+	Events.connect("SPAWN_DAMAGE_FX_LAVAWAVE", _on_spawnLavawave)
 	
 func _on_partySpawnCharacter(position:int, type:Enums.CLASSES) -> void:
 	var playerSpriteScene = SceneLoader.getScene(Enums.SCENE_TYPE.PLAYER_SPRITE)
@@ -36,6 +38,20 @@ func _on_spawnFireball(position:Vector2) -> void:
 	
 func _on_spawnFXCut(position:Vector2) -> void:
 	var fx = SceneLoader.getScene(Enums.SCENE_TYPE.CUT)
+	position.x += 8
+	position.y += 4
+	fx.set_global_position(position)
+	self.add_child(fx)
+	
+func _on_spawnLavawave(position:Vector2) -> void:
+	var fx = SceneLoader.getScene(Enums.SCENE_TYPE.LAVAWAVE)
+	position.x += 8
+	position.y += 4
+	fx.set_global_position(position)
+	self.add_child(fx)
+	
+func _on_spawnPoison(position:Vector2) -> void:
+	var fx = SceneLoader.getScene(Enums.SCENE_TYPE.POISON)
 	position.x += 8
 	position.y += 4
 	fx.set_global_position(position)

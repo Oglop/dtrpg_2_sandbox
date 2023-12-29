@@ -22,10 +22,15 @@ func _on_message_write_log(message:String, type:Enums.SYSTEM_LOG_TYPE, interupt:
 		writeNextMessage()
 
 func writeMessageInterupt(message:String):
-	messageQueue.clear()
+	if messageQueue.size() > 0:
+		messageQueue.pop_front()
+	messageQueue.push_front(message)
 	self.visible = true
-	$Timer.start(WAIT_NOT_PRESSING)
-	$MarginContainer/Panel/Label.text = message
+	var wait:float = WAIT_NOT_PRESSING
+	if messageQueue.size() > 1:
+		wait = WAIT_PRESSING_CANCEL
+	$Timer.start(wait)
+	$MarginContainer/Panel/Label.text = messageQueue[0]
 
 func writeNextMessage():
 	if $Timer.is_stopped() || messageQueue.size() > 1:
@@ -41,8 +46,7 @@ func writeNextMessage():
 			$MarginContainer/Panel/Label.text = messageQueue[0]
 		else: 
 			self.visible = false
-	
-
+		
 func _on_timer_timeout():
 	$Timer.stop()
 	messageQueue.pop_front()

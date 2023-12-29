@@ -5,7 +5,7 @@ var rng = RandomNumberGenerator.new()
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	Events.connect("TURN_ENDED", _on_turnEnded)
 	
 func percentage(part:int, whole:int) -> int:
 	if part == 0 || whole == 0:
@@ -73,11 +73,49 @@ func handlePoisonStatus() -> void:
 		if skillCheck(REMOVE_POISON_CHANCE) != Enums.SYSTEM_SKILL_CHECK_RESULT.FAIL:
 			Data.CHARACTER_4_STATUS_EFFECTS.remove_at(index)
 			index = -1
+			
+func removeProtecting() -> void:
+	var index:int = Data.CHARACTER_1_STATUS_EFFECTS.find(Enums.STATUS_EFFECTS.PROTECTED)
+	if index != -1:
+		Data.CHARACTER_1_STATUS_EFFECTS.remove_at(index)
+		index = -1
+	index = Data.CHARACTER_1_STATUS_EFFECTS.find(Enums.STATUS_EFFECTS.PROTECTING)
+	if index != -1:
+		Data.CHARACTER_1_STATUS_EFFECTS.remove_at(index)
+		index = -1
+		
+	index = Data.CHARACTER_2_STATUS_EFFECTS.find(Enums.STATUS_EFFECTS.PROTECTED)
+	if index != -1:
+		Data.CHARACTER_2_STATUS_EFFECTS.remove_at(index)
+		index = -1
+	index = Data.CHARACTER_2_STATUS_EFFECTS.find(Enums.STATUS_EFFECTS.PROTECTING)
+	if index != -1:
+		Data.CHARACTER_2_STATUS_EFFECTS.remove_at(index)
+		index = -1
+		
+	index = Data.CHARACTER_3_STATUS_EFFECTS.find(Enums.STATUS_EFFECTS.PROTECTED)
+	if index != -1:
+		Data.CHARACTER_3_STATUS_EFFECTS.remove_at(index)
+		index = -1
+	index = Data.CHARACTER_3_STATUS_EFFECTS.find(Enums.STATUS_EFFECTS.PROTECTING)
+	if index != -1:
+		Data.CHARACTER_3_STATUS_EFFECTS.remove_at(index)
+		index = -1
 	
-func handleStatusEffects() -> void:
-	# Check for stun
+	index = Data.CHARACTER_4_STATUS_EFFECTS.find(Enums.STATUS_EFFECTS.PROTECTED)
+	if index != -1:
+		Data.CHARACTER_4_STATUS_EFFECTS.remove_at(index)
+		index = -1
+	index = Data.CHARACTER_4_STATUS_EFFECTS.find(Enums.STATUS_EFFECTS.PROTECTING)
+	if index != -1:
+		Data.CHARACTER_4_STATUS_EFFECTS.remove_at(index)
+		index = -1
+	
+func _on_turnEnded() -> void:
 	removeStun()
 	handlePoisonStatus()
+	removeProtecting()
+
 	
 func skillCheck(skill:int) -> Enums.SYSTEM_SKILL_CHECK_RESULT:
 	var check = rng.randi_range(1, 20)

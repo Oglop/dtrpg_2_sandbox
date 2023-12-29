@@ -4,6 +4,10 @@ var rng = RandomNumberGenerator.new()
 
 func _ready():
 	Events.connect("ADD_ENEMY_TO_MAP", _on_addEnemyToMap)
+	Events.connect("TURN_ENDED", _on_turnEnded)
+	
+func _on_turnEnded() -> void:
+	pass
 
 func getEnemyName(type:Enums.ENEMY_TYPES) -> String:
 	if type == Enums.ENEMY_TYPES.NONE:
@@ -26,7 +30,6 @@ func getEnemyStats(type:Enums.ENEMY_TYPES) -> Dictionary:
 	elif type == Enums.ENEMY_TYPES.SKELETON:
 		return Statics.ENEMY_STATS.SKELETON
 	return stats
-
 
 ##
 ## "<monster>": {

@@ -1,8 +1,11 @@
-[gd_scene load_steps=3 format=3 uid="uid://bamxjnrqcr7xl"]
+[gd_scene load_steps=4 format=3 uid="uid://bamxjnrqcr7xl"]
 
 [ext_resource type="Script" path="res://scripts/player/party.gd" id="1_7b32g"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5la26"]
+size = Vector2(8, 8)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0edeq"]
 size = Vector2(8, 8)
 
 [node name="party" type="Node2D"]
@@ -17,31 +20,37 @@ process_callback = 0
 position = Vector2(8, 8)
 
 [node name="partyCollisionShapeRight" type="CollisionShape2D" parent="rightCheck"]
-position = Vector2(12, 0)
+position = Vector2(16, 0)
 shape = SubResource("RectangleShape2D_5la26")
 
 [node name="upCheck" type="Area2D" parent="."]
 position = Vector2(8, 8)
 
 [node name="partyCollisionShapeUp" type="CollisionShape2D" parent="upCheck"]
-position = Vector2(0, -12)
+position = Vector2(0, -16)
 shape = SubResource("RectangleShape2D_5la26")
 
 [node name="leftCheck" type="Area2D" parent="."]
 position = Vector2(8, 8)
 
 [node name="partyCollisionShapeLeft" type="CollisionShape2D" parent="leftCheck"]
-position = Vector2(-12, 0)
+position = Vector2(-16, 0)
 shape = SubResource("RectangleShape2D_5la26")
 
 [node name="downCheck" type="Area2D" parent="."]
 position = Vector2(8, 8)
 
 [node name="partyCollisionShapeDown" type="CollisionShape2D" parent="downCheck"]
-position = Vector2(0, 12)
+position = Vector2(0, 16)
 shape = SubResource("RectangleShape2D_5la26")
 
 [node name="partyFightTimer" type="Timer" parent="."]
+
+[node name="onCheck" type="Area2D" parent="."]
+
+[node name="partyCollisionShapeOn" type="CollisionShape2D" parent="onCheck"]
+position = Vector2(8, 8)
+shape = SubResource("RectangleShape2D_0edeq")
 
 [connection signal="timeout" from="partyMoveTimer" to="." method="_on_party_move_timer_timeout"]
 [connection signal="timeout" from="partyFightTimer" to="." method="_on_party_fight_timer_timeout"]

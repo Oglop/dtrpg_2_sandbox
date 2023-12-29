@@ -72,7 +72,10 @@ var CLASSES_ATRIBUTES:Dictionary = {
 			Enums.ACTION.USE_POTION_SELF,
 			Enums.ACTION.USE_POTION_ALLY,
 			Enums.ACTION.USE_ELEXIR_ALLY
-		]
+		],
+		"ACTIONS_LEVEL": {
+			"LV2": [ Enums.ACTION.DOUBLE_STRIKE ]
+		}
 	},
 	"KNIGHT": {
 		"HEALTH_BASE": 40,
@@ -162,7 +165,10 @@ var CLASSES_ATRIBUTES:Dictionary = {
 			Enums.ACTION.ATTACK,
 			Enums.ACTION.USE_POTION_SELF,
 			Enums.ACTION.DEFEND,
-		]
+		],
+		"ACTIONS_LEVEL": {
+			"LV5": [ Enums.ACTION.LAVA_WAVE ]
+		}
 	},
 	"HUNTER": {
 		"HEALTH_BASE": 26,
@@ -207,7 +213,12 @@ var CLASSES_ATRIBUTES:Dictionary = {
 			Enums.ACTION.ATTACK,
 			Enums.ACTION.USE_POTION_SELF,
 			Enums.ACTION.USE_POTION_ALLY
-		]
+		],
+		"ACTIONS_LEVEL": {
+			"LV3": [ Enums.ACTION.STUN ],
+			"LV6": [ Enums.ACTION.POISON ],
+			"LV12": [ Enums.ACTION.BARRAGE ]
+		}
 	},
 	"THIEF": {
 		"HEALTH_BASE": 18,
@@ -299,7 +310,10 @@ var CLASSES_ATRIBUTES:Dictionary = {
 			Enums.ACTION.USE_HERB_ALLY,
 			Enums.ACTION.USE_POTION_ALLY,
 			Enums.ACTION.ATTACK
-		]
+		],
+		"ACTIONS_LEVEL": {
+			"LV6": [ Enums.ACTION.CAST_REVIVE ]
+		}
 	}
 }
 

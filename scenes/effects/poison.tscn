@@ -1,0 +1,60 @@
+[gd_scene load_steps=10 format=3 uid="uid://wlna2xuuc3tp"]
+
+[ext_resource type="Texture2D" uid="uid://cyauixuig0060" path="res://media/images/Sprite-0001.png" id="1_sc8ri"]
+[ext_resource type="Script" path="res://scripts/effects/poison.gd" id="2_p2eoo"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u2vsl"]
+atlas = ExtResource("1_sc8ri")
+region = Rect2(272, 64, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f5fak"]
+atlas = ExtResource("1_sc8ri")
+region = Rect2(288, 64, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qogvg"]
+atlas = ExtResource("1_sc8ri")
+region = Rect2(304, 64, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4egqv"]
+atlas = ExtResource("1_sc8ri")
+region = Rect2(320, 64, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0hjvy"]
+atlas = ExtResource("1_sc8ri")
+region = Rect2(336, 64, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_my5om"]
+atlas = ExtResource("1_sc8ri")
+region = Rect2(352, 64, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_7oqqc"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u2vsl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f5fak")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qogvg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4egqv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0hjvy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_my5om")
+}],
+"loop": false,
+"name": &"poison",
+"speed": 8.0
+}]
+
+[node name="poison" type="AnimatedSprite2D"]
+position = Vector2(8, 8)
+sprite_frames = SubResource("SpriteFrames_7oqqc")
+animation = &"poison"
+script = ExtResource("2_p2eoo")
