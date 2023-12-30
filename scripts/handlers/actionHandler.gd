@@ -300,18 +300,18 @@ func resolvePoisonAction(position:int, enemy:Dictionary, enemyPosition:Vector2) 
 	
 func resolveBarrageAction(position:int, attack:int, agility:int, enemy:Dictionary, enemyPosition:Vector2) -> void:
 	Events.emit_signal("SYSTEM_WRITE_LOG", str(CharacterHandler.getCharacterName(position)," fires multiple arrows."), Enums.SYSTEM_LOG_TYPE.BATTLE)
-	for detail in enemy.enemyDetails.shuffle():
-		var skillCheckResult = CharacterHandler.skillCheck(agility)
-		
-		var dmg:int = 0
-		if skillCheckResult == Enums.SYSTEM_SKILL_CHECK_RESULT.SUCCESS:
-			dmg = (attack * 0.5) + rng.randi_range(1, agility) - detail.defence
-			detail.health -= dmg
-#				
-		if skillCheckResult == Enums.SYSTEM_SKILL_CHECK_RESULT.CRITICAL:
-			dmg = attack + rng.randi_range(1, agility) - detail.defence
-			detail.health -= dmg
-		Events.emit_signal("SYSTEM_WRITE_LOG", str(detail.name, " is hit by the barrage."), Enums.SYSTEM_LOG_TYPE.BATTLE)
+	for detail in enemy.enemyDetails:
+		if detail.health > 0:
+			var skillCheckResult = CharacterHandler.skillCheck(agility)
+			var dmg:int = 0
+			if skillCheckResult == Enums.SYSTEM_SKILL_CHECK_RESULT.SUCCESS:
+				dmg = (attack * 0.5) + rng.randi_range(1, agility) - detail.defence
+				detail.health -= dmg
+	#				
+			if skillCheckResult == Enums.SYSTEM_SKILL_CHECK_RESULT.CRITICAL:
+				dmg = attack + rng.randi_range(1, agility) - detail.defence
+				detail.health -= dmg
+			Events.emit_signal("SYSTEM_WRITE_LOG", str(detail.name, " is hit by the barrage."), Enums.SYSTEM_LOG_TYPE.BATTLE)
 		
 func resolveMeditateAction(position:int) -> void:
 	var intelligence:int = 0
@@ -391,11 +391,83 @@ func resolveDefendAction(position:int) -> void:
 	Events.emit_signal("SYSTEM_WRITE_LOG", str(CharacterHandler.getCharacterName(position), " is defending."), Enums.SYSTEM_LOG_TYPE.BATTLE)
 	
 func resolveDodgeAction(position:int) -> void:
-	pass
+	if position == 0:
+		if !Data.CHARACTER_1_STATUS_EFFECTS.has(Enums.STATUS_EFFECTS.DODGE):
+			Data.CHARACTER_1_STATUS_EFFECTS.append(Enums.STATUS_EFFECTS.DODGE)
+	elif position == 1:
+		if !Data.CHARACTER_2_STATUS_EFFECTS.has(Enums.STATUS_EFFECTS.DODGE):
+			Data.CHARACTER_2_STATUS_EFFECTS.append(Enums.STATUS_EFFECTS.DODGE)
+	elif position == 2:
+		if !Data.CHARACTER_3_STATUS_EFFECTS.has(Enums.STATUS_EFFECTS.DODGE):
+			Data.CHARACTER_3_STATUS_EFFECTS.append(Enums.STATUS_EFFECTS.DODGE)
+	elif position == 3:
+		if !Data.CHARACTER_4_STATUS_EFFECTS.has(Enums.STATUS_EFFECTS.DODGE):
+			Data.CHARACTER_4_STATUS_EFFECTS.append(Enums.STATUS_EFFECTS.DODGE)
 	
 ## bless heal
 func resolveBlessAction(position:int) -> void:
+	var positions:Array = []
+	if position == 0:
+		if !Data.CHARACTER_1_STATUS_EFFECTS.has(Enums.STATUS_EFFECTS.BLESSED):
+			Data.CHARACTER_1_STATUS_EFFECTS.append(Enums.STATUS_EFFECTS.BLESSED)
+	elif position == 1:
+		if !Data.CHARACTER_2_STATUS_EFFECTS.has(Enums.STATUS_EFFECTS.BLESSED):
+			Data.CHARACTER_2_STATUS_EFFECTS.append(Enums.STATUS_EFFECTS.BLESSED)
+	elif position == 2:
+		if !Data.CHARACTER_3_STATUS_EFFECTS.has(Enums.STATUS_EFFECTS.BLESSED):
+			Data.CHARACTER_3_STATUS_EFFECTS.append(Enums.STATUS_EFFECTS.BLESSED)
+	elif position == 3:
+		if !Data.CHARACTER_4_STATUS_EFFECTS.has(Enums.STATUS_EFFECTS.BLESSED):
+			Data.CHARACTER_4_STATUS_EFFECTS.append(Enums.STATUS_EFFECTS.BLESSED)
+			
+func resolveBlessedTrigger() -> void:
 	pass
+			
+func resolveHealManyAction(position:int) -> void:
+	var effect:int = 0
 	
-func resolveHealManyAction() -> void:
+	if position == 0 && Data.CHARACTER_1_MAGIC_CURRENT >= Statics.SPELLS.HEAL_MANY.cost:
+		Data.CHARACTER_1_MAGIC_CURRENT -= Statics.SPELLS.HEAL_MANY.cost
+		var levelMultiplyer:float = 1.0 + Data.CHARACTER_1_LV * 0.1
+		effect = (Data.CHARACTER_1_INTELLIGENCE * Statics.SPELLS.HEAL_MANY.effect) * levelMultiplyer
+	
+	if position == 1 && Data.CHARACTER_2_MAGIC_CURRENT >= Statics.SPELLS.HEAL_MANY.cost:
+		Data.CHARACTER_2_MAGIC_CURRENT -= Statics.SPELLS.HEAL_MANY.cost
+		var levelMultiplyer:float = 1.0 + Data.CHARACTER_2_LV * 0.1
+		effect = (Data.CHARACTER_2_INTELLIGENCE * Statics.SPELLS.HEAL_MANY.effect) * levelMultiplyer
+		
+	if position == 2 && Data.CHARACTER_3_MAGIC_CURRENT >= Statics.SPELLS.HEAL_MANY.cost:
+		Data.CHARACTER_3_MAGIC_CURRENT -= Statics.SPELLS.HEAL_MANY.cost
+		var levelMultiplyer:float = 1.0 + Data.CHARACTER_3_LV * 0.1
+		effect = (Data.CHARACTER_3_INTELLIGENCE * Statics.SPELLS.HEAL_MANY.effect) * levelMultiplyer
+		
+	if position == 3 && Data.CHARACTER_4_MAGIC_CURRENT >= Statics.SPELLS.HEAL_MANY.cost:
+		Data.CHARACTER_4_MAGIC_CURRENT -= Statics.SPELLS.HEAL_MANY.cost
+		var levelMultiplyer:float = 1.0 + Data.CHARACTER_4_LV * 0.1
+		effect = (Data.CHARACTER_4_INTELLIGENCE * Statics.SPELLS.HEAL_MANY.effect) * levelMultiplyer
+	
+	if effect > 0:
+		var randomness = rng.randi_range(-Statics.SPELLS.HEAL_MANY.randomnessHEAL_MANY, Statics.SPELLS.HEAL.randomness)
+		effect = effect + randomness
+		var targetPosition = getPositionWithLowestHealthAny()
+		if Data.CHARACTER_1_HEALTH_CURRENT > 0:
+			Events.emit_signal("QUEUE_DAMAGE_NUMBER", getPartyMemberGlobalPosition(0), effect, true, false)
+			Events.emit_signal("PARTY_ADD_HEALTH", 0, effect)
+			
+		if Data.CHARACTER_2_HEALTH_CURRENT > 0:
+			Events.emit_signal("QUEUE_DAMAGE_NUMBER", getPartyMemberGlobalPosition(1), effect, true, false)
+			Events.emit_signal("PARTY_ADD_HEALTH", 1, effect)
+			
+		if Data.CHARACTER_3_HEALTH_CURRENT > 0:
+			Events.emit_signal("QUEUE_DAMAGE_NUMBER", getPartyMemberGlobalPosition(2), effect, true, false)
+			Events.emit_signal("PARTY_ADD_HEALTH", 2, effect)
+			
+		if Data.CHARACTER_4_HEALTH_CURRENT > 0:
+			Events.emit_signal("QUEUE_DAMAGE_NUMBER", getPartyMemberGlobalPosition(3), effect, true, false)
+			Events.emit_signal("PARTY_ADD_HEALTH", 3, effect)
+		
+		Events.emit_signal("SYSTEM_WRITE_LOG", str(CharacterHandler.getCharacterName(position), " casts heal on the party."), Enums.SYSTEM_LOG_TYPE.BATTLE)
+
+	
+func resolvePierceAction(position:int, attackerName:String, enemy:Dictionary, enemyPosition:Vector2) -> void:
 	pass

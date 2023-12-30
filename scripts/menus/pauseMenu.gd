@@ -93,7 +93,6 @@ func _on_inputUp() -> void:
 			setInputBlocked()
 			if _state == MENU_STATES.MAIN:
 				setMainIndex(false)
-			
 		updateUI()
 
 func _on_inputDown() -> void:
@@ -102,7 +101,6 @@ func _on_inputDown() -> void:
 			setInputBlocked()
 			if _state == MENU_STATES.MAIN:
 				setMainIndex(true)
-			
 		updateUI()
 	
 func _on_inputAccept() -> void:
@@ -121,8 +119,6 @@ func _on_inputAccept() -> void:
 				elif _mainIndex == 2:
 					_state = MENU_STATES.RULES
 					Events.emit_signal("CHARACTER_SELECT_ACTIVE",true)
-		
-		
 	updateUI()
 	
 func _on_inputCancel() -> void:

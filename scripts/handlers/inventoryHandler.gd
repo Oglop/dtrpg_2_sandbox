@@ -127,6 +127,8 @@ func itemExists(name:String) -> bool:
 	return false
 	
 func addItem(item:Dictionary) -> void:
+	if item.quantity == 0:
+		item.quantity = 1
 	var itemInserted:bool = false
 	for x in Data.PARTY_ITEMS:
 		if x.name == item.name:

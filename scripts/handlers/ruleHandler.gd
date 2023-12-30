@@ -6,7 +6,7 @@ func _ready():
 func percentage(part:int, whole:int) -> int:
 	if part == 0 || whole == 0:
 		return 0
-	return (part / whole) * 100
+	return int((part / whole) * 100)
 
 func validateRule(
 	type:Enums.RULE,

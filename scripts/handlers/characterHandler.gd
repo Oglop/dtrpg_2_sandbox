@@ -164,6 +164,22 @@ func getEquipableByTypeAndPosition(position:int, itemType:Enums.ITEM_TYPES) -> b
 		return Data.CHARACTER_4_EQUIPABLE.find(itemType) >= 0
 	return false
 		
+func getLevelNext(xpBase:int, level:int) -> int:
+	return floor(level * 40 * xpBase) 
+	
+# return xp base
+func getXPBase(currentLV:int) -> int:
+	if currentLV >= 1 && currentLV <= 6:
+		return Statics.LEVEL_1_6_XP_BASE
+	elif currentLV >= 7 && currentLV <= 12:
+		return Statics.LEVEL_7_12_XP_BASE
+	elif currentLV >= 13 && currentLV <= 18:
+		return Statics.LEVEL_13_18_XP_BASE
+	elif currentLV >= 19 && currentLV <= 26:
+		return Statics.LEVEL_19_26_XP_BASE
+	else:
+		return Statics.LEVEL_27_99_XP_BASE
+		
 func getCharacterEquipableByClass(type:Enums.CLASSES) -> Array:
 	if type == Enums.CLASSES.WARRIOR:
 		return Statics.CLASSES_ATRIBUTES.WARRIOR.EQUIP_TYPES
@@ -299,29 +315,29 @@ func getRulesByClass(type:Enums.CLASSES) -> Array:
 		return Statics.CLASSES_ATRIBUTES.CLERIC.RULES
 	return []
 
-func addActionsByLevelAndClass(type:Enums.CLASSES, lv:int) -> Array:
+func getActionsByLevelAndClass(type:Enums.CLASSES, lv:int) -> Array:
 	var actions:Array
 	var lvIndex:String = ""
-	for n in range(1, lv):
-		lvIndex = str("LV", n)
-		if type == Enums.CLASSES.WARRIOR:
-			if Statics.CLASSES_ATRIBUTES.WARRIOR.ACTIONS_LEVEL[lvIndex] != null:
-				actions.append_array(Statics.CLASSES_ATRIBUTES.WARRIOR.ACTIONS_LEVEL[lvIndex])
-		elif type == Enums.CLASSES.KNIGHT:
-			if Statics.CLASSES_ATRIBUTES.KNIGHT.ACTIONS_LEVEL[lvIndex] != null:
-				actions.append_array(Statics.CLASSES_ATRIBUTES.KNIGHT.ACTIONS_LEVEL[lvIndex])
-		elif type == Enums.CLASSES.WIZARD:
-			if Statics.CLASSES_ATRIBUTES.WIZARD.ACTIONS_LEVEL[lvIndex] != null:
-				actions.append_array(Statics.CLASSES_ATRIBUTES.WIZARD.ACTIONS_LEVEL[lvIndex])
-		elif type == Enums.CLASSES.HUNTER:
-			if Statics.CLASSES_ATRIBUTES.HUNTER.ACTIONS_LEVEL[lvIndex] != null:
-				actions.append_array(Statics.CLASSES_ATRIBUTES.HUNTER.ACTIONS_LEVEL[lvIndex])
-		elif type == Enums.CLASSES.THIEF:
-			if Statics.CLASSES_ATRIBUTES.THIEF.ACTIONS_LEVEL[lvIndex] != null:
-				actions.append_array(Statics.CLASSES_ATRIBUTES.THIEF.ACTIONS_LEVEL[lvIndex])
-		elif type == Enums.CLASSES.CLERIC:
-			if Statics.CLASSES_ATRIBUTES.CLERIC.ACTIONS_LEVEL[lvIndex] != null:
-				actions.append_array(Statics.CLASSES_ATRIBUTES.CLERIC.ACTIONS_LEVEL[lvIndex])
+	lvIndex = str("LV", lv)
+	if type == Enums.CLASSES.WARRIOR:
+		if Statics.CLASSES_ATRIBUTES.WARRIOR.ACTIONS_LEVEL.has(lvIndex):
+			actions.append_array(Statics.CLASSES_ATRIBUTES.WARRIOR.ACTIONS_LEVEL[lvIndex])
+	elif type == Enums.CLASSES.KNIGHT:
+		if Statics.CLASSES_ATRIBUTES.KNIGHT.ACTIONS_LEVEL.has(lvIndex):
+			actions.append_array(Statics.CLASSES_ATRIBUTES.KNIGHT.ACTIONS_LEVEL[lvIndex])
+	elif type == Enums.CLASSES.WIZARD:
+		if Statics.CLASSES_ATRIBUTES.WIZARD.ACTIONS_LEVEL.has(lvIndex):
+			actions.append_array(Statics.CLASSES_ATRIBUTES.WIZARD.ACTIONS_LEVEL[lvIndex])
+	elif type == Enums.CLASSES.HUNTER:
+		if Statics.CLASSES_ATRIBUTES.HUNTER.ACTIONS_LEVEL.has(lvIndex):
+			actions.append_array(Statics.CLASSES_ATRIBUTES.HUNTER.ACTIONS_LEVEL[lvIndex])
+	elif type == Enums.CLASSES.THIEF:
+		if Statics.CLASSES_ATRIBUTES.THIEF.ACTIONS_LEVEL.has(lvIndex):
+			actions.append_array(Statics.CLASSES_ATRIBUTES.THIEF.ACTIONS_LEVEL[lvIndex])
+	elif type == Enums.CLASSES.CLERIC:
+		if Statics.CLASSES_ATRIBUTES.CLERIC.ACTIONS_LEVEL.has(lvIndex):
+			actions.append_array(Statics.CLASSES_ATRIBUTES.CLERIC.ACTIONS_LEVEL[lvIndex])
+		
 	return actions
 	
 func getStartingWeaponByClass(type:Enums.CLASSES) -> Dictionary:
@@ -367,12 +383,14 @@ func setNewCharacterOfType(type:Enums.CLASSES, position:int) -> void:
 	var armor:Dictionary = getStartingArmorByClass(type)
 	var name:String = getCharacterNameByPositionAndClass(type, position)
 	var equiplables:Array = getCharacterEquipableByClass(type)
+	var availableActions:Array = getActionsByLevelAndClass(type, 1)
+	var next:int = getLevelNext(getXPBase(1), 1)
 	if position == 0:
 		Data.CHARACTER_1_TYPE = type
 		Data.CHARACTER_1_NAME = name
 		Data.CHARACTER_1_LV = 1
 		Data.CHARACTER_1_XP = 0
-		Data.CHARACTER_1_XP_NEXT = 0
+		Data.CHARACTER_1_XP_NEXT = next
 		Data.CHARACTER_1_HEALTH_MAX = healthBase
 		Data.CHARACTER_1_HEALTH_CURRENT = healthBase
 		Data.CHARACTER_1_MAGIC_MAX = magicBase
@@ -386,12 +404,13 @@ func setNewCharacterOfType(type:Enums.CLASSES, position:int) -> void:
 		Data.CHARACTER_1_ARMOR = armor
 		Data.CHARACTER_1_EQUIPABLE = equiplables
 		Data.CHARACTER_1_ACCESSORY = {}
+		Data.CHARACTER_1_ACTIONS = availableActions
 	elif position == 1:
 		Data.CHARACTER_2_TYPE = type
 		Data.CHARACTER_2_NAME = name
 		Data.CHARACTER_2_LV = 1
 		Data.CHARACTER_2_XP = 0
-		Data.CHARACTER_2_XP_NEXT = 0
+		Data.CHARACTER_2_XP_NEXT = next
 		Data.CHARACTER_2_HEALTH_MAX = healthBase
 		Data.CHARACTER_2_HEALTH_CURRENT = healthBase
 		Data.CHARACTER_2_MAGIC_MAX = magicBase
@@ -405,12 +424,13 @@ func setNewCharacterOfType(type:Enums.CLASSES, position:int) -> void:
 		Data.CHARACTER_2_ARMOR = armor
 		Data.CHARACTER_2_EQUIPABLE = equiplables
 		Data.CHARACTER_2_ACCESSORY = {}
+		Data.CHARACTER_2_ACTIONS = availableActions
 	elif position == 2:
 		Data.CHARACTER_3_TYPE = type
 		Data.CHARACTER_3_NAME = name
 		Data.CHARACTER_3_LV = 1
 		Data.CHARACTER_3_XP = 0
-		Data.CHARACTER_3_XP_NEXT = 0
+		Data.CHARACTER_3_XP_NEXT = next
 		Data.CHARACTER_3_HEALTH_MAX = healthBase
 		Data.CHARACTER_3_HEALTH_CURRENT = healthBase
 		Data.CHARACTER_3_MAGIC_MAX = magicBase
@@ -424,12 +444,13 @@ func setNewCharacterOfType(type:Enums.CLASSES, position:int) -> void:
 		Data.CHARACTER_3_ARMOR = armor
 		Data.CHARACTER_3_EQUIPABLE = equiplables
 		Data.CHARACTER_3_ACCESSORY = {}
+		Data.CHARACTER_3_ACTIONS = availableActions
 	elif position == 3:
 		Data.CHARACTER_4_TYPE = type
 		Data.CHARACTER_4_NAME = name
 		Data.CHARACTER_4_LV = 1
 		Data.CHARACTER_4_XP = 0
-		Data.CHARACTER_4_XP_NEXT = 0
+		Data.CHARACTER_4_XP_NEXT = next
 		Data.CHARACTER_4_HEALTH_MAX = healthBase
 		Data.CHARACTER_4_HEALTH_CURRENT = healthBase
 		Data.CHARACTER_4_MAGIC_MAX = magicBase
@@ -443,6 +464,7 @@ func setNewCharacterOfType(type:Enums.CLASSES, position:int) -> void:
 		Data.CHARACTER_4_ARMOR = armor
 		Data.CHARACTER_4_EQUIPABLE = equiplables
 		Data.CHARACTER_4_ACCESSORY = {}
+		Data.CHARACTER_4_ACTIONS = availableActions
 	
 func isCharacterAlive(position:int) -> bool:
 	if position == 0:
@@ -533,7 +555,7 @@ func getCharacterByPosition(position:int) -> Dictionary:
 	var weapon:String = ""
 	var armor:String = ""
 	var accessory:String = ""
-	
+	var actions:Array = []
 	
 	if position == 0:
 		var levelMultiplyer:float = 1.0 + Data.CHARACTER_1_LV * 0.1
@@ -569,6 +591,7 @@ func getCharacterByPosition(position:int) -> Dictionary:
 		intelligence = Data.CHARACTER_1_INTELLIGENCE
 		luck = Data.CHARACTER_1_LUCK
 		rules = Data.CHARACTER_1_RULES
+		actions = Data.CHARACTER_1_ACTIONS
 	elif position == 1:
 		var levelMultiplyer:float = 1.0 + Data.CHARACTER_2_LV * 0.1
 		
@@ -605,6 +628,7 @@ func getCharacterByPosition(position:int) -> Dictionary:
 		intelligence = Data.CHARACTER_2_INTELLIGENCE
 		luck = Data.CHARACTER_2_LUCK
 		rules = Data.CHARACTER_2_RULES
+		actions = Data.CHARACTER_2_ACTIONS
 	elif position == 2:
 		var levelMultiplyer:float = 1.0 + Data.CHARACTER_3_LV * 0.1
 		
@@ -641,6 +665,7 @@ func getCharacterByPosition(position:int) -> Dictionary:
 		intelligence = Data.CHARACTER_3_INTELLIGENCE
 		luck = Data.CHARACTER_3_LUCK
 		rules = Data.CHARACTER_3_RULES
+		actions = Data.CHARACTER_3_ACTIONS
 	else:
 		var levelMultiplyer:float = 1.0 + Data.CHARACTER_4_LV * 0.1
 		
@@ -677,7 +702,7 @@ func getCharacterByPosition(position:int) -> Dictionary:
 		intelligence = Data.CHARACTER_4_INTELLIGENCE
 		luck = Data.CHARACTER_4_LUCK
 		rules = Data.CHARACTER_4_RULES
-	
+		actions = Data.CHARACTER_4_ACTIONS
 	return {
 		"lv": _lv,
 		"xp": _xp,
@@ -696,6 +721,7 @@ func getCharacterByPosition(position:int) -> Dictionary:
 		"intelligence": intelligence,
 		"luck": luck,
 		"rules": rules,
+		"actions": actions,
 		"weapon": weapon,
 		"armor": armor,
 		"accessory": accessory

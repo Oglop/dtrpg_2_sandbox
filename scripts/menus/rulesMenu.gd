@@ -24,12 +24,7 @@ var availableRules:Array = [
 ]
 
 var availableActions:Array = [
-	Enums.ACTION.ATTACK,
-	Enums.ACTION.DEFEND,
-	Enums.ACTION.PROTECT,
-	Enums.ACTION.USE_POTION_SELF,
-	Enums.ACTION.USE_POTION_ALLY,
-	Enums.ACTION.USE_POTION_SELF,
+	
 ]
 
 var _characterPosition:int = 0
@@ -64,7 +59,6 @@ func _on_globalStateChange(globalState:Enums.SYSTEM_GLOBAL_STATES) -> void:
 		updateUI()
 	
 func _on_activateRulesMenu(position:int) -> void:
-#	await self.get_tree().create_timer(0.4).timeout
 	_characterPosition = position
 	state = menu_states.MAIN_MENU
 	mainMenuSelected = 0
@@ -86,22 +80,18 @@ func setAvailableRulesAndActions() -> void:
 		
 	if type == Enums.CLASSES.WARRIOR:
 		availableRules = Statics.CLASSES_ATRIBUTES.WARRIOR.AVAILABLE_RULES
-		availableActions = Statics.CLASSES_ATRIBUTES.WARRIOR.AVAILABLE_ACTIONS
 	elif type == Enums.CLASSES.KNIGHT:
 		availableRules = Statics.CLASSES_ATRIBUTES.KNIGHT.AVAILABLE_RULES
-		availableActions = Statics.CLASSES_ATRIBUTES.KNIGHT.AVAILABLE_ACTIONS
 	elif type == Enums.CLASSES.WIZARD:
 		availableRules = Statics.CLASSES_ATRIBUTES.WIZARD.AVAILABLE_RULES
-		availableActions = Statics.CLASSES_ATRIBUTES.WIZARD.AVAILABLE_ACTIONS
 	elif type == Enums.CLASSES.HUNTER:
 		availableRules = Statics.CLASSES_ATRIBUTES.HUNTER.AVAILABLE_RULES
-		availableActions = Statics.CLASSES_ATRIBUTES.HUNTER.AVAILABLE_ACTIONS
 	elif type == Enums.CLASSES.THIEF:
 		availableRules = Statics.CLASSES_ATRIBUTES.THIEF.AVAILABLE_RULES
-		availableActions = Statics.CLASSES_ATRIBUTES.THIEF.AVAILABLE_ACTIONS
 	elif type == Enums.CLASSES.CLERIC:
 		availableRules = Statics.CLASSES_ATRIBUTES.CLERIC.AVAILABLE_RULES
-		availableActions = Statics.CLASSES_ATRIBUTES.CLERIC.AVAILABLE_ACTIONS
+		
+	setAvailableActions()
 
 func updateAvailableRules() -> void:
 	if availableRules.size() >= 1:
@@ -117,6 +107,17 @@ func updateAvailableRules() -> void:
 	if availableRules.size() >= 6:
 		$ruleMarginContainer9/Panel/Label.text = parseTextFromRule(availableRules[5])
 	
+func setAvailableActions() -> void:
+	availableActions
+	if _characterPosition == 0:
+		availableActions = Data.CHARACTER_1_ACTIONS
+	elif _characterPosition == 1:
+		availableActions = Data.CHARACTER_2_ACTIONS
+	elif _characterPosition == 1:
+		availableActions = Data.CHARACTER_3_ACTIONS
+	elif _characterPosition == 1:
+		availableActions = Data.CHARACTER_4_ACTIONS
+
 func updateAvailableActions() -> void:
 	if availableActions.size() >= 1:
 		$actionMarginContainer10/Panel/Label.text = parseTextFromAction(availableActions[0])

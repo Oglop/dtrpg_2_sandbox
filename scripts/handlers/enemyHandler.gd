@@ -1,10 +1,10 @@
 extends Node
 var rng = RandomNumberGenerator.new()
 
-
 func _ready():
 	Events.connect("ADD_ENEMY_TO_MAP", _on_addEnemyToMap)
 	Events.connect("TURN_ENDED", _on_turnEnded)
+	Events.connect("ENEMY_CHECK_FOR_DROPS", checkForItemDrops)
 	
 func _on_turnEnded() -> void:
 	pass
@@ -20,7 +20,27 @@ func getEnemyDescription(type:Enums.ENEMY_TYPES) -> String:
 		return ""
 		
 	return ""
-
+	
+func checkForItemDrops(type:Enums.ENEMY_TYPES) -> void:
+	var detail = getEnemyDetail(type)
+	var dropRate = detail.itemDropRate
+	var ItemKey:String = ""
+	for item in detail.itemDrops:
+		if Globals.chance(dropRate):
+			ItemKey = item
+			dropRate = dropRate * 0.5
+	if ItemKey != "":
+		var itemToAdd = Statics.ITEMS[ItemKey]
+		
+		var aOrAn = ""
+		if Globals.isVowel(itemToAdd.name):
+			aOrAn = "an"
+		else:
+			aOrAn = "a"
+		
+		Events.emit_signal("INVENTORY_ADD", itemToAdd)
+		Events.emit_signal("SYSTEM_WRITE_LOG", str(detail.name, " dropped ", aOrAn, " ", itemToAdd.name, "."), Enums.SYSTEM_LOG_TYPE.BATTLE)
+	
 func getEnemyStats(type:Enums.ENEMY_TYPES) -> Dictionary:
 	var stats:Dictionary = {}
 	if type == Enums.ENEMY_TYPES.GOBLIN:
@@ -31,6 +51,22 @@ func getEnemyStats(type:Enums.ENEMY_TYPES) -> Dictionary:
 		return Statics.ENEMY_STATS.SKELETON
 	return stats
 
+func getEnemyDetail(type:Enums.ENEMY_TYPES) -> Dictionary:
+	var stats = getEnemyStats(type)
+	var detail = {
+			"type": type,
+			"name": stats.name,
+			"health": stats.health,
+			"healthMax": stats.health,
+			"attack": stats.attack,
+			"defence": stats.defence,
+			"xp": stats.xp,
+			"crownsMin": stats.crownsMin,
+			"crownsMax": stats.crownsMax,
+			"itemDrops": stats.itemDrop,
+			"itemDropRate":stats.itemDropRate
+		}
+	return detail
 ##
 ## "<monster>": {
 ##  "name": "<monster-name>",
@@ -47,6 +83,7 @@ func getEnemyDetails(type:Enums.ENEMY_TYPES) -> Array:
 	var details:Array = []
 	for n in numberOfEnemies:
 		details.append({
+			"type": type,
 			"name": stats.name,
 			"health": stats.health,
 			"healthMax": stats.health,
@@ -55,7 +92,7 @@ func getEnemyDetails(type:Enums.ENEMY_TYPES) -> Array:
 			"xp": stats.xp,
 			"crownsMin": stats.crownsMin,
 			"crownsMax": stats.crownsMax,
-			"itemDrop": stats.itemDrop,
+			"itemDrops": stats.itemDrop,
 			"itemDropRate":stats.itemDropRate
 		})
 		

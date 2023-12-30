@@ -24,7 +24,7 @@ func _ready():
 	Events.connect("QUEUE_DAMAGE_NUMBER", _on_queueDamageNumber)
 	Events.connect("QUEUE_FX", _on_queueFX)
 
-func _process(delta):
+func _process(_delta):
 	if _damageNumbersQueueState == DAMAGE_QUEUE_STATES.READY &&  _damageNumbersQueue.size() > 0:
 		_damageNumbersQueueState = DAMAGE_QUEUE_STATES.BUSY
 		unqueueDamageNumber()
@@ -140,13 +140,7 @@ func resolveEnemyAttack(enemyDetail:Dictionary) -> void:
 	Events.emit_signal("SYSTEM_WRITE_LOG", str(enemyDetail.name, " hit ", character.name, " for ", dmg, " damage." ), Enums.SYSTEM_LOG_TYPE.BATTLE)
 	Events.emit_signal("QUEUE_FX", postion, Enums.BATTLE_DAMAGE_FXS.CUT)
 	Events.emit_signal("UPDATE_HP_BOX")
-	
-	
-func chance(test:int) -> bool:
-	var i:int = rng.randi_range(1, 100)
-	if i <= test:
-		return true
-	return false
+
 	
 		
 func removeDeadEnemies(enemy:Dictionary) -> Array:
@@ -155,11 +149,12 @@ func removeDeadEnemies(enemy:Dictionary) -> Array:
 		if detail.health > 0:
 			newDetails.push_back(detail)
 		else:
-			var dropsItem:bool = chance(detail.itemDropRate)
+			var dropsItem:bool = Globals.chance(detail.itemDropRate)
 			var crowns:int = rng.randi_range(detail.crownsMin, detail.crownsMax)
 			Events.emit_signal("SYSTEM_WRITE_LOG", str(detail.name, " is slain, party gains ", detail.xp ," xp and ", crowns, " crowns."), Enums.SYSTEM_LOG_TYPE.BATTLE)
 			Events.emit_signal("PARTY_ADD_EXPERIENCE", detail.xp)
 			Events.emit_signal("PARTY_ADD_GOLD", rng.randi_range(detail.crownsMin, detail.crownsMax))
+			Events.emit_signal("ENEMY_CHECK_FOR_DROPS", detail.type)
 	return newDetails	
 	
 func resolvePartyFell() -> void:
@@ -226,7 +221,8 @@ func resolveTurn(enemyPosition:Vector2, enemy:Dictionary) -> void:
 		# get defender
 
 		if enemyAttacking:
-			resolveEnemyAttack(detail)
+			if detail.health > 0:
+				resolveEnemyAttack(detail)
 		else:
 			var action = resolveRules(actionTaker)
 			if action == Enums.ACTION.NONE:
@@ -239,11 +235,11 @@ func resolveTurn(enemyPosition:Vector2, enemy:Dictionary) -> void:
 		if !isPartyAlive():
 			resolvePartyFell() 
 		
-		# remove dead enemies, if no enemies win
-		enemy.details = removeDeadEnemies(enemy)
-		if enemy.details.size() == 0:
-			EnemyHandler.removeEnemy(enemy.id)
-			break
+	# remove dead enemies, if no enemies win
+	enemy.details = removeDeadEnemies(enemy)
+	if enemy.details.size() == 0:
+		EnemyHandler.removeEnemy(enemy.id)
+			
 
 
 ## actionResolve

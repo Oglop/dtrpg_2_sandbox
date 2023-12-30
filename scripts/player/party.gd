@@ -166,6 +166,7 @@ func _on_addMagic(position:int, value:int) -> void:
 			Data.CHARACTER_4_MAGIC_CURRENT = Data.CHARACTER_4_MAGIC_MAX
 
 func _on_partyAddExperience(xp:int) -> void:
+	
 	var currentXP:int = 0
 	var currentLV:int = 0
 	var xpBase:float = 1.0
@@ -173,49 +174,51 @@ func _on_partyAddExperience(xp:int) -> void:
 	if Data.CHARACTER_1_HEALTH_CURRENT > 0:
 		currentXP = Data.CHARACTER_1_XP
 		currentLV = Data.CHARACTER_1_LV
-		
 		Data.CHARACTER_1_XP += xp
 		if Data.CHARACTER_1_XP >= Data.CHARACTER_1_XP_NEXT:
 			Data.CHARACTER_1_LV += 1
 			Events.emit_signal("SYSTEM_WRITE_LOG", str(Data.CHARACTER_1_NAME, " reached level ", Data.CHARACTER_1_LV, "."), Enums.SYSTEM_LOG_TYPE.BATTLE)
-			Data.CHARACTER_1_XP_NEXT = getLevelNext(getXPBase(Data.CHARACTER_1_LV), Data.CHARACTER_1_LV)
+			Data.CHARACTER_1_XP_NEXT = CharacterHandler.getLevelNext(CharacterHandler.getXPBase(Data.CHARACTER_1_LV), Data.CHARACTER_1_LV)
+			var actions:Array = CharacterHandler.getActionsByLevelAndClass(Data.CHARACTER_1_TYPE, Data.CHARACTER_1_LV)
+			if actions.size() > 0:
+				Data.CHARACTER_1_ACTIONS.append_array(actions)
 			
+	if Data.CHARACTER_2_HEALTH_CURRENT > 0:
+		currentXP = Data.CHARACTER_2_XP
+		currentLV = Data.CHARACTER_2_LV
 		Data.CHARACTER_2_XP += xp
 		if Data.CHARACTER_2_XP >= Data.CHARACTER_2_XP_NEXT:
 			Data.CHARACTER_2_LV += 1
 			Events.emit_signal("SYSTEM_WRITE_LOG", str(Data.CHARACTER_2_NAME, " reached level ", Data.CHARACTER_2_LV, "."), Enums.SYSTEM_LOG_TYPE.BATTLE)
-			Data.CHARACTER_2_XP_NEXT = getLevelNext(getXPBase(Data.CHARACTER_2_LV), Data.CHARACTER_2_LV)
+			Data.CHARACTER_2_XP_NEXT = CharacterHandler.getLevelNext(CharacterHandler.getXPBase(Data.CHARACTER_2_LV), Data.CHARACTER_2_LV)
+			var actions:Array = CharacterHandler.getActionsByLevelAndClass(Data.CHARACTER_2_TYPE, Data.CHARACTER_2_LV)
+			if actions.size() > 0:
+				Data.CHARACTER_2_ACTIONS.append_array(actions)
 			
+	if Data.CHARACTER_3_HEALTH_CURRENT > 0:
+		currentXP = Data.CHARACTER_3_XP
+		currentLV = Data.CHARACTER_3_LV
 		Data.CHARACTER_3_XP += xp
 		if Data.CHARACTER_3_XP >= Data.CHARACTER_3_XP_NEXT:
 			Data.CHARACTER_3_LV += 1
 			Events.emit_signal("SYSTEM_WRITE_LOG", str(Data.CHARACTER_3_NAME, " reached level ", Data.CHARACTER_3_LV, "."), Enums.SYSTEM_LOG_TYPE.BATTLE)
-			Data.CHARACTER_3_XP_NEXT = getLevelNext(getXPBase(Data.CHARACTER_3_LV), Data.CHARACTER_3_LV)
+			Data.CHARACTER_3_XP_NEXT = CharacterHandler.getLevelNext(CharacterHandler.getXPBase(Data.CHARACTER_3_LV), Data.CHARACTER_3_LV)
+			var actions:Array = CharacterHandler.getActionsByLevelAndClass(Data.CHARACTER_3_TYPE, Data.CHARACTER_3_LV)
+			if actions.size() > 0:
+				Data.CHARACTER_3_ACTIONS.append_array(actions)
 			
+	if Data.CHARACTER_4_HEALTH_CURRENT > 0:
+		currentXP = Data.CHARACTER_4_XP
+		currentLV = Data.CHARACTER_4_LV
 		Data.CHARACTER_4_XP += xp
 		if Data.CHARACTER_4_XP >= Data.CHARACTER_4_XP_NEXT:
 			Data.CHARACTER_4_LV += 1
 			Events.emit_signal("SYSTEM_WRITE_LOG", str(Data.CHARACTER_4_NAME, " reached level ", Data.CHARACTER_4_LV, "."), Enums.SYSTEM_LOG_TYPE.BATTLE)
-			Data.CHARACTER_4_XP_NEXT = getLevelNext(getXPBase(Data.CHARACTER_4_LV), Data.CHARACTER_4_LV)
+			Data.CHARACTER_4_XP_NEXT = CharacterHandler.getLevelNext(CharacterHandler.getXPBase(Data.CHARACTER_4_LV), Data.CHARACTER_4_LV)
+			var actions:Array = CharacterHandler.getActionsByLevelAndClass(Data.CHARACTER_4_TYPE, Data.CHARACTER_4_LV)
+			if actions.size() > 0:
+				Data.CHARACTER_4_ACTIONS.append_array(actions)
 
-# returns next level
-func getLevelNext(xpBase:int, level:int) -> int:
-	return floor(level * 40 * xpBase) 
-	
-# return xp base
-func getXPBase(currentLV:int) -> int:
-	if currentLV >= 1 && currentLV <= 6:
-		return Statics.LEVEL_1_6_XP_BASE
-	elif currentLV >= 7 && currentLV <= 12:
-		return Statics.LEVEL_7_12_XP_BASE
-	elif currentLV >= 13 && currentLV <= 18:
-		return Statics.LEVEL_13_18_XP_BASE
-	elif currentLV >= 19 && currentLV <= 26:
-		return Statics.LEVEL_19_26_XP_BASE
-	else:
-		return Statics.LEVEL_27_99_XP_BASE
-	
-	
 func _on_party_move_timer_timeout() -> void:
 	if _state == Enums.PARTY_STATE.MOVED:
 		Events.emit_signal("INPUT_RESET")

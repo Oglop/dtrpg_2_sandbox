@@ -49,6 +49,7 @@ var CHARACTER_1_WEAPON:Dictionary = {}
 var CHARACTER_1_ARMOR:Dictionary = {}
 var CHARACTER_1_ACCESSORY:Dictionary = {}
 var CHARACTER_1_STATUS_EFFECTS:Array = []
+var CHARACTER_1_ACTIONS:Array = []
 
 var CHARACTER_2_TYPE:Enums.CLASSES = Enums.CLASSES.NONE
 var CHARACTER_2_NAME:String = ""
@@ -80,6 +81,7 @@ var CHARACTER_2_WEAPON:Dictionary = {}
 var CHARACTER_2_ARMOR:Dictionary = {}
 var CHARACTER_2_ACCESSORY:Dictionary = {}
 var CHARACTER_2_STATUS_EFFECTS:Array = []
+var CHARACTER_2_ACTIONS:Array = []
 
 var CHARACTER_3_TYPE:Enums.CLASSES = Enums.CLASSES.NONE
 var CHARACTER_3_NAME:String = ""
@@ -111,6 +113,7 @@ var CHARACTER_3_WEAPON:Dictionary = {}
 var CHARACTER_3_ARMOR:Dictionary = {}
 var CHARACTER_3_ACCESSORY:Dictionary = {}
 var CHARACTER_3_STATUS_EFFECTS:Array = []
+var CHARACTER_3_ACTIONS:Array = []
 
 var CHARACTER_4_TYPE:Enums.CLASSES = Enums.CLASSES.NONE
 var CHARACTER_4_NAME:String = ""
@@ -142,6 +145,7 @@ var CHARACTER_4_WEAPON:Dictionary = {}
 var CHARACTER_4_ARMOR:Dictionary = {}
 var CHARACTER_4_ACCESSORY:Dictionary = {}
 var CHARACTER_4_STATUS_EFFECTS:Array = []
+var CHARACTER_4_ACTIONS:Array = []
 
 var ENEMIES:Array = [
 

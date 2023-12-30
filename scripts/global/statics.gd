@@ -29,6 +29,7 @@ var LEVEL_13_18_XP_BASE:float = 2.8
 var LEVEL_19_26_XP_BASE:float = 3.4
 var LEVEL_27_99_XP_BASE:float = 5.6
 
+
 var CLASSES_ATRIBUTES:Dictionary = {
 	"WARRIOR": {
 		"HEALTH_BASE": 30,
@@ -74,6 +75,7 @@ var CLASSES_ATRIBUTES:Dictionary = {
 			Enums.ACTION.USE_ELEXIR_ALLY
 		],
 		"ACTIONS_LEVEL": {
+			"LV1": [ Enums.ACTION.ATTACK, Enums.ACTION.DEFEND, Enums.ACTION.USE_POTION_SELF ],
 			"LV2": [ Enums.ACTION.DOUBLE_STRIKE ]
 		}
 	},
@@ -120,7 +122,12 @@ var CLASSES_ATRIBUTES:Dictionary = {
 			Enums.ACTION.USE_POTION_SELF,
 			Enums.ACTION.USE_POTION_ALLY,
 			Enums.ACTION.USE_ELEXIR_ALLY
-		]
+		],
+		"ACTIONS_LEVEL": {
+			"LV1": [ Enums.ACTION.ATTACK, Enums.ACTION.USE_POTION_ALLY, Enums.ACTION.USE_POTION_SELF ],
+			"LV2": [ Enums.ACTION.PROTECT ],
+			"LV5": [ Enums.ACTION.PIERCE ]
+		}
 	},
 	"WIZARD": {
 		"HEALTH_BASE": 16,
@@ -167,6 +174,7 @@ var CLASSES_ATRIBUTES:Dictionary = {
 			Enums.ACTION.DEFEND,
 		],
 		"ACTIONS_LEVEL": {
+			"LV1": [ Enums.ACTION.ATTACK, Enums.ACTION.CAST_FIREBALL, Enums.ACTION.USE_HERB_SELF ],
 			"LV5": [ Enums.ACTION.LAVA_WAVE ]
 		}
 	},
@@ -215,6 +223,7 @@ var CLASSES_ATRIBUTES:Dictionary = {
 			Enums.ACTION.USE_POTION_ALLY
 		],
 		"ACTIONS_LEVEL": {
+			"LV1": [ Enums.ACTION.ATTACK, Enums.ACTION.USE_POTION_ALLY, Enums.ACTION.USE_ELEXIR_ALLY ],
 			"LV3": [ Enums.ACTION.STUN ],
 			"LV6": [ Enums.ACTION.POISON ],
 			"LV12": [ Enums.ACTION.BARRAGE ]
@@ -263,6 +272,7 @@ var CLASSES_ATRIBUTES:Dictionary = {
 			Enums.ACTION.USE_POTION_ALLY,
 		],
 		"ACTIONS_LEVEL": {
+			"LV1": [ Enums.ACTION.ATTACK, Enums.ACTION.DEFEND, Enums.ACTION.USE_POTION_SELF ],
 			"LV3": [ Enums.ACTION.STEAL ],
 			"LV6": [ Enums.ACTION.BACK_STAB ]
 		}
@@ -312,7 +322,10 @@ var CLASSES_ATRIBUTES:Dictionary = {
 			Enums.ACTION.ATTACK
 		],
 		"ACTIONS_LEVEL": {
-			"LV6": [ Enums.ACTION.CAST_REVIVE ]
+			"LV1": [ Enums.ACTION.ATTACK, Enums.ACTION.USE_HERB_ALLY, Enums.ACTION.USE_ELEXIR_ALLY ],
+			"LV4": [ Enums.ACTION.BLESS ],
+			"LV6": [ Enums.ACTION.CAST_REVIVE ],
+			"LV8": [ Enums.ACTION.HEAL_ALL ],
 		}
 	}
 }
@@ -322,6 +335,11 @@ var SPELLS: Dictionary = {
 		"cost": 4,
 		"effect": 8,
 		"randomness": 5
+	},
+	"HEAL_MANY": {
+		"cost": 8,
+		"effect": 6,
+		"randomness": 4
 	},
 	"REVIVE": {
 		"cost": 10,
@@ -446,8 +464,8 @@ var ENEMY_STATS:Dictionary = {
 		"health": 10,
 		"attack": 6,
 		"defence": 3,
-		"itemDrop": ["POTION"],
-		"itemDropRate":15,
+		"itemDrop": ["POTION", "HERB"],
+		"itemDropRate":20,
 		"resistances": [],
 		"statusEffects": []
 	},
@@ -474,9 +492,9 @@ var ENEMY_STATS:Dictionary = {
 		"health": 14,
 		"attack": 10,
 		"defence": 5,
-		"itemDrop": [],
-		"itemDropRate":15,
-		"resistances": [],
+		"itemDrop": ["ELIXIR"],
+		"itemDropRate":10,
+		"resistances": [ Enums.STATUS_EFFECTS.BURNING ],
 		"statusEffects": []
 	}
 }
