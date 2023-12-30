@@ -365,6 +365,8 @@ var SPELLS: Dictionary = {
 
 var ITEMS:Dictionary = {
 	"POTION": {
+		"purchaseble": true,
+		"cost": 10,
 		"type": Enums.ITEM_TYPES.CONSUMABLE,
 		"name": "Potion",
 		"value": 100,
@@ -372,6 +374,8 @@ var ITEMS:Dictionary = {
 		"quantity":1
 	},
 	"ELIXIR": {
+		"purchaseble": true,
+		"cost": 10,
 		"type": Enums.ITEM_TYPES.CONSUMABLE,
 		"name": "Elixir",
 		"value": 1,
@@ -379,6 +383,8 @@ var ITEMS:Dictionary = {
 		"quantity": 1
 	},
 	"HERB": {
+		"purchaseble": true,
+		"cost": 10,
 		"type": Enums.ITEM_TYPES.CONSUMABLE,
 		"name": "Herb",
 		"value": 80,
@@ -386,13 +392,26 @@ var ITEMS:Dictionary = {
 		"quantity": 1
 	},
 	"SHORT_SWORD": {
+		"purchaseble": true,
+		"cost": 10,
 		"type": Enums.ITEM_TYPES.WEAPON_SWORD,
 		"name": "Short Sword",
 		"value": 8,
 		"magicValue": 0,
 		"quantity": 1
 	},
+	"DAGGER": {
+		"purchaseble": true,
+		"cost": 8,
+		"type": Enums.ITEM_TYPES.WEAPON_DAGGER,
+		"name": "Club",
+		"value": 3,
+		"magicValue": 0,
+		"quantity": 1
+	},
 	"CLUB": {
+		"purchaseble": true,
+		"cost": 10,
 		"type": Enums.ITEM_TYPES.WEAPON_BLUNT,
 		"name": "Club",
 		"value": 6,
@@ -400,6 +419,8 @@ var ITEMS:Dictionary = {
 		"quantity": 1
 	},
 	"SPEAR": {
+		"purchaseble": true,
+		"cost": 10,
 		"type": Enums.ITEM_TYPES.WEAPON_SPEAR,
 		"name": "Spear",
 		"value": 8,
@@ -407,13 +428,26 @@ var ITEMS:Dictionary = {
 		"quantity": 1
 	},
 	"SHORT_BOW": {
+		"purchaseble": true,
+		"cost": 10,
 		"type": Enums.ITEM_TYPES.WEAPON_RANGED,
 		"name": "Short Bow",
 		"value":6,
 		"magicValue": 0,
 		"quantity": 1
 	},
+	"HAND_AXE": {
+		"purchaseble": true,
+		"cost": 12,
+		"type": Enums.ITEM_TYPES.WEAPON_AXE,
+		"name": "Hand axe",
+		"value":9,
+		"magicValue": 0,
+		"quantity": 1
+	},
 	"STAFF": {
+		"purchaseble": true,
+		"cost": 10,
 		"type": Enums.ITEM_TYPES.WEAPON_STAFF,
 		"name": "Staff",
 		"value": 2,
@@ -421,6 +455,8 @@ var ITEMS:Dictionary = {
 		"quantity": 1
 	},
 	"LEATHER_ARMOR": {
+		"purchaseble": true,
+		"cost": 10,
 		"type": Enums.ITEM_TYPES.ARMOR_HEAVY,
 		"name": "Leather armor",
 		"value": 4,
@@ -428,10 +464,30 @@ var ITEMS:Dictionary = {
 		"quantity": 1
 	},
 	"ROBE_ARMOR": {
+		"purchaseble": true,
+		"cost": 10,
 		"type": Enums.ITEM_TYPES.ARMOR_LIGHT,
 		"name": "Robe",
 		"value": 2,
 		"magicValue": 4,
+		"quantity": 1
+	},
+	"IRON_RING": {
+		"purchaseble": true,
+		"cost": 2,
+		"type": Enums.ITEM_TYPES.ASSESSORY_RING,
+		"name": "Iron ring",
+		"value": 2,
+		"magicValue": 4,
+		"quantity": 1
+	},
+	"LEATHER_HELM": {
+		"purchaseble": true,
+		"cost": 10,
+		"type": Enums.ITEM_TYPES.ASSESSORY_HELMET,
+		"name": "Leather helm",
+		"value": 2,
+		"magicValue": 0,
 		"quantity": 1
 	}
 }

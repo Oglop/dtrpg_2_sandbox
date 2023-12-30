@@ -1,0 +1,192 @@
+[gd_scene load_steps=3 format=3 uid="uid://1kesvuxd1r8j"]
+
+[ext_resource type="Script" path="res://scripts/menus/merchantMenu.gd" id="1_ix6ok"]
+[ext_resource type="Theme" uid="uid://dss6di43qaueh" path="res://media/themes/textBoxTheme.tres" id="2_hw613"]
+
+[node name="purchaseableItem" type="CanvasLayer"]
+script = ExtResource("1_ix6ok")
+
+[node name="itemsMarginContainer" type="MarginContainer" parent="."]
+anchors_preset = -1
+anchor_right = 0.036
+anchor_bottom = 0.037
+offset_left = 3.0
+offset_top = 3.0
+offset_right = 190.48
+offset_bottom = 121.12
+
+[node name="Panel" type="Panel" parent="itemsMarginContainer"]
+layout_mode = 2
+theme = ExtResource("2_hw613")
+
+[node name="itemName1" type="Label" parent="itemsMarginContainer/Panel"]
+layout_mode = 2
+offset_left = 11.0
+offset_top = 3.0
+offset_right = 150.0
+offset_bottom = 19.0
+text = "SALFsdfsfsdfsf9"
+
+[node name="itemPrice1" type="Label" parent="itemsMarginContainer/Panel"]
+layout_mode = 0
+offset_left = 157.0
+offset_top = 3.0
+offset_right = 197.0
+offset_bottom = 19.0
+text = "99999"
+
+[node name="itemName2" type="Label" parent="itemsMarginContainer/Panel"]
+offset_left = 11.0
+offset_top = 15.0
+offset_right = 150.0
+offset_bottom = 31.0
+text = "SALFsdfsfsdfsf9"
+
+[node name="itemPrice2" type="Label" parent="itemsMarginContainer/Panel"]
+offset_left = 157.0
+offset_top = 15.0
+offset_right = 197.0
+offset_bottom = 31.0
+text = "99999"
+
+[node name="itemName3" type="Label" parent="itemsMarginContainer/Panel"]
+offset_left = 11.0
+offset_top = 27.0
+offset_right = 150.0
+offset_bottom = 43.0
+text = "SALFsdfsfsdfsf9"
+
+[node name="itemPrice3" type="Label" parent="itemsMarginContainer/Panel"]
+offset_left = 157.0
+offset_top = 27.0
+offset_right = 197.0
+offset_bottom = 43.0
+text = "99999"
+
+[node name="itemName4" type="Label" parent="itemsMarginContainer/Panel"]
+offset_left = 11.0
+offset_top = 39.0
+offset_right = 150.0
+offset_bottom = 55.0
+text = "SALFsdfsfsdfsf9"
+
+[node name="itemPrice4" type="Label" parent="itemsMarginContainer/Panel"]
+offset_left = 157.0
+offset_top = 39.0
+offset_right = 197.0
+offset_bottom = 55.0
+text = "99999"
+
+[node name="itemName5" type="Label" parent="itemsMarginContainer/Panel"]
+offset_left = 11.0
+offset_top = 51.0
+offset_right = 150.0
+offset_bottom = 67.0
+text = "SALFsdfsfsdfsf9"
+
+[node name="itemPrice5" type="Label" parent="itemsMarginContainer/Panel"]
+offset_left = 157.0
+offset_top = 51.0
+offset_right = 197.0
+offset_bottom = 67.0
+text = "99999"
+
+[node name="itemName6" type="Label" parent="itemsMarginContainer/Panel"]
+offset_left = 11.0
+offset_top = 63.0
+offset_right = 150.0
+offset_bottom = 79.0
+text = "SALFsdfsfsdfsf9"
+
+[node name="itemPrice6" type="Label" parent="itemsMarginContainer/Panel"]
+offset_left = 157.0
+offset_top = 63.0
+offset_right = 197.0
+offset_bottom = 79.0
+text = "99999"
+
+[node name="itemName7" type="Label" parent="itemsMarginContainer/Panel"]
+offset_left = 11.0
+offset_top = 75.0
+offset_right = 150.0
+offset_bottom = 91.0
+text = "SALFsdfsfsdfsf9"
+
+[node name="itemPrice7" type="Label" parent="itemsMarginContainer/Panel"]
+offset_left = 157.0
+offset_top = 75.0
+offset_right = 197.0
+offset_bottom = 91.0
+text = "99999"
+
+[node name="itemName8" type="Label" parent="itemsMarginContainer/Panel"]
+offset_left = 11.0
+offset_top = 87.0
+offset_right = 150.0
+offset_bottom = 103.0
+text = "SALFsdfsfsdfsf9"
+
+[node name="itemPrice8" type="Label" parent="itemsMarginContainer/Panel"]
+offset_left = 157.0
+offset_top = 87.0
+offset_right = 197.0
+offset_bottom = 103.0
+text = "99999"
+
+[node name="itemName9" type="Label" parent="itemsMarginContainer/Panel"]
+offset_left = 11.0
+offset_top = 99.0
+offset_right = 150.0
+offset_bottom = 115.0
+text = "SALFsdfsfsdfsf9"
+
+[node name="itemPrice9" type="Label" parent="itemsMarginContainer/Panel"]
+offset_left = 157.0
+offset_top = 99.0
+offset_right = 197.0
+offset_bottom = 115.0
+text = "99999"
+
+[node name="itemName10" type="Label" parent="itemsMarginContainer/Panel"]
+offset_left = 11.0
+offset_top = 111.0
+offset_right = 150.0
+offset_bottom = 127.0
+text = "SALFsdfsfsdfsf9"
+
+[node name="itemPrice10" type="Label" parent="itemsMarginContainer/Panel"]
+offset_left = 157.0
+offset_top = 111.0
+offset_right = 197.0
+offset_bottom = 127.0
+text = "99999"
+
+[node name="crownsMarginContainer" type="MarginContainer" parent="."]
+offset_left = 205.0
+offset_top = 3.0
+offset_right = 317.0
+offset_bottom = 19.0
+
+[node name="Panel" type="Panel" parent="crownsMarginContainer"]
+layout_mode = 2
+theme = ExtResource("2_hw613")
+
+[node name="crownsLabel" type="Label" parent="crownsMarginContainer/Panel"]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 3.0
+offset_right = 51.0
+offset_bottom = 19.0
+text = "Crowns:"
+
+[node name="crownsMoneyLabel" type="Label" parent="crownsMarginContainer/Panel"]
+offset_left = 53.0
+offset_top = 3.0
+offset_right = 109.0
+offset_bottom = 19.0
+text = "999"
+horizontal_alignment = 2
+
+[node name="Timer" type="Timer" parent="."]
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
