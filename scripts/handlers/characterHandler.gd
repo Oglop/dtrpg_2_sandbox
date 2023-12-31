@@ -18,6 +18,9 @@ func percentageOf(percent:int, whole:int) -> int:
 	var part = whole * 0.1
 	return part * percent
 	
+func getPartyDiscount() -> float:
+	return 0.0
+	
 func removeStun() -> void:
 	var index:int = Data.CHARACTER_1_STATUS_EFFECTS.find(Enums.STATUS_EFFECTS.STUN)
 	if index != -1:

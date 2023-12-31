@@ -2,6 +2,7 @@ extends Node
 
 func _ready():
 	Events.connect("INVENTORY_ADD", addItem)
+	Events.connect("INVENTORY_DELETE", removeItem)
 	Events.connect("INVENTORY_REMOVE", withdrawItem)
 	Events.connect("INVENTORY_REBUILD", rebuildInventory)
 	
@@ -28,6 +29,13 @@ func withdrawItem(name:String) -> Dictionary:
 				
 	rebuildInventory()
 	return _item
+	
+func removeItem(name:String) -> void:
+	for item in Data.PARTY_ITEMS:
+		if item.name == name && item.quantity:
+			item.quantity -= 1
+			break	
+	rebuildInventory()
 	
 func equipWeaponCharacter(position:int, weapon:Dictionary) -> bool:
 	if position == 0:

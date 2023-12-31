@@ -1,10 +1,69 @@
-[gd_scene load_steps=3 format=3 uid="uid://1kesvuxd1r8j"]
+[gd_scene load_steps=6 format=3 uid="uid://1kesvuxd1r8j"]
 
 [ext_resource type="Script" path="res://scripts/menus/merchantMenu.gd" id="1_ix6ok"]
 [ext_resource type="Theme" uid="uid://dss6di43qaueh" path="res://media/themes/textBoxTheme.tres" id="2_hw613"]
+[ext_resource type="Texture2D" uid="uid://cyauixuig0060" path="res://media/images/Sprite-0001.png" id="3_jgpt5"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yy2eq"]
+atlas = ExtResource("3_jgpt5")
+region = Rect2(192, 32, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_4n7o7"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yy2eq")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
 
 [node name="purchaseableItem" type="CanvasLayer"]
 script = ExtResource("1_ix6ok")
+
+[node name="confirmMarginContainer" type="MarginContainer" parent="."]
+offset_left = 205.0
+offset_top = 23.0
+offset_right = 317.0
+offset_bottom = 74.0
+
+[node name="Panel" type="Panel" parent="confirmMarginContainer"]
+layout_mode = 2
+theme = ExtResource("2_hw613")
+
+[node name="itemNameLabel" type="Label" parent="confirmMarginContainer/Panel"]
+layout_mode = 0
+offset_left = 3.0
+offset_top = 3.0
+offset_right = 110.0
+offset_bottom = 16.0
+text = "Short swordsdfs"
+
+[node name="costLabel" type="Label" parent="confirmMarginContainer/Panel"]
+layout_mode = 0
+offset_left = 3.0
+offset_top = 15.0
+offset_right = 63.0
+offset_bottom = 31.0
+text = "-12"
+horizontal_alignment = 2
+
+[node name="crownsLabel" type="Label" parent="confirmMarginContainer/Panel"]
+layout_mode = 0
+offset_left = 64.0
+offset_top = 15.0
+offset_right = 110.0
+offset_bottom = 31.0
+text = "Crowns"
+
+[node name="OKLabel" type="Label" parent="confirmMarginContainer/Panel"]
+layout_mode = 0
+offset_left = 93.0
+offset_top = 36.0
+offset_right = 111.0
+offset_bottom = 52.0
+text = "OK"
 
 [node name="itemsMarginContainer" type="MarginContainer" parent="."]
 anchors_preset = -1
@@ -36,6 +95,7 @@ offset_bottom = 19.0
 text = "99999"
 
 [node name="itemName2" type="Label" parent="itemsMarginContainer/Panel"]
+layout_mode = 0
 offset_left = 11.0
 offset_top = 15.0
 offset_right = 150.0
@@ -43,6 +103,7 @@ offset_bottom = 31.0
 text = "SALFsdfsfsdfsf9"
 
 [node name="itemPrice2" type="Label" parent="itemsMarginContainer/Panel"]
+layout_mode = 0
 offset_left = 157.0
 offset_top = 15.0
 offset_right = 197.0
@@ -50,6 +111,7 @@ offset_bottom = 31.0
 text = "99999"
 
 [node name="itemName3" type="Label" parent="itemsMarginContainer/Panel"]
+layout_mode = 0
 offset_left = 11.0
 offset_top = 27.0
 offset_right = 150.0
@@ -57,6 +119,7 @@ offset_bottom = 43.0
 text = "SALFsdfsfsdfsf9"
 
 [node name="itemPrice3" type="Label" parent="itemsMarginContainer/Panel"]
+layout_mode = 0
 offset_left = 157.0
 offset_top = 27.0
 offset_right = 197.0
@@ -64,6 +127,7 @@ offset_bottom = 43.0
 text = "99999"
 
 [node name="itemName4" type="Label" parent="itemsMarginContainer/Panel"]
+layout_mode = 0
 offset_left = 11.0
 offset_top = 39.0
 offset_right = 150.0
@@ -71,6 +135,7 @@ offset_bottom = 55.0
 text = "SALFsdfsfsdfsf9"
 
 [node name="itemPrice4" type="Label" parent="itemsMarginContainer/Panel"]
+layout_mode = 0
 offset_left = 157.0
 offset_top = 39.0
 offset_right = 197.0
@@ -78,6 +143,7 @@ offset_bottom = 55.0
 text = "99999"
 
 [node name="itemName5" type="Label" parent="itemsMarginContainer/Panel"]
+layout_mode = 0
 offset_left = 11.0
 offset_top = 51.0
 offset_right = 150.0
@@ -85,6 +151,7 @@ offset_bottom = 67.0
 text = "SALFsdfsfsdfsf9"
 
 [node name="itemPrice5" type="Label" parent="itemsMarginContainer/Panel"]
+layout_mode = 0
 offset_left = 157.0
 offset_top = 51.0
 offset_right = 197.0
@@ -92,6 +159,7 @@ offset_bottom = 67.0
 text = "99999"
 
 [node name="itemName6" type="Label" parent="itemsMarginContainer/Panel"]
+layout_mode = 0
 offset_left = 11.0
 offset_top = 63.0
 offset_right = 150.0
@@ -99,6 +167,7 @@ offset_bottom = 79.0
 text = "SALFsdfsfsdfsf9"
 
 [node name="itemPrice6" type="Label" parent="itemsMarginContainer/Panel"]
+layout_mode = 0
 offset_left = 157.0
 offset_top = 63.0
 offset_right = 197.0
@@ -106,6 +175,7 @@ offset_bottom = 79.0
 text = "99999"
 
 [node name="itemName7" type="Label" parent="itemsMarginContainer/Panel"]
+layout_mode = 0
 offset_left = 11.0
 offset_top = 75.0
 offset_right = 150.0
@@ -113,6 +183,7 @@ offset_bottom = 91.0
 text = "SALFsdfsfsdfsf9"
 
 [node name="itemPrice7" type="Label" parent="itemsMarginContainer/Panel"]
+layout_mode = 0
 offset_left = 157.0
 offset_top = 75.0
 offset_right = 197.0
@@ -120,6 +191,7 @@ offset_bottom = 91.0
 text = "99999"
 
 [node name="itemName8" type="Label" parent="itemsMarginContainer/Panel"]
+layout_mode = 0
 offset_left = 11.0
 offset_top = 87.0
 offset_right = 150.0
@@ -127,6 +199,7 @@ offset_bottom = 103.0
 text = "SALFsdfsfsdfsf9"
 
 [node name="itemPrice8" type="Label" parent="itemsMarginContainer/Panel"]
+layout_mode = 0
 offset_left = 157.0
 offset_top = 87.0
 offset_right = 197.0
@@ -134,6 +207,7 @@ offset_bottom = 103.0
 text = "99999"
 
 [node name="itemName9" type="Label" parent="itemsMarginContainer/Panel"]
+layout_mode = 0
 offset_left = 11.0
 offset_top = 99.0
 offset_right = 150.0
@@ -141,6 +215,7 @@ offset_bottom = 115.0
 text = "SALFsdfsfsdfsf9"
 
 [node name="itemPrice9" type="Label" parent="itemsMarginContainer/Panel"]
+layout_mode = 0
 offset_left = 157.0
 offset_top = 99.0
 offset_right = 197.0
@@ -148,6 +223,7 @@ offset_bottom = 115.0
 text = "99999"
 
 [node name="itemName10" type="Label" parent="itemsMarginContainer/Panel"]
+layout_mode = 0
 offset_left = 11.0
 offset_top = 111.0
 offset_right = 150.0
@@ -155,6 +231,7 @@ offset_bottom = 127.0
 text = "SALFsdfsfsdfsf9"
 
 [node name="itemPrice10" type="Label" parent="itemsMarginContainer/Panel"]
+layout_mode = 0
 offset_left = 157.0
 offset_top = 111.0
 offset_right = 197.0
@@ -180,6 +257,7 @@ offset_bottom = 19.0
 text = "Crowns:"
 
 [node name="crownsMoneyLabel" type="Label" parent="crownsMarginContainer/Panel"]
+layout_mode = 0
 offset_left = 53.0
 offset_top = 3.0
 offset_right = 109.0
@@ -188,5 +266,9 @@ text = "999"
 horizontal_alignment = 2
 
 [node name="Timer" type="Timer" parent="."]
+
+[node name="arrowSprite" type="AnimatedSprite2D" parent="."]
+position = Vector2(15, 16)
+sprite_frames = SubResource("SpriteFrames_4n7o7")
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

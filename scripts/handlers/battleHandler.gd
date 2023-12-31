@@ -229,6 +229,9 @@ func resolveTurn(enemyPosition:Vector2, enemy:Dictionary) -> void:
 				Events.emit_signal("SYSTEM_WRITE_LOG", str(CharacterHandler.getCharacterName(actionTaker), " is idling."), Enums.SYSTEM_LOG_TYPE.BATTLE)
 			else:
 				var enemeyDetail = getRandomEnemy(enemy)
+				if enemeyDetail.size() == 0:
+					# no alive enemies, break
+					break
 				resolveAction(actionTaker, enemeyDetail, action, enemyPosition, enemy)
 		
 		# if no characters loose

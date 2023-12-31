@@ -1,0 +1,228 @@
+[gd_scene load_steps=6 format=3 uid="uid://lygar51if8bw"]
+
+[ext_resource type="Script" path="res://scripts/menus/merchantSellMenu.gd" id="1_cgqnf"]
+[ext_resource type="Theme" uid="uid://dss6di43qaueh" path="res://media/themes/textBoxTheme.tres" id="2_k7flf"]
+[ext_resource type="Texture2D" uid="uid://cyauixuig0060" path="res://media/images/Sprite-0001.png" id="3_xxaxx"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yy2eq"]
+atlas = ExtResource("3_xxaxx")
+region = Rect2(192, 32, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_7whph"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yy2eq")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="merchantSellMenu" type="CanvasLayer"]
+script = ExtResource("1_cgqnf")
+
+[node name="itemsMarginContainer" type="MarginContainer" parent="."]
+offset_left = 3.0
+offset_top = 3.0
+offset_right = 198.0
+offset_bottom = 71.0
+
+[node name="Panel" type="Panel" parent="itemsMarginContainer"]
+layout_mode = 2
+theme = ExtResource("2_k7flf")
+
+[node name="itemNameLabel1" type="Label" parent="itemsMarginContainer/Panel"]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 2.0
+offset_right = 123.0
+offset_bottom = 18.0
+text = "Magma blades"
+
+[node name="itemQuantityLabel1" type="Label" parent="itemsMarginContainer/Panel"]
+layout_mode = 0
+offset_left = 121.0
+offset_top = 2.0
+offset_right = 149.0
+offset_bottom = 18.0
+text = "999"
+horizontal_alignment = 2
+
+[node name="itemPriceLabel1" type="Label" parent="itemsMarginContainer/Panel"]
+offset_left = 153.0
+offset_top = 2.0
+offset_right = 193.0
+offset_bottom = 18.0
+text = "99999"
+horizontal_alignment = 2
+
+[node name="itemNameLabel2" type="Label" parent="itemsMarginContainer/Panel"]
+offset_left = 12.0
+offset_top = 14.0
+offset_right = 123.0
+offset_bottom = 30.0
+text = "Magma blades"
+
+[node name="itemQuantityLabel2" type="Label" parent="itemsMarginContainer/Panel"]
+offset_left = 121.0
+offset_top = 14.0
+offset_right = 149.0
+offset_bottom = 30.0
+text = "999"
+horizontal_alignment = 2
+
+[node name="itemPriceLabel2" type="Label" parent="itemsMarginContainer/Panel"]
+offset_left = 153.0
+offset_top = 14.0
+offset_right = 193.0
+offset_bottom = 30.0
+text = "99999"
+horizontal_alignment = 2
+
+[node name="itemNameLabel3" type="Label" parent="itemsMarginContainer/Panel"]
+offset_left = 12.0
+offset_top = 26.0
+offset_right = 123.0
+offset_bottom = 42.0
+text = "Magma blades"
+
+[node name="itemQuantityLabel3" type="Label" parent="itemsMarginContainer/Panel"]
+offset_left = 121.0
+offset_top = 26.0
+offset_right = 149.0
+offset_bottom = 42.0
+text = "999"
+horizontal_alignment = 2
+
+[node name="itemPriceLabel3" type="Label" parent="itemsMarginContainer/Panel"]
+offset_left = 153.0
+offset_top = 26.0
+offset_right = 193.0
+offset_bottom = 42.0
+text = "99999"
+horizontal_alignment = 2
+
+[node name="itemNameLabel4" type="Label" parent="itemsMarginContainer/Panel"]
+offset_left = 12.0
+offset_top = 38.0
+offset_right = 123.0
+offset_bottom = 54.0
+text = "Magma blades"
+
+[node name="itemQuantityLabel4" type="Label" parent="itemsMarginContainer/Panel"]
+offset_left = 121.0
+offset_top = 39.0
+offset_right = 149.0
+offset_bottom = 55.0
+text = "999"
+horizontal_alignment = 2
+
+[node name="itemPriceLabel4" type="Label" parent="itemsMarginContainer/Panel"]
+offset_left = 153.0
+offset_top = 39.0
+offset_right = 193.0
+offset_bottom = 55.0
+text = "99999"
+horizontal_alignment = 2
+
+[node name="itemNameLabel5" type="Label" parent="itemsMarginContainer/Panel"]
+offset_left = 12.0
+offset_top = 50.0
+offset_right = 123.0
+offset_bottom = 66.0
+text = "Magma blades"
+
+[node name="itemQuantityLabel5" type="Label" parent="itemsMarginContainer/Panel"]
+offset_left = 121.0
+offset_top = 51.0
+offset_right = 149.0
+offset_bottom = 67.0
+text = "999"
+horizontal_alignment = 2
+
+[node name="itemPriceLabel5" type="Label" parent="itemsMarginContainer/Panel"]
+offset_left = 153.0
+offset_top = 51.0
+offset_right = 193.0
+offset_bottom = 67.0
+text = "99999"
+horizontal_alignment = 2
+
+[node name="crownsMarginContainer" type="MarginContainer" parent="."]
+offset_left = 205.0
+offset_top = 3.0
+offset_right = 317.0
+offset_bottom = 19.0
+
+[node name="Panel" type="Panel" parent="crownsMarginContainer"]
+layout_mode = 2
+theme = ExtResource("2_k7flf")
+
+[node name="crownsLabel" type="Label" parent="crownsMarginContainer/Panel"]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 51.0
+offset_bottom = 18.0
+text = "Crowns:"
+
+[node name="crownsMoneyLabel" type="Label" parent="crownsMarginContainer/Panel"]
+layout_mode = 0
+offset_left = 53.0
+offset_top = 2.0
+offset_right = 109.0
+offset_bottom = 18.0
+text = "999"
+horizontal_alignment = 2
+
+[node name="confirmMarginContainer" type="MarginContainer" parent="."]
+offset_left = 205.0
+offset_top = 23.0
+offset_right = 317.0
+offset_bottom = 74.0
+
+[node name="Panel" type="Panel" parent="confirmMarginContainer"]
+layout_mode = 2
+theme = ExtResource("2_k7flf")
+
+[node name="itemNameLabel" type="Label" parent="confirmMarginContainer/Panel"]
+layout_mode = 0
+offset_left = 3.0
+offset_top = 3.0
+offset_right = 110.0
+offset_bottom = 16.0
+text = "Short swordsdfs"
+
+[node name="costLabel" type="Label" parent="confirmMarginContainer/Panel"]
+layout_mode = 0
+offset_left = 3.0
+offset_top = 15.0
+offset_right = 63.0
+offset_bottom = 31.0
+text = "0022"
+horizontal_alignment = 2
+
+[node name="crownsLabel" type="Label" parent="confirmMarginContainer/Panel"]
+layout_mode = 0
+offset_left = 64.0
+offset_top = 15.0
+offset_right = 110.0
+offset_bottom = 31.0
+text = "Crowns"
+
+[node name="OKLabel" type="Label" parent="confirmMarginContainer/Panel"]
+layout_mode = 0
+offset_left = 93.0
+offset_top = 36.0
+offset_right = 111.0
+offset_bottom = 52.0
+text = "OK"
+
+[node name="Timer" type="Timer" parent="."]
+
+[node name="arrowSprite" type="AnimatedSprite2D" parent="."]
+position = Vector2(15, 15)
+sprite_frames = SubResource("SpriteFrames_7whph")
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

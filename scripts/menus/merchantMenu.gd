@@ -5,10 +5,17 @@ enum PRESSABLE {
 	YES,
 	NO
 }
+
+enum MERCHANT_STATES {
+	ITEMS_SELECT,
+	ITEMS_ACCEPT
+}
+
 var _index:int = 0
 var _active:bool = false
 var _isPressable:PRESSABLE = PRESSABLE.NO
 var _purchaseableItems:Array = []
+var _merchantState:MERCHANT_STATES = MERCHANT_STATES.ITEMS_SELECT
 
 func _ready():
 	Events.connect("MERCHANT_MENU_SET_ACTIVE", _on_merchantMenuSetActive)
@@ -16,49 +23,95 @@ func _ready():
 	Events.connect("INPUT_DOWN", _on_inputDown)
 	Events.connect("INPUT_ACCEPT", _on_inputAccept)
 	Events.connect("INPUT_CANCEL", _on_inputCancel)
+	
+#DEBUG
 	_on_merchantMenuSetActive(true)
+	Data.SYSTEM_STATE = Enums.SYSTEM_GLOBAL_STATES.IN_MERCHANT_MENU_BUY
+	Data.PARTY_CROWNS = 100
+	
 	
 func _on_globalStateChanged(globalState:Enums.SYSTEM_GLOBAL_STATES) -> void:
-	if globalState == Enums.SYSTEM_GLOBAL_STATES.IN_MERCHANT_MENU:
+	if globalState == Enums.SYSTEM_GLOBAL_STATES.IN_MERCHANT_MENU_BUY:
 		_on_merchantMenuSetActive(true)
 	else:
 		_on_merchantMenuSetActive(false)
 	
-func _on_merchantMenuSetActive(active:bool) -> void:
+func _on_merchantMenuSetActive(active:bool, items:Array = []) -> void:
 	_index = 0
 	_active = active
 	self.visible = active
 	if _active:
-		populatePurchaseableItems()
+		_merchantState = MERCHANT_STATES.ITEMS_SELECT
+		if items.size() > 0:
+			populatePurchaseableItemsSet(items)
+		else:
+			populatePurchaseableItemsRandom()
 		updateLabels()
 		_isPressable = PRESSABLE.YES
+	updateUI()
 		
 	
 func _on_inputUp() -> void:
-	if Data.SYSTEM_STATE == Enums.SYSTEM_GLOBAL_STATES.IN_MERCHANT_MENU:
+	if Data.SYSTEM_STATE == Enums.SYSTEM_GLOBAL_STATES.IN_MERCHANT_MENU_BUY:
 		if _isPressable == PRESSABLE.YES:
-			_index -= 0
-			if _index < 0:
-				_index = 0
+			setUnpressable()
+			if _merchantState == MERCHANT_STATES.ITEMS_SELECT:
+				_index -= 1
+				if _index < 0:
+					_index = 0
+				updateUI()
 	
 func _on_inputDown() -> void:
-	if Data.SYSTEM_STATE == Enums.SYSTEM_GLOBAL_STATES.IN_MERCHANT_MENU:
+	if Data.SYSTEM_STATE == Enums.SYSTEM_GLOBAL_STATES.IN_MERCHANT_MENU_BUY:
 		if _isPressable == PRESSABLE.YES:
-			_index += 1
-			if _index >= _purchaseableItems.size() - 1:
-				_index = _purchaseableItems.size() - 1
+			setUnpressable()
+			if _merchantState == MERCHANT_STATES.ITEMS_SELECT:
+				_index += 1
+				if _index >= _purchaseableItems.size() - 1:
+					_index = _purchaseableItems.size() - 1
+				updateUI()
 	
 func _on_inputAccept() -> void:
-	if Data.SYSTEM_STATE == Enums.SYSTEM_GLOBAL_STATES.IN_MERCHANT_MENU:
+	if Data.SYSTEM_STATE == Enums.SYSTEM_GLOBAL_STATES.IN_MERCHANT_MENU_BUY:
 		if _isPressable == PRESSABLE.YES:
-			pass
+			setUnpressable(0.5)
+			if _merchantState == MERCHANT_STATES.ITEMS_SELECT:
+				_merchantState = MERCHANT_STATES.ITEMS_ACCEPT
+			elif _merchantState == MERCHANT_STATES.ITEMS_ACCEPT:
+				if validatePurchase():
+					purchaseItem()
+				else:
+					# TODO can´t buy
+					pass
+			updateUI()
 	
 func _on_inputCancel() -> void:
-	if Data.SYSTEM_STATE == Enums.SYSTEM_GLOBAL_STATES.IN_MERCHANT_MENU:
+	if Data.SYSTEM_STATE == Enums.SYSTEM_GLOBAL_STATES.IN_MERCHANT_MENU_BUY:
 		if _isPressable == PRESSABLE.YES:
-			pass
+			setUnpressable()
+			if _merchantState == MERCHANT_STATES.ITEMS_SELECT:
+				pass
+			if _merchantState == MERCHANT_STATES.ITEMS_ACCEPT:
+				_merchantState = MERCHANT_STATES.ITEMS_SELECT
+			updateUI()
+
+func validatePurchase() -> bool:
+	return Data.PARTY_CROWNS >= _purchaseableItems[_index].cost
+				
+func updateUI() -> void:
+	if _merchantState == MERCHANT_STATES.ITEMS_SELECT:
+		$confirmMarginContainer.visible = false
+		$arrowSprite.position = Vector2i(15, 16 + (_index * 12))
+	if _merchantState == MERCHANT_STATES.ITEMS_ACCEPT:
+		$arrowSprite.position = Vector2i(299, 69)
+		$confirmMarginContainer/Panel/costLabel.text = str("-", _purchaseableItems[_index].cost)
+		$confirmMarginContainer/Panel/itemNameLabel.text = _purchaseableItems[_index].name
+		$confirmMarginContainer.visible = true
+			
+func populatePurchaseableItemsSet(items:Array) -> void:
+	_purchaseableItems.append_array(items)
 	
-func populatePurchaseableItems() -> void:
+func populatePurchaseableItemsRandom() -> void:
 	var totalItems:int = 0
 	var noOfPotions:int = rng.randi_range(1, 4)
 	totalItems += noOfPotions
@@ -101,7 +154,11 @@ func getRandomItemOfType(itemType:Enums.ITEM_TYPES) -> Dictionary:
 	return items[0]
 			
 func purchaseItem() -> void:
-	pass
+	var boughtItem = _purchaseableItems[_index]
+	Events.emit_signal("PARTY_SUB_CROWNS", boughtItem.cost)
+	Events.emit_signal("PARTY_ADD_ITEM", boughtItem)
+	_purchaseableItems.remove_at(_index)
+	postPurchaseRefresh()
 			
 			
 func getRandomEquipableType() -> Enums.ITEM_TYPES:
@@ -129,8 +186,12 @@ func getRandomEquipableType() -> Enums.ITEM_TYPES:
 	else:
 		return  Enums.ITEM_TYPES.WEAPON_SWORD
 	
-func refreshPurchaseableItems() -> void:
-	pass
+func postPurchaseRefresh() -> void:
+	_index -= 1
+	if _index < 0:
+		_index = 0
+	updateLabels()
+	_merchantState = MERCHANT_STATES.ITEMS_SELECT
 	
 func updateLabels() -> void:
 	$crownsMarginContainer/Panel/crownsMoneyLabel.text = str(Data.PARTY_CROWNS)
@@ -204,9 +265,9 @@ func updateLabels() -> void:
 		$itemsMarginContainer/Panel/itemName10.text = ""
 		$itemsMarginContainer/Panel/itemPrice10.text = ""
 	
-func setUnpressable() -> void:
+func setUnpressable(wait:float = 0.2) -> void:
 	_isPressable = PRESSABLE.NO
-	$Timer.start(0.2)
+	$Timer.start(wait)
 
 func _on_timer_timeout():
 	$Timer.stop()

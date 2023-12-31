@@ -11,6 +11,7 @@ func _ready():
 	Events.connect("PARTY_MOVED", _on_partyMoved)
 	Events.connect("PARTY_ADD_EXPERIENCE", _on_partyAddExperience)
 	Events.connect("PARTY_ADD_GOLD", _on_partyAddCrowns)
+	Events.connect("PARTY_SUB_CROWNS", _on_partySubCrowns)
 	Events.connect("PARTY_ADD_ITEM", _on_partyAddItem)
 	Events.connect("PARTY_ADD_HEALTH", _on_addHealth)
 	Events.connect("PARTY_ADD_MAGIC", _on_addMagic)
@@ -119,6 +120,8 @@ func _on_partyMoved() -> void:
 func _on_partyAddCrowns(crowns:int) -> void:
 	Data.PARTY_CROWNS += crowns
 	
+func _on_partySubCrowns(crowns:int) -> void:
+	Data.PARTY_CROWNS -= crowns
 	
 func _on_partyAddItem(item:Dictionary) -> void:
 	var itemInserted:bool = false
