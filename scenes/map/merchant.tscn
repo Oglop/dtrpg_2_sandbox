@@ -1,0 +1,40 @@
+[gd_scene load_steps=7 format=3 uid="uid://dmnrym5ftb1go"]
+
+[ext_resource type="Texture2D" uid="uid://cyauixuig0060" path="res://media/images/Sprite-0001.png" id="1_yyxa4"]
+[ext_resource type="Script" path="res://scripts/map/merchant.gd" id="2_2pq6j"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ccjqa"]
+atlas = ExtResource("1_yyxa4")
+region = Rect2(320, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l21ji"]
+atlas = ExtResource("1_yyxa4")
+region = Rect2(336, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_rnjsy"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ccjqa")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l21ji")
+}],
+"loop": true,
+"name": &"default",
+"speed": 4.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gxwj0"]
+size = Vector2(14, 14)
+
+[node name="merchant" type="AnimatedSprite2D" groups=["merchant"]]
+position = Vector2(8, 8)
+sprite_frames = SubResource("SpriteFrames_rnjsy")
+frame_progress = 0.77156
+script = ExtResource("2_2pq6j")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_gxwj0")

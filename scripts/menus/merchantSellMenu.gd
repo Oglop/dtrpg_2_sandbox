@@ -26,79 +26,80 @@ func _ready():
 	Events.connect("INPUT_CANCEL", _on_inputCancel)
 	Events.connect("SET_GLOBAL_STATE", _on_globalStateChanged)
 	Events.connect("INPUT_UP", _on_inputUp)
-	
-	# DEBUG
-	Data.SYSTEM_STATE = Enums.SYSTEM_GLOBAL_STATES.IN_MERCHANT_MENU_SELL
-	Data.PARTY_CROWNS = 123
-	Data.PARTY_ITEMS.append({
-		"purchaseble": true,
-		"cost": 10,
-		"type": Enums.ITEM_TYPES.CONSUMABLE,
-		"name": "Potion",
-		"value": 100,
-		"magicValue": 0,
-		"quantity":3
-	})
-	Data.PARTY_ITEMS.append({
-		"purchaseble": true,
-		"cost": 10,
-		"type": Enums.ITEM_TYPES.CONSUMABLE,
-		"name": "Herb",
-		"value": 100,
-		"magicValue": 0,
-		"quantity":2
-	})
-	Data.PARTY_ITEMS.append({
-		"purchaseble": true,
-		"cost": 10,
-		"type": Enums.ITEM_TYPES.CONSUMABLE,
-		"name": "Elixir",
-		"value": 1,
-		"magicValue": 0,
-		"quantity": 1
-	})
-	Data.PARTY_ITEMS.append({
-		"purchaseble": true,
-		"cost": 8,
-		"type": Enums.ITEM_TYPES.WEAPON_DAGGER,
-		"name": "Club",
-		"value": 3,
-		"magicValue": 0,
-		"quantity": 1
-	})
-	Data.PARTY_ITEMS.append({
-		"purchaseble": true,
-		"cost": 10,
-		"type": Enums.ITEM_TYPES.WEAPON_RANGED,
-		"name": "Short Bow",
-		"value":6,
-		"magicValue": 0,
-		"quantity": 1
-	})
-	Data.PARTY_ITEMS.append({
-		"purchaseble": true,
-		"cost": 2,
-		"type": Enums.ITEM_TYPES.ASSESSORY_RING,
-		"name": "Iron ring",
-		"value": 2,
-		"magicValue": 4,
-		"quantity": 1
-	})
-	Data.PARTY_ITEMS.append({
-		"purchaseble": true,
-		"cost": 10,
-		"type": Enums.ITEM_TYPES.ARMOR_LIGHT,
-		"name": "Robe",
-		"value": 2,
-		"magicValue": 4,
-		"quantity": 1
-	})
+	_on_activateMerchantSellMenu(false)
+#	# DEBUG
+#	Data.SYSTEM_STATE = Enums.SYSTEM_GLOBAL_STATES.IN_MERCHANT_MENU_SELL
+#	Data.PARTY_CROWNS = 123
+#	Data.PARTY_ITEMS.append({
+#		"purchaseble": true,
+#		"cost": 10,
+#		"type": Enums.ITEM_TYPES.CONSUMABLE,
+#		"name": "Potion",
+#		"value": 100,
+#		"magicValue": 0,
+#		"quantity":3
+#	})
+#	Data.PARTY_ITEMS.append({
+#		"purchaseble": true,
+#		"cost": 10,
+#		"type": Enums.ITEM_TYPES.CONSUMABLE,
+#		"name": "Herb",
+#		"value": 100,
+#		"magicValue": 0,
+#		"quantity":2
+#	})
+#	Data.PARTY_ITEMS.append({
+#		"purchaseble": true,
+#		"cost": 10,
+#		"type": Enums.ITEM_TYPES.CONSUMABLE,
+#		"name": "Elixir",
+#		"value": 1,
+#		"magicValue": 0,
+#		"quantity": 1
+#	})
+#	Data.PARTY_ITEMS.append({
+#		"purchaseble": true,
+#		"cost": 8,
+#		"type": Enums.ITEM_TYPES.WEAPON_DAGGER,
+#		"name": "Club",
+#		"value": 3,
+#		"magicValue": 0,
+#		"quantity": 1
+#	})
+#	Data.PARTY_ITEMS.append({
+#		"purchaseble": true,
+#		"cost": 10,
+#		"type": Enums.ITEM_TYPES.WEAPON_RANGED,
+#		"name": "Short Bow",
+#		"value":6,
+#		"magicValue": 0,
+#		"quantity": 1
+#	})
+#	Data.PARTY_ITEMS.append({
+#		"purchaseble": true,
+#		"cost": 2,
+#		"type": Enums.ITEM_TYPES.ASSESSORY_RING,
+#		"name": "Iron ring",
+#		"value": 2,
+#		"magicValue": 4,
+#		"quantity": 1
+#	})
+#	Data.PARTY_ITEMS.append({
+#		"purchaseble": true,
+#		"cost": 10,
+#		"type": Enums.ITEM_TYPES.ARMOR_LIGHT,
+#		"name": "Robe",
+#		"value": 2,
+#		"magicValue": 4,
+#		"quantity": 1
+#	})
 	
 	populateSellabeleList()
 	poulateViewableList()
 	updateUI()
 
 func _on_activateMerchantSellMenu(active:bool) -> void:
+	self.visible = active
 	setUnpressable()
 	_index = 0
 	_discount = CharacterHandler.getPartyDiscount()
@@ -265,7 +266,7 @@ func updateUI() -> void:
 			arrowIndex = 4
 		elif arrowIndex < 0:
 			arrowIndex = 0
-		print(str("index: ", _index, ", first: ", _viewableFirst, ", last: ", _viewableLast, ", arrowIndex: ", arrowIndex))
+#		print(str("index: ", _index, ", first: ", _viewableFirst, ", last: ", _viewableLast, ", arrowIndex: ", arrowIndex))
 		$arrowSprite.position = Vector2i(15, 15 + (arrowIndex * 12))
 		refreshViewableList()
 		updateItemLabels()

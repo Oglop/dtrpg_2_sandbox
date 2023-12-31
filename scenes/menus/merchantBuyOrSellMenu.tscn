@@ -1,0 +1,47 @@
+[gd_scene load_steps=3 format=3 uid="uid://db4jd03qgubvs"]
+
+[ext_resource type="Script" path="res://scripts/menus/merchantBuyOrSellMenu.gd" id="1_wna6v"]
+[ext_resource type="Theme" uid="uid://dss6di43qaueh" path="res://media/themes/textBoxTheme.tres" id="1_wqwv4"]
+
+[node name="merchantBuyOrSellMenu" type="CanvasLayer"]
+script = ExtResource("1_wna6v")
+
+[node name="buyMarginContainer" type="MarginContainer" parent="."]
+offset_left = 10.0
+offset_top = 11.0
+offset_right = 71.0
+offset_bottom = 28.0
+
+[node name="Panel" type="Panel" parent="buyMarginContainer"]
+layout_mode = 2
+theme = ExtResource("1_wqwv4")
+
+[node name="Label" type="Label" parent="buyMarginContainer/Panel"]
+layout_mode = 0
+offset_left = 3.0
+offset_top = 2.0
+offset_right = 43.0
+offset_bottom = 18.0
+text = "Buy"
+
+[node name="sellMarginContainer" type="MarginContainer" parent="."]
+offset_left = 10.0
+offset_top = 31.0
+offset_right = 71.0
+offset_bottom = 48.0
+
+[node name="Panel" type="Panel" parent="sellMarginContainer"]
+layout_mode = 2
+theme = ExtResource("1_wqwv4")
+
+[node name="Label" type="Label" parent="sellMarginContainer/Panel"]
+layout_mode = 0
+offset_left = 3.0
+offset_top = 2.0
+offset_right = 43.0
+offset_bottom = 18.0
+text = "Sell"
+
+[node name="Timer" type="Timer" parent="."]
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

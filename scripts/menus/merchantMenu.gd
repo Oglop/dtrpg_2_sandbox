@@ -23,11 +23,13 @@ func _ready():
 	Events.connect("INPUT_DOWN", _on_inputDown)
 	Events.connect("INPUT_ACCEPT", _on_inputAccept)
 	Events.connect("INPUT_CANCEL", _on_inputCancel)
+	Events.connect("SET_GLOBAL_STATE", _on_globalStateChanged)
+	_on_merchantMenuSetActive(false)
 	
 #DEBUG
-	_on_merchantMenuSetActive(true)
-	Data.SYSTEM_STATE = Enums.SYSTEM_GLOBAL_STATES.IN_MERCHANT_MENU_BUY
-	Data.PARTY_CROWNS = 100
+#	_on_merchantMenuSetActive(true)
+#	Data.SYSTEM_STATE = Enums.SYSTEM_GLOBAL_STATES.IN_MERCHANT_MENU_BUY
+#	Data.PARTY_CROWNS = 100
 	
 	
 func _on_globalStateChanged(globalState:Enums.SYSTEM_GLOBAL_STATES) -> void:
