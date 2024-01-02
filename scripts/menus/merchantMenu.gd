@@ -39,6 +39,7 @@ func _on_globalStateChanged(globalState:Enums.SYSTEM_GLOBAL_STATES) -> void:
 		_on_merchantMenuSetActive(false)
 	
 func _on_merchantMenuSetActive(active:bool, items:Array = []) -> void:
+	setUnpressable()
 	_index = 0
 	_active = active
 	self.visible = active
@@ -49,7 +50,6 @@ func _on_merchantMenuSetActive(active:bool, items:Array = []) -> void:
 		else:
 			populatePurchaseableItemsRandom()
 		updateLabels()
-		_isPressable = PRESSABLE.YES
 	updateUI()
 		
 	
@@ -92,7 +92,7 @@ func _on_inputCancel() -> void:
 		if _isPressable == PRESSABLE.YES:
 			setUnpressable()
 			if _merchantState == MERCHANT_STATES.ITEMS_SELECT:
-				pass
+				Events.emit_signal("SET_GLOBAL_STATE", Enums.SYSTEM_GLOBAL_STATES.IN_MERCHANT_SELECT)
 			if _merchantState == MERCHANT_STATES.ITEMS_ACCEPT:
 				_merchantState = MERCHANT_STATES.ITEMS_SELECT
 			updateUI()
@@ -114,6 +114,7 @@ func populatePurchaseableItemsSet(items:Array) -> void:
 	_purchaseableItems.append_array(items)
 	
 func populatePurchaseableItemsRandom() -> void:
+	_purchaseableItems = []
 	var totalItems:int = 0
 	var noOfPotions:int = rng.randi_range(1, 4)
 	totalItems += noOfPotions

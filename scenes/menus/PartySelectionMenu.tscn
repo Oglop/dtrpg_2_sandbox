@@ -1,14 +1,13 @@
-[gd_scene load_steps=7 format=3 uid="uid://ben2pehmodvg7"]
+[gd_scene load_steps=6 format=3 uid="uid://ben2pehmodvg7"]
 
-[ext_resource type="Script" path="res://scripts/menus/PartySelectionMenu.gd" id="1_5ofkq"]
+[ext_resource type="Script" path="res://scripts/menus/PartySelectionMenu.gd" id="1_pci7g"]
 [ext_resource type="Theme" uid="uid://dss6di43qaueh" path="res://media/themes/textBoxTheme.tres" id="2_2v6c6"]
 [ext_resource type="PackedScene" uid="uid://cjy7f6gu4m24" path="res://scenes/menus/menuSelectable.tscn" id="3_ctatw"]
 [ext_resource type="PackedScene" uid="uid://ds1mawhw2nvsj" path="res://scenes/menus/viewCharacterInCreator.tscn" id="3_u43in"]
 [ext_resource type="PackedScene" uid="uid://bewh6v6vi0v30" path="res://scenes/menus/confirmChoice.tscn" id="5_tma1k"]
-[ext_resource type="PackedScene" uid="uid://e16thel45nxq" path="res://scenes/menus/characterCard.tscn" id="6_li2mj"]
 
 [node name="PartySelectionMenu" type="CanvasLayer"]
-script = ExtResource("1_5ofkq")
+script = ExtResource("1_pci7g")
 
 [node name="Timer" type="Timer" parent="."]
 
@@ -119,17 +118,11 @@ offset_right = 317.0
 offset_bottom = 141.0
 
 [node name="confirmChoices" parent="." instance=ExtResource("5_tma1k")]
+visible = false
 offset_left = 280.0
 offset_top = 217.0
 offset_right = 312.0
 offset_bottom = 235.0
-
-[node name="characterCard" parent="." instance=ExtResource("6_li2mj")]
-visible = false
-offset_left = 95.0
-offset_top = 2.0
-offset_right = 304.0
-offset_bottom = 109.0
 
 [node name="classDescriptionMarginContainer" type="MarginContainer" parent="."]
 offset_left = 97.0
@@ -148,5 +141,132 @@ offset_top = 5.0
 offset_right = 207.0
 offset_bottom = 69.0
 autowrap_mode = 2
+
+[node name="header" type="MarginContainer" parent="."]
+offset_left = 97.0
+offset_top = 2.0
+offset_right = 224.0
+offset_bottom = 18.0
+
+[node name="Panel" type="Panel" parent="header"]
+layout_mode = 2
+theme = ExtResource("2_2v6c6")
+
+[node name="Label" type="Label" parent="header/Panel"]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 125.0
+offset_bottom = 18.0
+text = "sdfsdf"
+
+[node name="ageYoung" type="MarginContainer" parent="."]
+offset_left = 2.0
+offset_top = 42.0
+offset_right = 70.0
+offset_bottom = 58.0
+
+[node name="Panel" type="Panel" parent="ageYoung"]
+layout_mode = 2
+theme = ExtResource("2_2v6c6")
+
+[node name="Label" type="Label" parent="ageYoung/Panel"]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 61.0
+offset_bottom = 18.0
+text = "Young"
+
+[node name="ageAdult" type="MarginContainer" parent="."]
+offset_left = 2.0
+offset_top = 62.0
+offset_right = 70.0
+offset_bottom = 78.0
+
+[node name="Panel" type="Panel" parent="ageAdult"]
+layout_mode = 2
+theme = ExtResource("2_2v6c6")
+
+[node name="Label" type="Label" parent="ageAdult/Panel"]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 61.0
+offset_bottom = 18.0
+text = "Adult"
+
+[node name="ageOld" type="MarginContainer" parent="."]
+offset_left = 2.0
+offset_top = 82.0
+offset_right = 70.0
+offset_bottom = 98.0
+
+[node name="Panel" type="Panel" parent="ageOld"]
+layout_mode = 2
+theme = ExtResource("2_2v6c6")
+
+[node name="Label" type="Label" parent="ageOld/Panel"]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 61.0
+offset_bottom = 18.0
+text = "Old"
+
+[node name="ageMods" type="MarginContainer" parent="."]
+offset_left = 97.0
+offset_top = 99.0
+offset_right = 256.0
+offset_bottom = 176.0
+theme = ExtResource("2_2v6c6")
+
+[node name="Panel" type="Panel" parent="ageMods"]
+layout_mode = 2
+theme = ExtResource("2_2v6c6")
+
+[node name="strModLabel" type="Label" parent="ageMods/Panel"]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 26.0
+offset_right = 121.0
+offset_bottom = 42.0
+text = "Strength: +1"
+
+[node name="agiModLabel" type="Label" parent="ageMods/Panel"]
+offset_left = 2.0
+offset_top = 37.0
+offset_right = 121.0
+offset_bottom = 53.0
+text = "Agility: 0"
+
+[node name="intModLabel" type="Label" parent="ageMods/Panel"]
+offset_left = 2.0
+offset_top = 50.0
+offset_right = 121.0
+offset_bottom = 66.0
+text = "Intelligence: 0"
+
+[node name="lucModLabel" type="Label" parent="ageMods/Panel"]
+offset_left = 2.0
+offset_top = 62.0
+offset_right = 121.0
+offset_bottom = 78.0
+text = "Luck: -2"
+
+[node name="hpGrowthModLabel" type="Label" parent="ageMods/Panel"]
+layout_mode = 2
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 127.0
+offset_bottom = 18.0
+text = "Health growth: sharp"
+
+[node name="mpGrowthModLabel" type="Label" parent="ageMods/Panel"]
+offset_left = 2.0
+offset_top = 14.0
+offset_right = 127.0
+offset_bottom = 30.0
+text = "Magic growth: none"
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

@@ -9,6 +9,7 @@ func _ready():
 	Events.connect("INPUT_LEFT", _on_input_left)
 	Events.connect("INPUT_DOWN", _on_input_down)
 	Events.connect("PARTY_MOVED", _on_partyMoved)
+	Events.connect("INPUT_ACCEPT", _on_inputAccept)
 	Events.connect("PARTY_ADD_EXPERIENCE", _on_partyAddExperience)
 	Events.connect("PARTY_ADD_GOLD", _on_partyAddCrowns)
 	Events.connect("PARTY_SUB_CROWNS", _on_partySubCrowns)
@@ -64,7 +65,30 @@ func travelCheck(area:Area2D) -> bool:
 
 func _on_input_reset() -> void:
 	_state = Enums.PARTY_STATE.IDLE
-
+	
+func _on_inputAccept() -> void:
+	if Data.SYSTEM_STATE == Enums.SYSTEM_GLOBAL_STATES.ON_MAP:
+		if _state == Enums.PARTY_STATE.IDLE:
+			$partyMoveTimer.start(0.2)
+			_state = Enums.PARTY_STATE.INTERACTING
+			var interactWithGroup:String = checkForInteractionWithGroup()
+			if interactWithGroup == "merchant":
+				Events.emit_signal("SET_GLOBAL_STATE", Enums.SYSTEM_GLOBAL_STATES.IN_MERCHANT_SELECT)
+			elif interactWithGroup == "sign":
+				Events.emit_signal("SET_GLOBAL_STATE", Enums.SYSTEM_GLOBAL_STATES.IN_MESSAGE_BOX)
+			
+func checkForInteractionWithGroup() -> String:
+	var interactionAreas:Array = [ $rightCheck, $upCheck, $leftCheck, $downCheck ]
+	for area in interactionAreas:
+		var bodies = area.get_overlapping_areas()
+		for body in bodies:
+			if body.is_in_group("merchant"):
+				return "merchant"
+			elif body.is_in_group("sign"):
+				Events.emit_signal("MESSAGE_BOX_QUEUE_MESSAGES", body.getTitle(), body.getMessages())
+				return "sign"
+	return ""
+			
 func _on_input_right() -> void:
 	if Data.SYSTEM_STATE == Enums.SYSTEM_GLOBAL_STATES.ON_MAP:
 		if _state == Enums.PARTY_STATE.IDLE:
@@ -225,9 +249,11 @@ func _on_partyAddExperience(xp:int) -> void:
 func _on_party_move_timer_timeout() -> void:
 	if _state == Enums.PARTY_STATE.MOVED:
 		Events.emit_signal("INPUT_RESET")
+	elif _state == Enums.PARTY_STATE.INTERACTING:
+		Events.emit_signal("INPUT_RESET")
 	$partyMoveTimer.stop()
 
 
-func _on_party_fight_timer_timeout():
+func _on_party_fight_timer_timeout() -> void:
 	Events.emit_signal("INPUT_RESET")
 	$partyFightTimer.stop()

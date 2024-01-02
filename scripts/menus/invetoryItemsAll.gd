@@ -65,7 +65,7 @@ func _on_setActive(active:bool) -> void:
 		setIndexArrowPosition(_viewableScrollIndex)
 		
 func _on_characterSelectChanged(position:int) -> void:
-	if _state == MENU_STATE.EQUIP_WEAPON || _state == MENU_STATE.EQUIP_ARMOR || _state == MENU_STATE.EQUIP_ACCESSORY:
+	if _state == MENU_STATE.EQUIP_WEAPON:
 		var canEquip = CharacterHandler.getEquipableByTypeAndPosition(position, Data.PARTY_ITEMS[_viewableScrollIndex].type)
 		if position == 0:
 			Events.emit_signal("COMPARE_EQUIPABLES", Data.CHARACTER_1_WEAPON, Data.PARTY_ITEMS[_viewableScrollIndex], canEquip)
@@ -75,6 +75,26 @@ func _on_characterSelectChanged(position:int) -> void:
 			Events.emit_signal("COMPARE_EQUIPABLES", Data.CHARACTER_3_WEAPON, Data.PARTY_ITEMS[_viewableScrollIndex], canEquip)
 		elif position == 3:
 			Events.emit_signal("COMPARE_EQUIPABLES", Data.CHARACTER_4_WEAPON, Data.PARTY_ITEMS[_viewableScrollIndex], canEquip)
+	elif _state == MENU_STATE.EQUIP_ARMOR:
+		var canEquip = CharacterHandler.getEquipableByTypeAndPosition(position, Data.PARTY_ITEMS[_viewableScrollIndex].type)
+		if position == 0:
+			Events.emit_signal("COMPARE_EQUIPABLES", Data.CHARACTER_1_ARMOR, Data.PARTY_ITEMS[_viewableScrollIndex], canEquip)
+		elif position == 1:
+			Events.emit_signal("COMPARE_EQUIPABLES", Data.CHARACTER_1_ARMOR, Data.PARTY_ITEMS[_viewableScrollIndex], canEquip)
+		elif position == 2:
+			Events.emit_signal("COMPARE_EQUIPABLES", Data.CHARACTER_1_ARMOR, Data.PARTY_ITEMS[_viewableScrollIndex], canEquip)
+		elif position == 3:
+			Events.emit_signal("COMPARE_EQUIPABLES", Data.CHARACTER_1_ARMOR, Data.PARTY_ITEMS[_viewableScrollIndex], canEquip)
+	elif _state == MENU_STATE.EQUIP_ACCESSORY:
+		var canEquip = CharacterHandler.getEquipableByTypeAndPosition(position, Data.PARTY_ITEMS[_viewableScrollIndex].type)
+		if position == 0:
+			Events.emit_signal("COMPARE_EQUIPABLES", Data.CHARACTER_1_ACCESSORY, Data.PARTY_ITEMS[_viewableScrollIndex], canEquip)
+		elif position == 1:
+			Events.emit_signal("COMPARE_EQUIPABLES", Data.CHARACTER_2_ACCESSORY, Data.PARTY_ITEMS[_viewableScrollIndex], canEquip)
+		elif position == 2:
+			Events.emit_signal("COMPARE_EQUIPABLES", Data.CHARACTER_3_ACCESSORY, Data.PARTY_ITEMS[_viewableScrollIndex], canEquip)
+		elif position == 3:
+			Events.emit_signal("COMPARE_EQUIPABLES", Data.CHARACTER_4_ACCESSORY, Data.PARTY_ITEMS[_viewableScrollIndex], canEquip)
 		
 func _on_characterSelectAccepted(position:int) -> void:
 	setUnpressable()

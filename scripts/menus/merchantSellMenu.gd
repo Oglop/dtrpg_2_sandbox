@@ -101,8 +101,11 @@ func _ready():
 func _on_activateMerchantSellMenu(active:bool) -> void:
 	self.visible = active
 	setUnpressable()
-	_index = 0
-	_discount = CharacterHandler.getPartyDiscount()
+	if active:
+		_index = 0
+		_discount = CharacterHandler.getPartyDiscount()
+		populateSellabeleList()
+		poulateViewableList()
 	updateUI()
 	
 func _on_globalStateChanged(globalState:Enums.SYSTEM_GLOBAL_STATES) -> void:
@@ -151,6 +154,8 @@ func _on_inputCancel() -> void:
 			setUnpressable()
 			if _state == MERCHANT_STATES.ACCEPT_ITEM:
 				_state = MERCHANT_STATES.SELECT_ITEM
+			elif _state == MERCHANT_STATES.SELECT_ITEM:
+				Events.emit_signal("SET_GLOBAL_STATE", Enums.SYSTEM_GLOBAL_STATES.IN_MERCHANT_SELECT)
 			updateUI()
 
 func _on_timer_timeout():

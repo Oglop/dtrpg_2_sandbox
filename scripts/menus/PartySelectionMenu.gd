@@ -7,13 +7,22 @@ var selectedTheme:Theme = preload("res://media/themes/selectedTeme.tres")
 
 var _selectMainIndex:int = 0
 var _selectClassIndex:int = 0
+var _selectAgeIndex:int = 0
 var _currentCharacterIndex:int = 0
 
 var _selectedClass:Enums.CLASSES = Enums.CLASSES.NONE
 
+var strMod:int = 0
+var agiMod:int = 0
+var intMod:int = 0
+var lucMod:int = 0
+var hpGrowthMod:Enums.CLASSES_ATTRIBUTE_GROWTH = Enums.CLASSES_ATTRIBUTE_GROWTH.NORMAL
+var mpGrowthMod:Enums.CLASSES_ATTRIBUTE_GROWTH = Enums.CLASSES_ATTRIBUTE_GROWTH.NORMAL
+
 enum menu_states {
 	MAIN,
 	SELECT_CLASS,
+	SELECT_AGE,
 	VIEW_CURRENT,
 	ACCEPT_CLASS_PROMPT,
 }
@@ -50,10 +59,14 @@ func _on_inputUp() -> void:
 			_selectMainIndex -= 1
 			if _selectMainIndex < 0:
 				_selectMainIndex = 0
-		if _state == menu_states.SELECT_CLASS:
+		elif _state == menu_states.SELECT_CLASS:
 			_selectClassIndex -= 1
 			if _selectClassIndex < 0:
 				_selectClassIndex = 0
+		elif _state == menu_states.SELECT_AGE:
+			_selectAgeIndex -= 1
+			if _selectAgeIndex < 0:
+				_selectAgeIndex = 0
 		updateUI()
 	
 func _on_inputDown() -> void:
@@ -63,10 +76,14 @@ func _on_inputDown() -> void:
 			_selectMainIndex += 1
 			if _selectMainIndex > 1:
 				_selectMainIndex = 1
-		if _state == menu_states.SELECT_CLASS:
+		elif _state == menu_states.SELECT_CLASS:
 			_selectClassIndex += 1
 			if _selectClassIndex > 5:
 				_selectClassIndex = 5
+		elif _state == menu_states.SELECT_AGE:
+			_selectAgeIndex += 1
+			if _selectAgeIndex > 2:
+				_selectAgeIndex = 2
 		updateUI()
 		
 func _on_inputRight() -> void:
@@ -87,11 +104,11 @@ func _on_inputAccept() -> void:
 			elif _selectMainIndex == 1:
 				_state = menu_states.VIEW_CURRENT
 		elif _state == menu_states.SELECT_CLASS:
+			_state = menu_states.SELECT_AGE
+			_selectAgeIndex = 1
 			classAccepted() 
-			updateUI()
 		elif _state == menu_states.ACCEPT_CLASS_PROMPT:
 			classChoiceAccepted() 
-			updateUI()
 			Events.emit_signal("VISIBLE_CHARACTER_CARD", false)
 	
 		updateUI()
@@ -101,6 +118,12 @@ func _on_inputCancel() -> void:
 		setPressableBusy()
 		if _state == menu_states.VIEW_CURRENT:
 			_state = menu_states.MAIN
+		elif _state == menu_states.SELECT_CLASS:
+			_state = menu_states.MAIN
+		elif _state == menu_states.SELECT_AGE:
+			_state = menu_states.SELECT_CLASS
+		elif _state == menu_states.ACCEPT_CLASS_PROMPT:
+			_state = menu_states.SELECT_CLASS
 		
 	updateUI()
 
@@ -119,27 +142,36 @@ func setLabels() -> void:
 	$selectCleric/Panel/Label.text = Text.CLASS_CLERIC
 
 func updateUI() -> void:
+	setHeaderText()
 	if _state == menu_states.MAIN:
 		setMainVisibility(true)
+		setAgeControllersVisibility(false)
 		updateMainThemes()
-	else:
-		setMainVisibility(false)
-		
-	if _state == menu_states.SELECT_CLASS:
-		setClassSelectorsVisiblity(true)
-		updateSelectClassThemes()
-	else:
 		setClassSelectorsVisiblity(false)
-		
-	if _state == menu_states.VIEW_CURRENT:
-		setCurrentPartyVisibility(true)
-	else:
 		setCurrentPartyVisibility(false)
 		
-	if _state == menu_states.ACCEPT_CLASS_PROMPT:
+	elif _state == menu_states.SELECT_CLASS:
+		setClassSelectorsVisiblity(true)
+		setAgeControllersVisibility(false)
+		updateSelectClassThemes()
+		setMainVisibility(false)
+		setCurrentPartyVisibility(false)
+		
+	elif _state == menu_states.SELECT_AGE:
+		setAgeControllersVisibility(true)
+		setClassSelectorsVisiblity(false)
+		setMainVisibility(false)
+		setCurrentPartyVisibility(false)
+		setAgeSlectorThemes()
+		setAgeModLabels()
+		
+	elif _state == menu_states.VIEW_CURRENT:
+		setCurrentPartyVisibility(true)
+		setMainVisibility(false)
+
+	elif _state == menu_states.ACCEPT_CLASS_PROMPT:
 		confirmChosesUpdate(true)
-	else:
-		confirmChosesUpdate(true)
+
 	
 func confirmChosesUpdate(active:bool) -> void:
 	if active:
@@ -150,8 +182,6 @@ func confirmChosesUpdate(active:bool) -> void:
 		$confirmChoices/Panel.theme = unselectedTheme
 		
 func classAccepted() -> void:
-	_state = menu_states.ACCEPT_CLASS_PROMPT
-	
 	var type:Enums.CLASSES = Enums.CLASSES.NONE
 	if _selectClassIndex == 0:
 		type = Enums.CLASSES.WARRIOR
@@ -283,3 +313,189 @@ func loadViewPartyCards() -> void:
 	$viewCharacter4/Panel/LabelLuck.text = str(Text.CHARACTER_CARD_LUCK, Data.CHARACTER_4_LUCK)
 	$viewCharacter4/Panel/LabelAgility.text = str(Text.CHARACTER_CARD_AGILITY, Data.CHARACTER_4_AGILITY)
 	$viewCharacter4/Panel/LabelIntelligence.text = str(Text.CHARACTER_CARD_INTELLIGENCE, Data.CHARACTER_4_INTELLIGENCE)
+
+func setHeaderText() -> void:
+	if _state == menu_states.MAIN:
+		$header/Panel/Label.text = "Create a party"
+	elif _state == menu_states.SELECT_CLASS:
+		$header/Panel/Label.text = "Select job"
+	elif _state == menu_states.SELECT_AGE:
+		$header/Panel/Label.text = "Select age"
+	elif _state == menu_states.VIEW_CURRENT:
+		$header/Panel/Label.text = "Current party"
+	elif _state == menu_states.ACCEPT_CLASS_PROMPT:
+		$header/Panel/Label.text = "Accept"
+#	MAIN,
+#	SELECT_CLASS,
+#	SELECT_AGE,
+#	VIEW_CURRENT,
+#	ACCEPT_CLASS_PROMPT,
+
+func setAgeControllersVisibility(isVisible:bool) -> void:
+	$ageYoung.visible = isVisible
+	$ageAdult.visible = isVisible
+	$ageOld.visible = isVisible
+
+func setAgeSlectorThemes() -> void:
+	if _selectAgeIndex == 0:
+		$ageYoung/Panel.theme = selectedTheme
+		$ageAdult/Panel.theme = unselectedTheme
+		$ageOld/Panel.theme = unselectedTheme
+	elif _selectAgeIndex == 1:
+		$ageYoung/Panel.theme = unselectedTheme
+		$ageAdult/Panel.theme = selectedTheme
+		$ageOld/Panel.theme = unselectedTheme
+	elif _selectAgeIndex == 2:
+		$ageYoung/Panel.theme = unselectedTheme
+		$ageAdult/Panel.theme = unselectedTheme
+		$ageOld/Panel.theme = selectedTheme
+
+
+func getAttributeGrownDescription(growthType:Enums.CLASSES_ATTRIBUTE_GROWTH) -> String:
+	if growthType == Enums.CLASSES_ATTRIBUTE_GROWTH.NONE:
+		return "none"
+	elif growthType == Enums.CLASSES_ATTRIBUTE_GROWTH.FLAT:
+		return "flat"
+	elif growthType == Enums.CLASSES_ATTRIBUTE_GROWTH.NORMAL:
+		return "normal"
+	elif growthType == Enums.CLASSES_ATTRIBUTE_GROWTH.SHARP:
+		return "sharps"
+	else:
+		return ""
+
+func setAgeModLabels() -> void:
+	
+	var type:Enums.CLASSES = Enums.CLASSES.NONE
+	if _currentCharacterIndex == 0:
+		type = Data.CHARACTER_1_TYPE
+	elif _currentCharacterIndex == 1:
+		type = Data.CHARACTER_2_TYPE
+	elif _currentCharacterIndex == 2:
+		type = Data.CHARACTER_3_TYPE
+	elif _currentCharacterIndex == 3:
+		type = Data.CHARACTER_4_TYPE
+		
+	if type == Enums.CLASSES.WARRIOR:
+		strMod = 0
+		agiMod = 0
+		intMod = 0
+		lucMod = 0
+		hpGrowthMod = Enums.CLASSES_ATTRIBUTE_GROWTH.NORMAL
+		mpGrowthMod = Enums.CLASSES_ATTRIBUTE_GROWTH.NONE
+		if _selectAgeIndex == 0:
+			Enums.CLASSES_ATTRIBUTE_GROWTH.SHARP
+			agiMod = 1
+			strMod = -2
+		elif _selectAgeIndex == 1:
+			Enums.CLASSES_ATTRIBUTE_GROWTH.NORMAL
+			agiMod = 0
+			strMod - 0
+		elif _selectAgeIndex == 2:
+			Enums.CLASSES_ATTRIBUTE_GROWTH.NORMAL
+			agiMod = -1
+			strMod - 1
+	elif type == Enums.CLASSES.KNIGHT:
+		strMod = 0
+		agiMod = 0
+		intMod = 0
+		lucMod = 0
+		hpGrowthMod = Enums.CLASSES_ATTRIBUTE_GROWTH.SHARP
+		mpGrowthMod = Enums.CLASSES_ATTRIBUTE_GROWTH.NONE
+		if _selectAgeIndex == 0:
+			hpGrowthMod = Enums.CLASSES_ATTRIBUTE_GROWTH.SHARP
+			strMod = 0
+		elif _selectAgeIndex == 1:
+			hpGrowthMod = Enums.CLASSES_ATTRIBUTE_GROWTH.SHARP
+			strMod = 0
+		elif _selectAgeIndex == 2:
+			hpGrowthMod = Enums.CLASSES_ATTRIBUTE_GROWTH.NORMAL
+			strMod = 1
+			
+	elif type == Enums.CLASSES.WIZARD:
+		strMod = 0
+		agiMod = 0
+		intMod = 0
+		lucMod = 0
+		hpGrowthMod = Enums.CLASSES_ATTRIBUTE_GROWTH.FLAT
+		mpGrowthMod = Enums.CLASSES_ATTRIBUTE_GROWTH.SHARP
+		if _selectAgeIndex == 0:
+			mpGrowthMod = Enums.CLASSES_ATTRIBUTE_GROWTH.SHARP
+			intMod = -2
+		elif _selectAgeIndex == 1:
+			mpGrowthMod = Enums.CLASSES_ATTRIBUTE_GROWTH.SHARP
+			intMod = 0
+		elif _selectAgeIndex == 2:
+			mpGrowthMod = Enums.CLASSES_ATTRIBUTE_GROWTH.NORMAL
+			intMod = +2
+			
+	elif type == Enums.CLASSES.HUNTER:
+		strMod = 0
+		agiMod = 0
+		intMod = 0
+		lucMod = 0
+		hpGrowthMod = Enums.CLASSES_ATTRIBUTE_GROWTH.NORMAL
+		mpGrowthMod = Enums.CLASSES_ATTRIBUTE_GROWTH.NONE
+		if _selectAgeIndex == 0:
+			strMod = -1
+			agiMod = 2
+		elif _selectAgeIndex == 1:
+			strMod = 0
+			agiMod = 0
+		elif _selectAgeIndex == 2:
+			strMod = 2
+			agiMod = -1
+			
+	elif type == Enums.CLASSES.THIEF:
+		strMod = 0
+		agiMod = 0
+		intMod = 0
+		lucMod = 0
+		hpGrowthMod = Enums.CLASSES_ATTRIBUTE_GROWTH.NORMAL
+		mpGrowthMod = Enums.CLASSES_ATTRIBUTE_GROWTH.NONE
+		if _selectAgeIndex == 0:
+			lucMod = -1
+			strMod = -1
+			agiMod = 2
+		elif _selectAgeIndex == 1:
+			lucMod = 0
+			agiMod = 0
+		elif _selectAgeIndex == 2:
+			strMod = -2
+			lucMod = 2
+			
+	elif type == Enums.CLASSES.CLERIC:
+		strMod = 0
+		agiMod = 0
+		intMod = 0
+		lucMod = 0
+		hpGrowthMod = Enums.CLASSES_ATTRIBUTE_GROWTH.NORMAL
+		mpGrowthMod = Enums.CLASSES_ATTRIBUTE_GROWTH.NORMAL
+		if _selectAgeIndex == 0:
+			mpGrowthMod = Enums.CLASSES_ATTRIBUTE_GROWTH.SHARP
+			intMod = -2
+			strMod = 0
+		elif _selectAgeIndex == 1:
+			mpGrowthMod = Enums.CLASSES_ATTRIBUTE_GROWTH.NORMAL
+			intMod = 0
+			strMod = 0
+		elif _selectAgeIndex == 2:
+			mpGrowthMod = Enums.CLASSES_ATTRIBUTE_GROWTH.NORMAL
+			intMod = 1
+			strMod = -1
+			
+	$ageMods/Panel/strModLabel.text = str("Strength: ", strMod)
+	$ageMods/Panel/agiModLabel.text = str("Agility: ", agiMod)
+	$ageMods/Panel/intModLabel.text = str("Intelligence: ", intMod)
+	$ageMods/Panel/lucModLabel.text = str("Luck: ", lucMod)
+	$ageMods/Panel/hpGrowthModLabel.text = str("Health growth: ", getAttributeGrownDescription(hpGrowthMod))
+	$ageMods/Panel/mpGrowthModLabel.text = str("Magic growth: ", getAttributeGrownDescription(mpGrowthMod))
+		
+	
+	
+	
+	
+	
+	
+	
+	
+	
