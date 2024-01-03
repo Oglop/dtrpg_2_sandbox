@@ -192,6 +192,19 @@ func _on_addMagic(position:int, value:int) -> void:
 		if Data.CHARACTER_4_MAGIC_CURRENT > Data.CHARACTER_4_MAGIC_MAX:
 			Data.CHARACTER_4_MAGIC_CURRENT = Data.CHARACTER_4_MAGIC_MAX
 
+
+func getAttributeGrowth(currentMax:int, attributeGrowth:Enums.CLASSES_ATTRIBUTE_GROWTH) -> int:
+	if attributeGrowth == Enums.CLASSES_ATTRIBUTE_GROWTH.NONE:
+		return currentMax
+	elif attributeGrowth == Enums.CLASSES_ATTRIBUTE_GROWTH.FLAT:
+		return currentMax + Globals.percentageOf(currentMax, 10)
+	elif attributeGrowth == Enums.CLASSES_ATTRIBUTE_GROWTH.NORMAL:
+		return currentMax + Globals.percentageOf(currentMax, 20)
+	elif attributeGrowth == Enums.CLASSES_ATTRIBUTE_GROWTH.SHARP:
+		return currentMax + Globals.percentageOf(currentMax, 30)
+		
+	return currentMax
+
 func _on_partyAddExperience(xp:int) -> void:
 	
 	var currentXP:int = 0
@@ -206,6 +219,8 @@ func _on_partyAddExperience(xp:int) -> void:
 			Data.CHARACTER_1_LV += 1
 			Events.emit_signal("SYSTEM_WRITE_LOG", str(Data.CHARACTER_1_NAME, " reached level ", Data.CHARACTER_1_LV, "."), Enums.SYSTEM_LOG_TYPE.BATTLE)
 			Data.CHARACTER_1_XP_NEXT = CharacterHandler.getLevelNext(CharacterHandler.getXPBase(Data.CHARACTER_1_LV), Data.CHARACTER_1_LV)
+			Data.CHARACTER_1_HEALTH_MAX = getAttributeGrowth(Data.CHARACTER_1_HEALTH_MAX, Data.CHARACTER_1_HEALTH_GROWTH)
+			Data.CHARACTER_1_MAGIC_MAX = getAttributeGrowth(Data.CHARACTER_1_MAGIC_MAX, Data.CHARACTER_1_MAGIC_GROWTH)
 			var actions:Array = CharacterHandler.getActionsByLevelAndClass(Data.CHARACTER_1_TYPE, Data.CHARACTER_1_LV)
 			if actions.size() > 0:
 				Data.CHARACTER_1_ACTIONS.append_array(actions)
@@ -218,6 +233,8 @@ func _on_partyAddExperience(xp:int) -> void:
 			Data.CHARACTER_2_LV += 1
 			Events.emit_signal("SYSTEM_WRITE_LOG", str(Data.CHARACTER_2_NAME, " reached level ", Data.CHARACTER_2_LV, "."), Enums.SYSTEM_LOG_TYPE.BATTLE)
 			Data.CHARACTER_2_XP_NEXT = CharacterHandler.getLevelNext(CharacterHandler.getXPBase(Data.CHARACTER_2_LV), Data.CHARACTER_2_LV)
+			Data.CHARACTER_2_HEALTH_MAX = getAttributeGrowth(Data.CHARACTER_2_HEALTH_MAX, Data.CHARACTER_2_HEALTH_GROWTH)
+			Data.CHARACTER_2_MAGIC_MAX = getAttributeGrowth(Data.CHARACTER_2_MAGIC_MAX, Data.CHARACTER_2_MAGIC_GROWTH)
 			var actions:Array = CharacterHandler.getActionsByLevelAndClass(Data.CHARACTER_2_TYPE, Data.CHARACTER_2_LV)
 			if actions.size() > 0:
 				Data.CHARACTER_2_ACTIONS.append_array(actions)
@@ -230,6 +247,8 @@ func _on_partyAddExperience(xp:int) -> void:
 			Data.CHARACTER_3_LV += 1
 			Events.emit_signal("SYSTEM_WRITE_LOG", str(Data.CHARACTER_3_NAME, " reached level ", Data.CHARACTER_3_LV, "."), Enums.SYSTEM_LOG_TYPE.BATTLE)
 			Data.CHARACTER_3_XP_NEXT = CharacterHandler.getLevelNext(CharacterHandler.getXPBase(Data.CHARACTER_3_LV), Data.CHARACTER_3_LV)
+			Data.CHARACTER_3_HEALTH_MAX = getAttributeGrowth(Data.CHARACTER_3_HEALTH_MAX, Data.CHARACTER_3_HEALTH_GROWTH)
+			Data.CHARACTER_3_MAGIC_MAX = getAttributeGrowth(Data.CHARACTER_3_MAGIC_MAX, Data.CHARACTER_3_MAGIC_GROWTH)
 			var actions:Array = CharacterHandler.getActionsByLevelAndClass(Data.CHARACTER_3_TYPE, Data.CHARACTER_3_LV)
 			if actions.size() > 0:
 				Data.CHARACTER_3_ACTIONS.append_array(actions)
@@ -242,6 +261,8 @@ func _on_partyAddExperience(xp:int) -> void:
 			Data.CHARACTER_4_LV += 1
 			Events.emit_signal("SYSTEM_WRITE_LOG", str(Data.CHARACTER_4_NAME, " reached level ", Data.CHARACTER_4_LV, "."), Enums.SYSTEM_LOG_TYPE.BATTLE)
 			Data.CHARACTER_4_XP_NEXT = CharacterHandler.getLevelNext(CharacterHandler.getXPBase(Data.CHARACTER_4_LV), Data.CHARACTER_4_LV)
+			Data.CHARACTER_4_HEALTH_MAX = getAttributeGrowth(Data.CHARACTER_4_HEALTH_MAX, Data.CHARACTER_4_HEALTH_GROWTH)
+			Data.CHARACTER_4_MAGIC_MAX = getAttributeGrowth(Data.CHARACTER_4_MAGIC_MAX, Data.CHARACTER_4_MAGIC_GROWTH)
 			var actions:Array = CharacterHandler.getActionsByLevelAndClass(Data.CHARACTER_4_TYPE, Data.CHARACTER_4_LV)
 			if actions.size() > 0:
 				Data.CHARACTER_4_ACTIONS.append_array(actions)

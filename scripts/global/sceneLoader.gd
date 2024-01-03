@@ -1,14 +1,21 @@
 extends Node
 
+# player
 @onready var party = preload("res://scenes/player/party.tscn")
 @onready var playerSprite = preload("res://scenes/player/playerSprites.tscn")
+
+# map
 @onready var enemy = preload("res://scenes/map/enemy.tscn")
 @onready var messageSign = preload("res://scenes/map/messageSign.tscn")
+@onready var npc = preload("res://scenes/map/npc.tscn")
+
+# effect
 @onready var damageNumbers = preload("res://scenes/effects/damageNumbers.tscn")
 @onready var fireball = preload("res://scenes/effects/fireball.tscn")
 @onready var cut = preload("res://scenes/effects/cut.tscn")
 @onready var lavawave = preload("res://scenes/effects/lavawave.tscn")
 @onready var poison = preload("res://scenes/effects/poison.tscn")
+
 
 func getScene(type:Enums.SCENE_TYPE):
 	if type == Enums.SCENE_TYPE.PARTY:
@@ -29,4 +36,6 @@ func getScene(type:Enums.SCENE_TYPE):
 		return lavawave.instantiate()
 	elif type == Enums.SCENE_TYPE.POISON:
 		return poison.instantiate()
+	elif type == Enums.SCENE_TYPE.NPC:
+		return npc.instantiate()
 

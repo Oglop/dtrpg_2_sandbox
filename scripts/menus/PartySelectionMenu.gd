@@ -9,6 +9,7 @@ var _selectMainIndex:int = 0
 var _selectClassIndex:int = 0
 var _selectAgeIndex:int = 0
 var _currentCharacterIndex:int = 0
+var _acceptOrRedoIndex:int = 0
 
 var _selectedClass:Enums.CLASSES = Enums.CLASSES.NONE
 
@@ -25,6 +26,7 @@ enum menu_states {
 	SELECT_AGE,
 	VIEW_CURRENT,
 	ACCEPT_CLASS_PROMPT,
+	ACCEPT_OR_REDO
 }
 
 enum pressableStates {
@@ -67,6 +69,11 @@ func _on_inputUp() -> void:
 			_selectAgeIndex -= 1
 			if _selectAgeIndex < 0:
 				_selectAgeIndex = 0
+		elif _state == menu_states.ACCEPT_OR_REDO:
+			_acceptOrRedoIndex -= 1
+			if _acceptOrRedoIndex < 0:
+				_acceptOrRedoIndex = 0
+		
 		updateUI()
 	
 func _on_inputDown() -> void:
@@ -84,6 +91,11 @@ func _on_inputDown() -> void:
 			_selectAgeIndex += 1
 			if _selectAgeIndex > 2:
 				_selectAgeIndex = 2
+		elif _state == menu_states.ACCEPT_OR_REDO:
+			_acceptOrRedoIndex += 1
+			if _acceptOrRedoIndex > 1:
+				_acceptOrRedoIndex = 1
+				
 		updateUI()
 		
 func _on_inputRight() -> void:
@@ -107,9 +119,13 @@ func _on_inputAccept() -> void:
 			_state = menu_states.SELECT_AGE
 			_selectAgeIndex = 1
 			classAccepted() 
+		elif _state == menu_states.SELECT_AGE:
+			updateCharacterAttributes()
+			_state = menu_states.ACCEPT_CLASS_PROMPT
 		elif _state == menu_states.ACCEPT_CLASS_PROMPT:
 			classChoiceAccepted() 
-			Events.emit_signal("VISIBLE_CHARACTER_CARD", false)
+		elif _state == menu_states.ACCEPT_OR_REDO:
+			acceptPartyOrReject()
 	
 		updateUI()
 		
@@ -123,15 +139,30 @@ func _on_inputCancel() -> void:
 		elif _state == menu_states.SELECT_AGE:
 			_state = menu_states.SELECT_CLASS
 		elif _state == menu_states.ACCEPT_CLASS_PROMPT:
-			_state = menu_states.SELECT_CLASS
-		
+			_state = menu_states.SELECT_AGE
+
 	updateUI()
 
 func classChoiceAccepted() -> void:
 	_currentCharacterIndex += 1
 	_state = menu_states.MAIN
 	if _currentCharacterIndex >= 4:
-		FileStorage.saveSlot(Data.SYSTEM_SELECTED_SAVE_SLOT)
+		_acceptOrRedoIndex = 0
+		_state = menu_states.ACCEPT_OR_REDO
+		#FileStorage.saveSlot(Data.SYSTEM_SELECTED_SAVE_SLOT)
+
+func acceptPartyOrReject() -> void:
+	if _acceptOrRedoIndex == 0:
+		pass
+		# TODO Go to first screen
+	else:
+		clearSelectedParty()
+		
+func clearSelectedParty() -> void:
+	_currentCharacterIndex = 0
+	_state = menu_states.MAIN
+	CharacterHandler.resetCharacterData()
+	loadViewPartyCards()
 
 func setLabels() -> void:
 	$selectWarrior/Panel/Label.text = Text.CLASS_WARRIOR
@@ -149,6 +180,8 @@ func updateUI() -> void:
 		updateMainThemes()
 		setClassSelectorsVisiblity(false)
 		setCurrentPartyVisibility(false)
+		confirmChosesUpdate(false)
+		acceptOrRejectThemesAndVisiblilty(false)
 		
 	elif _state == menu_states.SELECT_CLASS:
 		setClassSelectorsVisiblity(true)
@@ -156,6 +189,8 @@ func updateUI() -> void:
 		updateSelectClassThemes()
 		setMainVisibility(false)
 		setCurrentPartyVisibility(false)
+		confirmChosesUpdate(false)
+		acceptOrRejectThemesAndVisiblilty(false)
 		
 	elif _state == menu_states.SELECT_AGE:
 		setAgeControllersVisibility(true)
@@ -164,17 +199,43 @@ func updateUI() -> void:
 		setCurrentPartyVisibility(false)
 		setAgeSlectorThemes()
 		setAgeModLabels()
+		confirmChosesUpdate(false)
+		acceptOrRejectThemesAndVisiblilty(false)
 		
 	elif _state == menu_states.VIEW_CURRENT:
 		setCurrentPartyVisibility(true)
 		setMainVisibility(false)
+		confirmChosesUpdate(false)
+		acceptOrRejectThemesAndVisiblilty(false)
 
 	elif _state == menu_states.ACCEPT_CLASS_PROMPT:
 		confirmChosesUpdate(true)
-
+		acceptOrRejectThemesAndVisiblilty(false)
+		
+	elif _state == menu_states.ACCEPT_OR_REDO:
+		confirmChosesUpdate(false)
+		setMainVisibility(false)
+		setCurrentPartyVisibility(true)
+		acceptOrRejectThemesAndVisiblilty(true)
+		setAgeControllersVisibility(false)
+		setClassSelectorsVisiblity(false)
+		
+func acceptOrRejectThemesAndVisiblilty(active:bool) -> void:
+	$acceptMarginContainer.visible = active
+	$redoMarginContainer.visible = active
+	if active:
+		if _acceptOrRedoIndex == 0:
+			$acceptMarginContainer/Panel.theme = selectedTheme
+			$redoMarginContainer/Panel.theme = unselectedTheme
+		else:
+			$acceptMarginContainer/Panel.theme = unselectedTheme
+			$redoMarginContainer/Panel.theme = selectedTheme
 	
 func confirmChosesUpdate(active:bool) -> void:
 	if active:
+		$classDescriptionMarginContainer.visible = visible
+		$classDescriptionMarginContainer/Panel/Label.text = str("Add ", CharacterHandler.getCharacterName(_currentCharacterIndex), " to party?")
+		
 		$confirmChoices.visible = true
 		$confirmChoices/Panel.theme = selectedTheme
 	else:
@@ -225,7 +286,8 @@ func setClassSelectorsVisiblity(visible:bool) -> void:
 	$selectHunter.visible = visible
 	$selectThief.visible = visible
 	$selectCleric.visible = visible
-	$classDescriptionMarginContainer.visible = visible
+	if _state != menu_states.ACCEPT_CLASS_PROMPT:
+		$classDescriptionMarginContainer.visible = visible
 		
 func updateSelectClassThemes() -> void:
 	if _selectClassIndex == 0:
@@ -335,6 +397,7 @@ func setAgeControllersVisibility(isVisible:bool) -> void:
 	$ageYoung.visible = isVisible
 	$ageAdult.visible = isVisible
 	$ageOld.visible = isVisible
+	$ageMods.visible = isVisible
 
 func setAgeSlectorThemes() -> void:
 	if _selectAgeIndex == 0:
@@ -359,7 +422,7 @@ func getAttributeGrownDescription(growthType:Enums.CLASSES_ATTRIBUTE_GROWTH) -> 
 	elif growthType == Enums.CLASSES_ATTRIBUTE_GROWTH.NORMAL:
 		return "normal"
 	elif growthType == Enums.CLASSES_ATTRIBUTE_GROWTH.SHARP:
-		return "sharps"
+		return "sharp"
 	else:
 		return ""
 
@@ -383,17 +446,17 @@ func setAgeModLabels() -> void:
 		hpGrowthMod = Enums.CLASSES_ATTRIBUTE_GROWTH.NORMAL
 		mpGrowthMod = Enums.CLASSES_ATTRIBUTE_GROWTH.NONE
 		if _selectAgeIndex == 0:
-			Enums.CLASSES_ATTRIBUTE_GROWTH.SHARP
+			hpGrowthMod = Enums.CLASSES_ATTRIBUTE_GROWTH.SHARP
 			agiMod = 1
 			strMod = -2
 		elif _selectAgeIndex == 1:
-			Enums.CLASSES_ATTRIBUTE_GROWTH.NORMAL
+			hpGrowthMod = Enums.CLASSES_ATTRIBUTE_GROWTH.NORMAL
 			agiMod = 0
-			strMod - 0
+			strMod = 0
 		elif _selectAgeIndex == 2:
-			Enums.CLASSES_ATTRIBUTE_GROWTH.NORMAL
+			hpGrowthMod = Enums.CLASSES_ATTRIBUTE_GROWTH.NORMAL
 			agiMod = -1
-			strMod - 1
+			strMod = 1
 	elif type == Enums.CLASSES.KNIGHT:
 		strMod = 0
 		agiMod = 0
@@ -460,6 +523,7 @@ func setAgeModLabels() -> void:
 			lucMod = 0
 			agiMod = 0
 		elif _selectAgeIndex == 2:
+			hpGrowthMod = Enums.CLASSES_ATTRIBUTE_GROWTH.FLAT
 			strMod = -2
 			lucMod = 2
 			
@@ -491,6 +555,35 @@ func setAgeModLabels() -> void:
 	$ageMods/Panel/mpGrowthModLabel.text = str("Magic growth: ", getAttributeGrownDescription(mpGrowthMod))
 		
 	
+func updateCharacterAttributes() -> void:
+	if _currentCharacterIndex == 0:
+		Data.CHARACTER_1_HEALTH_GROWTH = hpGrowthMod
+		Data.CHARACTER_1_MAGIC_GROWTH = mpGrowthMod
+		Data.CHARACTER_1_STRENGTH += strMod
+		Data.CHARACTER_1_AGILITY += agiMod
+		Data.CHARACTER_1_INTELLIGENCE += intMod
+		Data.CHARACTER_1_LUCK += lucMod
+	elif _currentCharacterIndex == 1:
+		Data.CHARACTER_2_HEALTH_GROWTH = hpGrowthMod
+		Data.CHARACTER_2_MAGIC_GROWTH = mpGrowthMod
+		Data.CHARACTER_2_STRENGTH += strMod
+		Data.CHARACTER_2_AGILITY += agiMod
+		Data.CHARACTER_2_INTELLIGENCE += intMod
+		Data.CHARACTER_2_LUCK += lucMod
+	elif _currentCharacterIndex == 2:
+		Data.CHARACTER_3_HEALTH_GROWTH = hpGrowthMod
+		Data.CHARACTER_3_MAGIC_GROWTH = mpGrowthMod
+		Data.CHARACTER_3_STRENGTH += strMod
+		Data.CHARACTER_3_AGILITY += agiMod
+		Data.CHARACTER_3_INTELLIGENCE += intMod
+		Data.CHARACTER_3_LUCK += lucMod
+	elif _currentCharacterIndex == 3:
+		Data.CHARACTER_4_HEALTH_GROWTH = hpGrowthMod
+		Data.CHARACTER_4_MAGIC_GROWTH = mpGrowthMod
+		Data.CHARACTER_4_STRENGTH += strMod
+		Data.CHARACTER_4_AGILITY += agiMod
+		Data.CHARACTER_4_INTELLIGENCE += intMod
+		Data.CHARACTER_4_LUCK += lucMod
 	
 	
 	

@@ -554,3 +554,12 @@ var ENEMY_STATS:Dictionary = {
 		"statusEffects": []
 	}
 }
+
+var NPCS:Dictionary = {
+	"DEV_WORLD_WOMAN_1": {
+		"messages": [ "Hello world" ],
+		"style": Enums.MAP_NPC_STYLES.WOMAN_BLUE,
+		"x": 80,
+		"y":28
+	}
+}

@@ -161,6 +161,7 @@ offset_bottom = 18.0
 text = "sdfsdf"
 
 [node name="ageYoung" type="MarginContainer" parent="."]
+visible = false
 offset_left = 2.0
 offset_top = 42.0
 offset_right = 70.0
@@ -179,6 +180,7 @@ offset_bottom = 18.0
 text = "Young"
 
 [node name="ageAdult" type="MarginContainer" parent="."]
+visible = false
 offset_left = 2.0
 offset_top = 62.0
 offset_right = 70.0
@@ -197,6 +199,7 @@ offset_bottom = 18.0
 text = "Adult"
 
 [node name="ageOld" type="MarginContainer" parent="."]
+visible = false
 offset_left = 2.0
 offset_top = 82.0
 offset_right = 70.0
@@ -234,6 +237,7 @@ offset_bottom = 42.0
 text = "Strength: +1"
 
 [node name="agiModLabel" type="Label" parent="ageMods/Panel"]
+layout_mode = 0
 offset_left = 2.0
 offset_top = 37.0
 offset_right = 121.0
@@ -241,6 +245,7 @@ offset_bottom = 53.0
 text = "Agility: 0"
 
 [node name="intModLabel" type="Label" parent="ageMods/Panel"]
+layout_mode = 0
 offset_left = 2.0
 offset_top = 50.0
 offset_right = 121.0
@@ -248,6 +253,7 @@ offset_bottom = 66.0
 text = "Intelligence: 0"
 
 [node name="lucModLabel" type="Label" parent="ageMods/Panel"]
+layout_mode = 0
 offset_left = 2.0
 offset_top = 62.0
 offset_right = 121.0
@@ -263,10 +269,47 @@ offset_bottom = 18.0
 text = "Health growth: sharp"
 
 [node name="mpGrowthModLabel" type="Label" parent="ageMods/Panel"]
+layout_mode = 0
 offset_left = 2.0
 offset_top = 14.0
 offset_right = 127.0
 offset_bottom = 30.0
 text = "Magic growth: none"
+
+[node name="acceptMarginContainer" type="MarginContainer" parent="."]
+offset_left = 3.0
+offset_top = 146.0
+offset_right = 92.0
+offset_bottom = 163.0
+
+[node name="Panel" type="Panel" parent="acceptMarginContainer"]
+layout_mode = 2
+theme = ExtResource("2_2v6c6")
+
+[node name="Label" type="Label" parent="acceptMarginContainer/Panel"]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 89.0
+offset_bottom = 18.0
+text = "Accept party"
+
+[node name="redoMarginContainer" type="MarginContainer" parent="."]
+offset_left = 3.0
+offset_top = 165.0
+offset_right = 92.0
+offset_bottom = 182.0
+
+[node name="Panel" type="Panel" parent="redoMarginContainer"]
+layout_mode = 2
+theme = ExtResource("2_2v6c6")
+
+[node name="Label" type="Label" parent="redoMarginContainer/Panel"]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 89.0
+offset_bottom = 18.0
+text = "Redo"
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

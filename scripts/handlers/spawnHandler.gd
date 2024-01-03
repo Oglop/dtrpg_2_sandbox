@@ -9,6 +9,8 @@ func _ready():
 	Events.connect("SPAWN_DAMAGE_FX_CUT", _on_spawnFXCut)
 	Events.connect("SPAWN_DAMAGE_FX_POISON", _on_spawnPoison)
 	Events.connect("SPAWN_DAMAGE_FX_LAVAWAVE", _on_spawnLavawave)
+	Events.connect("SPAWN_NPC", _on_spawnNPC)
+	
 	
 func _on_partySpawnCharacter(position:int, type:Enums.CLASSES) -> void:
 	var playerSpriteScene = SceneLoader.getScene(Enums.SCENE_TYPE.PLAYER_SPRITE)
@@ -56,3 +58,8 @@ func _on_spawnPoison(position:Vector2) -> void:
 	position.y += 4
 	fx.set_global_position(position)
 	self.add_child(fx)
+	
+func _on_spawnNPC(key:String) -> void:
+	var npc = SceneLoader.getScene(Enums.SCENE_TYPE.NPC)
+	npc.setProperties(key)
+	self.add_child(npc)

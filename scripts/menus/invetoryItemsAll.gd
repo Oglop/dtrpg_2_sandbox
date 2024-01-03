@@ -19,6 +19,8 @@ enum PRESSABLE {
 var _viewableScrollIndex:int = 0
 #var _actualIndex:int = 0
 var _viewableSize:int = 12
+var _viewableFiret:int = 0
+var _viewableLast:int = 11
 var _viewableList:Array = []
 
 func _ready():
@@ -185,15 +187,9 @@ func _on_inputCancel() -> void:
 func setViewableScrollIndex(increment:bool) -> void:
 	if increment:
 		_viewableScrollIndex += 1
-#		_actualIndex += 1
 	else:
 		_viewableScrollIndex -= 1
-#		_actualIndex -= 1
-		
-#	if _actualIndex > Data.PARTY_ITEMS.size() - 1:
-#		_actualIndex = Data.PARTY_ITEMS.size() - 1
-#	if _actualIndex < 0:
-#			_actualIndex = 0
+
 		
 	if _viewableScrollIndex > Data.PARTY_ITEMS.size() - 1:
 		_viewableScrollIndex = Data.PARTY_ITEMS.size() - 1

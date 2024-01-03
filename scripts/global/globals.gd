@@ -18,3 +18,16 @@ func isVowel(value:String) -> bool:
 	if capitalized.begins_with("A") || capitalized.begins_with("E") || capitalized.begins_with("I") || capitalized.begins_with("O") || capitalized.begins_with("U") || capitalized.begins_with("Y"):
 		return true
 	return false
+	
+func percentage(part:int, whole:int) -> int:
+	if part == 0 || whole == 0:
+		return 0
+	return (part / whole) * 100
+	
+func percentageOf(whole:int, percent:int) -> int:
+	return int((whole * 0.01) * percent)
+
+func snapToGrid(x:int, y:int) -> Vector2i:
+	var gridX:int = x / Statics.ROOM_SIZE
+	var gridY:int = y / Statics.ROOM_SIZE
+	return Vector2i(gridX * Statics.ROOM_SIZE, gridY * Statics.ROOM_SIZE)

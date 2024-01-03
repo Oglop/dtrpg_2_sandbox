@@ -1,0 +1,59 @@
+[gd_scene load_steps=9 format=3 uid="uid://cmddq7apcbx7b"]
+
+[ext_resource type="Texture2D" uid="uid://cyauixuig0060" path="res://media/images/Sprite-0001.png" id="1_2ujaa"]
+[ext_resource type="Script" path="res://scripts/map/npc.gd" id="2_u1gto"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r6c8p"]
+atlas = ExtResource("1_2ujaa")
+region = Rect2(352, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sd3hb"]
+atlas = ExtResource("1_2ujaa")
+region = Rect2(368, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i3kph"]
+atlas = ExtResource("1_2ujaa")
+region = Rect2(384, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0jvo0"]
+atlas = ExtResource("1_2ujaa")
+region = Rect2(400, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_y12wq"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r6c8p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sd3hb")
+}],
+"loop": true,
+"name": &"blueManNPC",
+"speed": 4.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i3kph")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0jvo0")
+}],
+"loop": true,
+"name": &"blueWomanNPC",
+"speed": 4.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_x53up"]
+size = Vector2(13, 14)
+
+[node name="npc" type="AnimatedSprite2D"]
+position = Vector2(8, 8)
+sprite_frames = SubResource("SpriteFrames_y12wq")
+animation = &"blueWomanNPC"
+script = ExtResource("2_u1gto")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_x53up")
