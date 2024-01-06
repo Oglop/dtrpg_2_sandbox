@@ -21,6 +21,8 @@ func _ready():
 	
 func _on_globalStateChange(globalState:Enums.SYSTEM_GLOBAL_STATES) -> void:
 	if Data.SYSTEM_STATE == Enums.SYSTEM_GLOBAL_STATES.IN_MESSAGE_BOX:
+		_state = states.BUSY
+		$Timer.start(0.4)
 		self.visible = true
 		updateLabels()
 	else:

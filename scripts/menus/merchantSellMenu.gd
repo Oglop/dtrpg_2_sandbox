@@ -165,7 +165,7 @@ func _on_timer_timeout():
 func sellItem() -> void:
 	var rate:float = 0.5 - _discount
 	var quantity:int = _sellableList[_index].quantity
-	Events.emit_signal("PARTY_ADD_GOLD", _viewableList[_index].cost * rate)
+	Events.emit_signal("PARTY_ADD_GOLD", _sellableList[_index].cost * rate)
 	Events.emit_signal("INVENTORY_DELETE", _sellableList[_index].name)
 	populateSellabeleList()
 	poulateViewableList()
@@ -262,22 +262,27 @@ func updateItemLabels() ->  void:
 		$itemsMarginContainer/Panel/itemQuantityLabel5.text = ""
 		$itemsMarginContainer/Panel/itemPriceLabel5.text = ""
 	
+
+func getArrowIndex() -> int:
+	var arrowIndex:int = _index - _viewableFirst
+	if _index >= 5 && _index - _viewableFirst > 3:
+		arrowIndex = 4
+	elif arrowIndex < 0:
+		arrowIndex = 0
+	return arrowIndex
+	
 func updateUI() -> void:
 	$crownsMarginContainer/Panel/crownsMoneyLabel.text = str(Data.PARTY_CROWNS)
 	if _state == MERCHANT_STATES.SELECT_ITEM:
 		$confirmMarginContainer.visible = false
-		var arrowIndex:int = _index - _viewableFirst
-		if _index >= 5 && _index - _viewableFirst != 3:
-			arrowIndex = 4
-		elif arrowIndex < 0:
-			arrowIndex = 0
 #		print(str("index: ", _index, ", first: ", _viewableFirst, ", last: ", _viewableLast, ", arrowIndex: ", arrowIndex))
-		$arrowSprite.position = Vector2i(15, 15 + (arrowIndex * 12))
+		$arrowSprite.position = Vector2i(15, 15 + (getArrowIndex() * 12))
 		refreshViewableList()
 		updateItemLabels()
 	if _state == MERCHANT_STATES.ACCEPT_ITEM:
 		var rate:float = 0.5 - _discount
+		var arrowIndex:int = getArrowIndex()
 		$confirmMarginContainer.visible = true
 		$arrowSprite.position = Vector2i(299, 69)
-		$confirmMarginContainer/Panel/itemNameLabel.text = _viewableList[_index].name
-		$confirmMarginContainer/Panel/costLabel.text = str(_viewableList[_index].cost * rate)
+		$confirmMarginContainer/Panel/itemNameLabel.text = _viewableList[arrowIndex].name
+		$confirmMarginContainer/Panel/costLabel.text = str(_viewableList[arrowIndex].cost * rate)

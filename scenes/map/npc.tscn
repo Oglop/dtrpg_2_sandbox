@@ -45,15 +45,16 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_x53up"]
-size = Vector2(13, 14)
+size = Vector2(14, 14)
 
-[node name="npc" type="AnimatedSprite2D"]
-position = Vector2(8, 8)
+[node name="npc" type="AnimatedSprite2D" groups=["npc"]]
 sprite_frames = SubResource("SpriteFrames_y12wq")
 animation = &"blueWomanNPC"
+offset = Vector2(8, 8)
 script = ExtResource("2_u1gto")
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="Area2D" type="Area2D" parent="." groups=["npc"]]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(8, 8)
 shape = SubResource("RectangleShape2D_x53up")

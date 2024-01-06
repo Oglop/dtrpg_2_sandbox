@@ -9,7 +9,9 @@ func _ready():
 	Events.connect("SPAWN_DAMAGE_FX_CUT", _on_spawnFXCut)
 	Events.connect("SPAWN_DAMAGE_FX_POISON", _on_spawnPoison)
 	Events.connect("SPAWN_DAMAGE_FX_LAVAWAVE", _on_spawnLavawave)
+	Events.connect("SPAWN_DAMAGE_FX_STUN", _on_spawnStun)
 	Events.connect("SPAWN_NPC", _on_spawnNPC)
+	
 	
 	
 func _on_partySpawnCharacter(position:int, type:Enums.CLASSES) -> void:
@@ -63,3 +65,8 @@ func _on_spawnNPC(key:String) -> void:
 	var npc = SceneLoader.getScene(Enums.SCENE_TYPE.NPC)
 	npc.setProperties(key)
 	self.add_child(npc)
+	
+func _on_spawnStun(position:Vector2i) -> void:
+	var stun = SceneLoader.getScene(Enums.SCENE_TYPE.STUN)
+	stun.global_position = position
+	self.add_child(stun)

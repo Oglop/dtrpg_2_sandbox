@@ -3,7 +3,7 @@ extends CanvasLayer
 var _active:bool = false
 #var _wait:float = 0.2
 var _state:MENU_STATE = MENU_STATE.MAIN
-var _pressableState:PRESSABLE = PRESSABLE.NO
+var _isPressable:PRESSABLE = PRESSABLE.NO
 enum MENU_STATE {
 	MAIN,
 	EQUIP_WEAPON,
@@ -16,12 +16,13 @@ enum PRESSABLE {
 	NO
 }
 
-var _viewableScrollIndex:int = 0
+var _index:int = 0
 #var _actualIndex:int = 0
-var _viewableSize:int = 12
-var _viewableFiret:int = 0
+#var _viewableSize:int = 12
+var _viewableFirst:int = 0
 var _viewableLast:int = 11
 var _viewableList:Array = []
+var _indexWasMinusOne:bool = false
 
 func _ready():
 	Events.connect("INPUT_UP", _on_inputUp)
@@ -32,7 +33,7 @@ func _ready():
 	Events.connect("CHARACTER_SELECT_ACCEPTED",_on_characterSelectAccepted )
 	Events.connect("CHARACTER_SELECT_CANCEL", _on_characterSelectCancel)
 	Events.connect("CHARACTER_SELECT_CHANGED", _on_characterSelectChanged)
-	Events.connect("PARTY_USED_ITEM", updateViewableList)
+	Events.connect("PARTY_USED_ITEM", refreshViewableList)
 	
 	
 	Events.emit_signal("INVENTORY_ADD", Statics.ITEMS.POTION)
@@ -44,76 +45,95 @@ func _ready():
 	Events.emit_signal("INVENTORY_ADD", Statics.ITEMS.ELIXIR)
 	Events.emit_signal("INVENTORY_ADD", Statics.ITEMS.ELIXIR)
 	
-	updateViewableList(_viewableScrollIndex)
-	updateLabels()
-	setIndexArrowPosition(_viewableScrollIndex)
+	## DEBUG
+	Data.PARTY_ITEMS.append({"purchaseble": true,"cost": 10,"type": Enums.ITEM_TYPES.WEAPON_BLUNT,"name": "Club1","value": 6,"magicValue": 0,"quantity": 1})
+	Data.PARTY_ITEMS.append({"purchaseble": true,"cost": 10,"type": Enums.ITEM_TYPES.WEAPON_BLUNT,"name": "Club2","value": 6,"magicValue": 0,"quantity": 1})
+	Data.PARTY_ITEMS.append({"purchaseble": true,"cost": 10,"type": Enums.ITEM_TYPES.WEAPON_BLUNT,"name": "Club3","value": 6,"magicValue": 0,"quantity": 1})
+	Data.PARTY_ITEMS.append({"purchaseble": true,"cost": 10,"type": Enums.ITEM_TYPES.WEAPON_BLUNT,"name": "Club4","value": 6,"magicValue": 0,"quantity": 1})
+	Data.PARTY_ITEMS.append({"purchaseble": true,"cost": 10,"type": Enums.ITEM_TYPES.WEAPON_BLUNT,"name": "Club5","value": 6,"magicValue": 0,"quantity": 1})
+	Data.PARTY_ITEMS.append({"purchaseble": true,"cost": 10,"type": Enums.ITEM_TYPES.WEAPON_BLUNT,"name": "Club6","value": 6,"magicValue": 0,"quantity": 1})
+	Data.PARTY_ITEMS.append({"purchaseble": true,"cost": 10,"type": Enums.ITEM_TYPES.WEAPON_BLUNT,"name": "Club7","value": 6,"magicValue": 0,"quantity": 1})
+	Data.PARTY_ITEMS.append({"purchaseble": true,"cost": 10,"type": Enums.ITEM_TYPES.WEAPON_BLUNT,"name": "Club8","value": 6,"magicValue": 0,"quantity": 1})
+	Data.PARTY_ITEMS.append({"purchaseble": true,"cost": 10,"type": Enums.ITEM_TYPES.WEAPON_BLUNT,"name": "Club9","value": 6,"magicValue": 0,"quantity": 1})
+	Data.PARTY_ITEMS.append({"purchaseble": true,"cost": 10,"type": Enums.ITEM_TYPES.WEAPON_BLUNT,"name": "Club10","value": 6,"magicValue": 0,"quantity": 1})
+	Data.PARTY_ITEMS.append({"purchaseble": true,"cost": 10,"type": Enums.ITEM_TYPES.WEAPON_BLUNT,"name": "Club12","value": 6,"magicValue": 0,"quantity": 1})
+	Data.PARTY_ITEMS.append({"purchaseble": true,"cost": 10,"type": Enums.ITEM_TYPES.WEAPON_BLUNT,"name": "Club11","value": 6,"magicValue": 0,"quantity": 1})
+	Data.PARTY_ITEMS.append({"purchaseble": true,"cost": 10,"type": Enums.ITEM_TYPES.WEAPON_BLUNT,"name": "Club13","value": 6,"magicValue": 0,"quantity": 1})
+	
+	
+	
+	updateUI()
+	
+#	updateViewableList(_index)
+#	updateLabels()
+#	setIndexArrowPosition(_index)
 	
 	_on_setActive(false)
 
 func setUnpressable(delay = 0.2) -> void:
 	$Timer.start(delay)
-	_pressableState = PRESSABLE.NO
+	_isPressable = PRESSABLE.NO
 
 func _on_setActive(active:bool) -> void:
 	_active = active
 	self.visible = active
 	if active:
-		setIndexArrowPosition(_viewableScrollIndex)
-		_viewableScrollIndex = 0
+		setIndexArrowPosition(_index)
+		_index = 0
 #		_actualIndex = 0
 		setUnpressable(0.4)
-		updateViewableList(_viewableScrollIndex)
+		populateViewableList()
 		updateLabels()
-		setIndexArrowPosition(_viewableScrollIndex)
+		setIndexArrowPosition(_index)
 		
 func _on_characterSelectChanged(position:int) -> void:
 	if _state == MENU_STATE.EQUIP_WEAPON:
-		var canEquip = CharacterHandler.getEquipableByTypeAndPosition(position, Data.PARTY_ITEMS[_viewableScrollIndex].type)
+		var canEquip = CharacterHandler.getEquipableByTypeAndPosition(position, Data.PARTY_ITEMS[_index].type)
 		if position == 0:
-			Events.emit_signal("COMPARE_EQUIPABLES", Data.CHARACTER_1_WEAPON, Data.PARTY_ITEMS[_viewableScrollIndex], canEquip)
+			Events.emit_signal("COMPARE_EQUIPABLES", Data.CHARACTER_1_WEAPON, Data.PARTY_ITEMS[_index], canEquip)
 		elif position == 1:
-			Events.emit_signal("COMPARE_EQUIPABLES", Data.CHARACTER_2_WEAPON, Data.PARTY_ITEMS[_viewableScrollIndex], canEquip)
+			Events.emit_signal("COMPARE_EQUIPABLES", Data.CHARACTER_2_WEAPON, Data.PARTY_ITEMS[_index], canEquip)
 		elif position == 2:
-			Events.emit_signal("COMPARE_EQUIPABLES", Data.CHARACTER_3_WEAPON, Data.PARTY_ITEMS[_viewableScrollIndex], canEquip)
+			Events.emit_signal("COMPARE_EQUIPABLES", Data.CHARACTER_3_WEAPON, Data.PARTY_ITEMS[_index], canEquip)
 		elif position == 3:
-			Events.emit_signal("COMPARE_EQUIPABLES", Data.CHARACTER_4_WEAPON, Data.PARTY_ITEMS[_viewableScrollIndex], canEquip)
+			Events.emit_signal("COMPARE_EQUIPABLES", Data.CHARACTER_4_WEAPON, Data.PARTY_ITEMS[_index], canEquip)
 	elif _state == MENU_STATE.EQUIP_ARMOR:
-		var canEquip = CharacterHandler.getEquipableByTypeAndPosition(position, Data.PARTY_ITEMS[_viewableScrollIndex].type)
+		var canEquip = CharacterHandler.getEquipableByTypeAndPosition(position, Data.PARTY_ITEMS[_index].type)
 		if position == 0:
-			Events.emit_signal("COMPARE_EQUIPABLES", Data.CHARACTER_1_ARMOR, Data.PARTY_ITEMS[_viewableScrollIndex], canEquip)
+			Events.emit_signal("COMPARE_EQUIPABLES", Data.CHARACTER_1_ARMOR, Data.PARTY_ITEMS[_index], canEquip)
 		elif position == 1:
-			Events.emit_signal("COMPARE_EQUIPABLES", Data.CHARACTER_1_ARMOR, Data.PARTY_ITEMS[_viewableScrollIndex], canEquip)
+			Events.emit_signal("COMPARE_EQUIPABLES", Data.CHARACTER_1_ARMOR, Data.PARTY_ITEMS[_index], canEquip)
 		elif position == 2:
-			Events.emit_signal("COMPARE_EQUIPABLES", Data.CHARACTER_1_ARMOR, Data.PARTY_ITEMS[_viewableScrollIndex], canEquip)
+			Events.emit_signal("COMPARE_EQUIPABLES", Data.CHARACTER_1_ARMOR, Data.PARTY_ITEMS[_index], canEquip)
 		elif position == 3:
-			Events.emit_signal("COMPARE_EQUIPABLES", Data.CHARACTER_1_ARMOR, Data.PARTY_ITEMS[_viewableScrollIndex], canEquip)
+			Events.emit_signal("COMPARE_EQUIPABLES", Data.CHARACTER_1_ARMOR, Data.PARTY_ITEMS[_index], canEquip)
 	elif _state == MENU_STATE.EQUIP_ACCESSORY:
-		var canEquip = CharacterHandler.getEquipableByTypeAndPosition(position, Data.PARTY_ITEMS[_viewableScrollIndex].type)
+		var canEquip = CharacterHandler.getEquipableByTypeAndPosition(position, Data.PARTY_ITEMS[_index].type)
 		if position == 0:
-			Events.emit_signal("COMPARE_EQUIPABLES", Data.CHARACTER_1_ACCESSORY, Data.PARTY_ITEMS[_viewableScrollIndex], canEquip)
+			Events.emit_signal("COMPARE_EQUIPABLES", Data.CHARACTER_1_ACCESSORY, Data.PARTY_ITEMS[_index], canEquip)
 		elif position == 1:
-			Events.emit_signal("COMPARE_EQUIPABLES", Data.CHARACTER_2_ACCESSORY, Data.PARTY_ITEMS[_viewableScrollIndex], canEquip)
+			Events.emit_signal("COMPARE_EQUIPABLES", Data.CHARACTER_2_ACCESSORY, Data.PARTY_ITEMS[_index], canEquip)
 		elif position == 2:
-			Events.emit_signal("COMPARE_EQUIPABLES", Data.CHARACTER_3_ACCESSORY, Data.PARTY_ITEMS[_viewableScrollIndex], canEquip)
+			Events.emit_signal("COMPARE_EQUIPABLES", Data.CHARACTER_3_ACCESSORY, Data.PARTY_ITEMS[_index], canEquip)
 		elif position == 3:
-			Events.emit_signal("COMPARE_EQUIPABLES", Data.CHARACTER_4_ACCESSORY, Data.PARTY_ITEMS[_viewableScrollIndex], canEquip)
+			Events.emit_signal("COMPARE_EQUIPABLES", Data.CHARACTER_4_ACCESSORY, Data.PARTY_ITEMS[_index], canEquip)
 		
 func _on_characterSelectAccepted(position:int) -> void:
 	setUnpressable()
 	Events.emit_signal("CHARACTER_SELECT_ACTIVE", false)
 	Events.emit_signal("HIDE_COMPARE_EQUIPABLES")
 	if _state == MENU_STATE.USE:
-		var item = InventoryHandler.withdrawItem(Data.PARTY_ITEMS[_viewableScrollIndex].name)
+		var item = InventoryHandler.withdrawItem(Data.PARTY_ITEMS[_index].name)
 		InventoryHandler.useConsumable(item, position)
 		_state = MENU_STATE.MAIN
 	if _state == MENU_STATE.EQUIP_WEAPON:
-		var weapon = InventoryHandler.withdrawItem(Data.PARTY_ITEMS[_viewableScrollIndex].name)
+		var weapon = InventoryHandler.withdrawItem(Data.PARTY_ITEMS[_index].name)
 		InventoryHandler.equipWeaponCharacter(position, weapon)
 		_state = MENU_STATE.MAIN
-		_viewableScrollIndex = 0
-	updateViewableList(_viewableScrollIndex)
+		_index = 0
+	populateViewableList()
 	updateLabels()
-	setIndexArrowPosition(_viewableScrollIndex)
+	setIndexArrowPosition(_index)
 	
 func _on_characterSelectCancel() -> void:
 	Events.emit_signal("CHARACTER_SELECT_ACTIVE", false)
@@ -123,29 +143,30 @@ func _on_characterSelectCancel() -> void:
 
 func _on_inputDown() -> void:
 	if _active:
-		if _pressableState == PRESSABLE.YES:
+		if _isPressable == PRESSABLE.YES:
 			setUnpressable()
 			if _state == MENU_STATE.MAIN:
 				setViewableScrollIndex(true)
-				setIndexArrowPosition(_viewableScrollIndex)
-	
+			updateUI()
+		
 func _on_inputUp() -> void:
 	if _active:
-		if _pressableState == PRESSABLE.YES:
+		if _isPressable == PRESSABLE.YES:
 			setUnpressable()
 			if _state == MENU_STATE.MAIN:
 				setViewableScrollIndex(false)
-				setIndexArrowPosition(_viewableScrollIndex)
+			updateUI()
 			
 func _on_inputAccept() -> void:
 	if _active:
-		if _pressableState == PRESSABLE.YES:
+		if _isPressable == PRESSABLE.YES:
 			if _state == MENU_STATE.MAIN:
-				var type = Data.PARTY_ITEMS[_viewableScrollIndex].type
+				#print(Data.PARTY_ITEMS[_index].name)
+				var type = Data.PARTY_ITEMS[_index].type
 				if type == Enums.ITEM_TYPES.CONSUMABLE:
 					_state = MENU_STATE.USE
 					Events.emit_signal("CHARACTER_SELECT_ACTIVE", true)
-					
+
 				elif (type == Enums.ITEM_TYPES.ARMOR_HEAVY || 
 						type == Enums.ITEM_TYPES.ARMOR_LIGHT):
 					_state = MENU_STATE.EQUIP_ARMOR
@@ -159,21 +180,17 @@ func _on_inputAccept() -> void:
 					_state = MENU_STATE.EQUIP_WEAPON
 					Events.emit_signal("VISIBLE_CHARACTER_CARD", true)
 					Events.emit_signal("CHARACTER_SELECT_ACTIVE_TYPE", type)
-#					_viewableScrollIndex = 0
-#					_actualIndex = 0
 				elif (type == Enums.ITEM_TYPES.ASSESSORY_RING || 
 						type == Enums.ITEM_TYPES.ASSESSORY_HELMET):
 					_state = MENU_STATE.EQUIP_ACCESSORY
 					Events.emit_signal("VISIBLE_CHARACTER_CARD", true)
 					Events.emit_signal("CHARACTER_SELECT_ACTIVE_TYPE", type)
-#					_viewableScrollIndex = 0
-#					_actualIndex = 0
 				
 			setUnpressable()
 		
 func _on_inputCancel() -> void:
 	if _active:
-		if _pressableState == PRESSABLE.YES:
+		if _isPressable == PRESSABLE.YES:
 			if _state == MENU_STATE.USE:
 				_state = MENU_STATE.MAIN
 			elif _state == MENU_STATE.EQUIP_WEAPON:
@@ -186,23 +203,37 @@ func _on_inputCancel() -> void:
 				
 func setViewableScrollIndex(increment:bool) -> void:
 	if increment:
-		_viewableScrollIndex += 1
+		_index += 1
 	else:
-		_viewableScrollIndex -= 1
+		_index -= 1
 
+	if _index > Data.PARTY_ITEMS.size() - 1:
+		_index = Data.PARTY_ITEMS.size() - 1
+	if _index < 0:
+		_indexWasMinusOne = true
+		_index = 0
 		
-	if _viewableScrollIndex > Data.PARTY_ITEMS.size() - 1:
-		_viewableScrollIndex = Data.PARTY_ITEMS.size() - 1
-	if _viewableScrollIndex < 0:
-			_viewableScrollIndex = 0
-		
-func updateViewableList(viewableScrollIndex:int) -> void: 
+func populateViewableList() -> void:
 	_viewableList = []
-	for n in range(viewableScrollIndex, viewableScrollIndex + _viewableSize):
+	for n in range(_viewableFirst, _viewableLast + 1):
 		if Data.PARTY_ITEMS.size() > n:
 			_viewableList.append(Data.PARTY_ITEMS[n])
 		else:
 			_viewableList.append({ "name": "", "quantity": -1 })
+			
+func scrollUpViewable() -> void:
+	_viewableFirst -= 1
+	_viewableLast -= 1
+	if _viewableFirst < 0:
+		_viewableFirst = 0
+		_viewableLast = 4
+
+func scrollDownViewable() -> void:
+	_viewableFirst += 1
+	_viewableLast += 1
+	if _viewableLast > Data.PARTY_ITEMS.size() - 1:
+		_viewableFirst = Data.PARTY_ITEMS.size() - 4
+		_viewableLast = Data.PARTY_ITEMS.size() - 1
 		
 func updateLabels() -> void:
 	for n in range(0, _viewableList.size()):
@@ -227,8 +258,9 @@ func setLabel(index:int, item:String, quantity:int) -> void:
 func setIndexArrowPosition(index:int) -> void:
 	var x = 15
 	var y = 20 + 12 * index
-	$menuArrow.position = Vector2(x, y)
-	
+	$menuArrow.position = Vector2i(x, y)
+	#print(str("_index: ", _index, ", _viewableFirst: ", _viewableFirst, ", _viewableLast: ", _viewableLast, ", arrowIndex: ", index))
+ 
 func getLabel(index:int) -> Label:
 	if index == 0:
 		return $MarginContainer/Panel/LabelItem1
@@ -255,8 +287,31 @@ func getLabel(index:int) -> Label:
 	else:
 		return $MarginContainer/Panel/LabelItem12
 
+func refreshViewableList() -> void:
+	if _index > _viewableLast:
+		scrollDownViewable()
+		populateViewableList() 
+	elif _index < _viewableFirst:
+		scrollUpViewable()
+		populateViewableList()
+	elif _indexWasMinusOne:
+		_indexWasMinusOne = false
+		_viewableFirst = 0
+		_viewableLast = 11
+		populateViewableList()
 
+func updateUI() -> void:
+	if _state == MENU_STATE.MAIN:
+		var arrowIndex:int = _index - _viewableFirst
+		var _viewableExcepts:int = _index - _viewableFirst
+		if _index >= 12 && _viewableExcepts > 10:
+			arrowIndex = 11
+		if arrowIndex < 0:
+			arrowIndex = 0
+		setIndexArrowPosition(arrowIndex)
+		refreshViewableList()
+		updateLabels()
 
 func _on_timer_timeout():
 	$Timer.stop()
-	_pressableState = PRESSABLE.YES
+	_isPressable = PRESSABLE.YES

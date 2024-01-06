@@ -44,7 +44,7 @@ var CLASSES_ATRIBUTES:Dictionary = {
 		"INTELLIGENCE_GROWTH":Enums.CLASSES_ATTRIBUTE_GROWTH.FLAT,
 		"LUCK_BASE":7,
 		"LUCK_GROWTH":Enums.CLASSES_ATTRIBUTE_GROWTH.NORMAL,
-		"EQUIP_TYPES": [ Enums.ITEM_TYPES.WEAPON_SWORD, Enums.ITEM_TYPES.ARMOR_HEAVY ],
+		"EQUIP_TYPES": [ Enums.ITEM_TYPES.WEAPON_DAGGER, Enums.ITEM_TYPES.WEAPON_SWORD, Enums.ITEM_TYPES.ARMOR_HEAVY ],
 		"RULES": [
 			{
 				"rule": Enums.RULE.SELF_HP_LT_20,
@@ -92,7 +92,7 @@ var CLASSES_ATRIBUTES:Dictionary = {
 		"INTELLIGENCE_GROWTH":Enums.CLASSES_ATTRIBUTE_GROWTH.FLAT,
 		"LUCK_BASE":3,
 		"LUCK_GROWTH":Enums.CLASSES_ATTRIBUTE_GROWTH.FLAT,
-		"EQUIP_TYPES": [ Enums.ITEM_TYPES.WEAPON_SPEAR, Enums.ITEM_TYPES.ARMOR_HEAVY ],
+		"EQUIP_TYPES": [ Enums.ITEM_TYPES.WEAPON_DAGGER, Enums.ITEM_TYPES.WEAPON_SPEAR, Enums.ITEM_TYPES.ARMOR_HEAVY ],
 		"RULES": [
 			{
 				"rule": Enums.RULE.ALLY_HP_LT_20,
@@ -142,7 +142,7 @@ var CLASSES_ATRIBUTES:Dictionary = {
 		"INTELLIGENCE_GROWTH":Enums.CLASSES_ATTRIBUTE_GROWTH.SHARP,
 		"LUCK_BASE":6,
 		"LUCK_GROWTH":Enums.CLASSES_ATTRIBUTE_GROWTH.FLAT,
-		"EQUIP_TYPES": [ Enums.ITEM_TYPES.WEAPON_STAFF, Enums.ITEM_TYPES.ARMOR_LIGHT ],
+		"EQUIP_TYPES": [ Enums.ITEM_TYPES.WEAPON_DAGGER, Enums.ITEM_TYPES.WEAPON_STAFF, Enums.ITEM_TYPES.ARMOR_LIGHT ],
 		"RULES": [
 			{
 				"rule": Enums.RULE.SELF_MP_LT_10,
@@ -191,7 +191,7 @@ var CLASSES_ATRIBUTES:Dictionary = {
 		"INTELLIGENCE_GROWTH":Enums.CLASSES_ATTRIBUTE_GROWTH.FLAT,
 		"LUCK_BASE":8,
 		"LUCK_GROWTH":Enums.CLASSES_ATTRIBUTE_GROWTH.NORMAL,
-		"EQUIP_TYPES": [ Enums.ITEM_TYPES.WEAPON_RANGED, Enums.ITEM_TYPES.ARMOR_LIGHT ],
+		"EQUIP_TYPES": [ Enums.ITEM_TYPES.WEAPON_DAGGER, Enums.ITEM_TYPES.WEAPON_RANGED, Enums.ITEM_TYPES.ARMOR_LIGHT ],
 		"RULES": [
 			{
 				"rule": Enums.RULE.SELF_HP_LT_20,
@@ -242,7 +242,7 @@ var CLASSES_ATRIBUTES:Dictionary = {
 		"INTELLIGENCE_GROWTH":Enums.CLASSES_ATTRIBUTE_GROWTH.FLAT,
 		"LUCK_BASE":16,
 		"LUCK_GROWTH":Enums.CLASSES_ATTRIBUTE_GROWTH.SHARP,
-		"EQUIP_TYPES": [ Enums.ITEM_TYPES.WEAPON_SWORD, Enums.ITEM_TYPES.ARMOR_LIGHT ],
+		"EQUIP_TYPES": [ Enums.ITEM_TYPES.WEAPON_DAGGER, Enums.ITEM_TYPES.WEAPON_SWORD, Enums.ITEM_TYPES.ARMOR_LIGHT ],
 		"RULES": [
 			{
 				"rule": Enums.RULE.SELF_HP_GT_50,
@@ -290,7 +290,7 @@ var CLASSES_ATRIBUTES:Dictionary = {
 		"INTELLIGENCE_GROWTH":Enums.CLASSES_ATTRIBUTE_GROWTH.FLAT,
 		"LUCK_BASE":4,
 		"LUCK_GROWTH":Enums.CLASSES_ATTRIBUTE_GROWTH.SHARP,
-		"EQUIP_TYPES": [ Enums.ITEM_TYPES.WEAPON_BLUNT, Enums.ITEM_TYPES.ARMOR_HEAVY ],
+		"EQUIP_TYPES": [ Enums.ITEM_TYPES.WEAPON_DAGGER, Enums.ITEM_TYPES.WEAPON_BLUNT, Enums.ITEM_TYPES.ARMOR_HEAVY ],
 		"RULES": [
 			{
 				"rule": Enums.RULE.ALLY_DEAD,
@@ -523,7 +523,9 @@ var ENEMY_STATS:Dictionary = {
 		"itemDrop": ["POTION", "HERB"],
 		"itemDropRate":20,
 		"resistances": [],
-		"statusEffects": []
+		"statusEffects": [],
+		"morale": 100,
+		"canFlee": true
 	},
 	"BLOB": {
 		"name": "Blob",
@@ -537,7 +539,9 @@ var ENEMY_STATS:Dictionary = {
 		"itemDrop": [],
 		"itemDropRate":15,
 		"resistances": [ Enums.STATUS_EFFECTS.STUN, Enums.STATUS_EFFECTS.BURNING ],
-		"statusEffects": []
+		"statusEffects": [],
+		"morale": 100,
+		"canFlee": true
 	},
 	"SKELETON": {
 		"name": "Skeleton",
@@ -551,15 +555,20 @@ var ENEMY_STATS:Dictionary = {
 		"itemDrop": ["ELIXIR"],
 		"itemDropRate":10,
 		"resistances": [ Enums.STATUS_EFFECTS.BURNING ],
-		"statusEffects": []
+		"statusEffects": [],
+		"morale": 100,
+		"canFlee": true
 	}
 }
 
 var NPCS:Dictionary = {
 	"DEV_WORLD_WOMAN_1": {
+		"name": "Old woman",
 		"messages": [ "Hello world" ],
 		"style": Enums.MAP_NPC_STYLES.WOMAN_BLUE,
 		"x": 80,
-		"y":28
+		"y":28,
+		"questLine": Enums.QUEST_LINES.NONE,
+		"questPoints" : Enums.QUEST_POINTS.NONE
 	}
 }

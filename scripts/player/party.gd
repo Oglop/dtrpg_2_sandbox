@@ -34,7 +34,8 @@ func _on_partyReviveCharacter(position:int, value:int) -> void:
 		Data.CHARACTER_4_HEALTH_CURRENT = 0 + value
 	
 func _on_globalStateChange(globalState:Enums.SYSTEM_GLOBAL_STATES) -> void:
-	pass
+	_state = Enums.PARTY_STATE.INTERACTING
+	$partyMoveTimer.start(Statics.MOVE_SPEED_WAIT)
 	
 	#Events.emit_signal("ENEMY_IS_COLLIDING_WITH_AREA", self._id, self.global_position, self._name, self._type)
 func _on_enemyCollidedWithArea(id:String, enemyPosition:Vector2, name:String, type:Enums.ENEMY_TYPES):
@@ -76,6 +77,8 @@ func _on_inputAccept() -> void:
 				Events.emit_signal("SET_GLOBAL_STATE", Enums.SYSTEM_GLOBAL_STATES.IN_MERCHANT_SELECT)
 			elif interactWithGroup == "sign":
 				Events.emit_signal("SET_GLOBAL_STATE", Enums.SYSTEM_GLOBAL_STATES.IN_MESSAGE_BOX)
+			elif interactWithGroup == "npc":
+				Events.emit_signal("SET_GLOBAL_STATE", Enums.SYSTEM_GLOBAL_STATES.IN_MESSAGE_BOX)
 			
 func checkForInteractionWithGroup() -> String:
 	var interactionAreas:Array = [ $rightCheck, $upCheck, $leftCheck, $downCheck ]
@@ -87,6 +90,9 @@ func checkForInteractionWithGroup() -> String:
 			elif body.is_in_group("sign"):
 				Events.emit_signal("MESSAGE_BOX_QUEUE_MESSAGES", body.getTitle(), body.getMessages())
 				return "sign"
+			elif body.is_in_group("npc"):
+				Events.emit_signal("MESSAGE_BOX_QUEUE_MESSAGES", body.get_parent().getTitle(), body.get_parent().getMessages())
+				return "npc"
 	return ""
 			
 func _on_input_right() -> void:

@@ -5,6 +5,7 @@ extends Node2D
 func _ready():
 	Events.connect("SET_GLOBAL_STATE", _on_globalStateChange)
 	Events.connect("SPAWN_NPCS_TO_MAP", _on_spawnNPCsToMap)
+	_on_spawnNPCsToMap()
 
 func _on_globalStateChange(globalState:Enums.SYSTEM_GLOBAL_STATES) -> void:
 	pass
