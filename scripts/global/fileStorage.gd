@@ -14,6 +14,7 @@ func saveMap(map: Array, name: String) -> void:
 		var file = FileAccess.open(path, FileAccess.WRITE)
 
 func setState(state:Dictionary) -> void:
+	Data.MAP_OPENED_TREASURES = state.mapOpenedTreasures
 	Data.PARTY_CURRENT_ROOM = state.partyCurrentRoom
 	Data.PARTY_X = state.partyX
 	Data.PARTY_Y = state.partyY
@@ -107,6 +108,7 @@ func setState(state:Dictionary) -> void:
 func getState() -> Dictionary:
 	return {
 		"version":1.0,
+		"mapOpenedTreasures": Data.MAP_OPENED_TREASURES,
 		"partyCurrentRoom": Data.PARTY_CURRENT_ROOM,
 		"partyX": Data.PARTY_X,
 		"partyY": Data.PARTY_Y,

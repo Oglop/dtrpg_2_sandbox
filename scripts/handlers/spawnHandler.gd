@@ -11,6 +11,7 @@ func _ready():
 	Events.connect("SPAWN_DAMAGE_FX_LAVAWAVE", _on_spawnLavawave)
 	Events.connect("SPAWN_DAMAGE_FX_STUN", _on_spawnStun)
 	Events.connect("SPAWN_NPC", _on_spawnNPC)
+	Events.connect("SPAWN_TREASURE", _on_spawnTreasure)
 	
 	
 	
@@ -70,3 +71,11 @@ func _on_spawnStun(position:Vector2i) -> void:
 	var stun = SceneLoader.getScene(Enums.SCENE_TYPE.STUN)
 	stun.global_position = position
 	self.add_child(stun)
+	
+func _on_spawnTreasure(treasureKey:String) -> void:
+	if Statics.TREASURES.has(treasureKey):
+		var settings = Statics.TREASURES[treasureKey]
+		var treasure = SceneLoader.getScene(Enums.SCENE_TYPE.TREASURE)
+		treasure.global_position = Globals.snapToGrid(settings.x, settings.y)
+		treasure.setProperties(settings.type, settings.key, settings.tier, settings.lockedBy)
+		self.add_child(treasure)

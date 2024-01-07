@@ -8,6 +8,7 @@ extends Node
 @onready var enemy = preload("res://scenes/map/enemy.tscn")
 @onready var messageSign = preload("res://scenes/map/messageSign.tscn")
 @onready var npc = preload("res://scenes/map/npc.tscn")
+@onready var treasure = preload("res://scenes/map/treasure.tscn")
 
 # effect
 @onready var damageNumbers = preload("res://scenes/effects/damageNumbers.tscn")
@@ -41,4 +42,6 @@ func getScene(type:Enums.SCENE_TYPE):
 		return npc.instantiate()
 	elif type == Enums.SCENE_TYPE.STUN:
 		return stun.instantiate()
+	elif type == Enums.SCENE_TYPE.TREASURE:
+		return treasure.instantiate()
 

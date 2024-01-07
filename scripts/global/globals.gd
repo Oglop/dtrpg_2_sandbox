@@ -19,6 +19,14 @@ func isVowel(value:String) -> bool:
 		return true
 	return false
 	
+func getAOrAn(value:String) -> String:
+	var aOrAn:String = ""
+	if isVowel(value):
+		aOrAn = "an"
+	else:
+		aOrAn = "a"
+	return aOrAn
+	
 func percentage(part:int, whole:int) -> int:
 	if part == 0 || whole == 0:
 		return 0

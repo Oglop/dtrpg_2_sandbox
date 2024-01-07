@@ -391,6 +391,15 @@ var ITEMS:Dictionary = {
 		"magicValue": 0,
 		"quantity": 1
 	},
+	"ANTIDOTE": {
+		"purchaseble": true,
+		"cost": 16,
+		"type": Enums.ITEM_TYPES.CONSUMABLE,
+		"name": "Antidote",
+		"value": 1,
+		"magicValue": 0,
+		"quantity": 1
+	},
 	"SHORT_SWORD": {
 		"purchaseble": true,
 		"cost": 10,
@@ -524,6 +533,7 @@ var ENEMY_STATS:Dictionary = {
 		"itemDropRate":20,
 		"resistances": [],
 		"statusEffects": [],
+		"attackEffects": [],
 		"morale": 100,
 		"canFlee": true
 	},
@@ -540,6 +550,7 @@ var ENEMY_STATS:Dictionary = {
 		"itemDropRate":15,
 		"resistances": [ Enums.STATUS_EFFECTS.STUN, Enums.STATUS_EFFECTS.BURNING ],
 		"statusEffects": [],
+		"attackEffects": [],
 		"morale": 100,
 		"canFlee": true
 	},
@@ -556,11 +567,47 @@ var ENEMY_STATS:Dictionary = {
 		"itemDropRate":10,
 		"resistances": [ Enums.STATUS_EFFECTS.BURNING ],
 		"statusEffects": [],
+		"attackEffects": [],
 		"morale": 100,
 		"canFlee": true
 	}
 }
 
+#enum TREASURE_TYPES {
+#	MINOR,
+#	RANDOM_CHEST,
+#	FIXED_CHEST
+#}
+## <WORLD>_<KEY>_<NO>
+var TREASURES:Dictionary = {
+	"DEV_WORLD_LONGSWORD_01": {
+		"type": Enums.TREASURE_TYPES.FIXED_CHEST,
+		"x": 16,
+		"y": 16,
+		"key": "POTION",
+		"tier": 1,
+		"lockedBy": ""
+	},
+	"DEV_WORLD_CHEST_01": {
+		"type": Enums.TREASURE_TYPES.RANDOM_CHEST,
+		"x": 32,
+		"y": 16,
+		"key": "",
+		"tier": 1,
+		"lockedBy": ""
+	}
+	,
+	"DEV_WORLD_CHEST_02": {
+		"type": Enums.TREASURE_TYPES.LOCKED_CHEST,
+		"x": 64,
+		"y": 16,
+		"key": "POTION",
+		"tier": 1,
+		"lockedBy": "SMALL_KEY"
+	}
+}
+
+## <WORLD>_<KEY>_<NO>
 var NPCS:Dictionary = {
 	"DEV_WORLD_WOMAN_1": {
 		"name": "Old woman",

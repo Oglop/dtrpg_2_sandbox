@@ -1,3 +1,118 @@
-[gd_scene format=3 uid="uid://mu5wh00iepqx"]
+[gd_scene load_steps=13 format=3 uid="uid://mu5wh00iepqx"]
 
-[node name="treasure" type="AnimatedSprite2D"]
+[ext_resource type="Texture2D" uid="uid://cyauixuig0060" path="res://media/images/Sprite-0001.png" id="1_1gxuc"]
+[ext_resource type="Script" path="res://scripts/map/treasure.gd" id="2_20l7y"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hsth1"]
+atlas = ExtResource("1_1gxuc")
+region = Rect2(240, 112, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_adwy5"]
+atlas = ExtResource("1_1gxuc")
+region = Rect2(256, 112, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wxxuw"]
+atlas = ExtResource("1_1gxuc")
+region = Rect2(240, 128, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ssv1t"]
+atlas = ExtResource("1_1gxuc")
+region = Rect2(256, 128, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2rx4d"]
+atlas = ExtResource("1_1gxuc")
+region = Rect2(208, 112, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_badix"]
+atlas = ExtResource("1_1gxuc")
+region = Rect2(224, 112, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yqx82"]
+atlas = ExtResource("1_1gxuc")
+region = Rect2(208, 96, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ba513"]
+atlas = ExtResource("1_1gxuc")
+region = Rect2(224, 96, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_j7xve"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hsth1")
+}],
+"loop": true,
+"name": &"fixed_closed",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_adwy5")
+}],
+"loop": true,
+"name": &"fixed_open",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wxxuw")
+}],
+"loop": true,
+"name": &"locked_closed",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ssv1t")
+}],
+"loop": true,
+"name": &"locked_open",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2rx4d")
+}],
+"loop": true,
+"name": &"minor_closed",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_badix")
+}],
+"loop": true,
+"name": &"minor_open",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yqx82")
+}],
+"loop": true,
+"name": &"random_closed",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ba513")
+}],
+"loop": true,
+"name": &"random_open",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dhqsg"]
+size = Vector2(14, 14)
+
+[node name="treasure" type="AnimatedSprite2D" groups=["treasure"]]
+sprite_frames = SubResource("SpriteFrames_j7xve")
+animation = &"minor_closed"
+offset = Vector2(8, 8)
+script = ExtResource("2_20l7y")
+
+[node name="Area2D" type="Area2D" parent="." groups=["treasure"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(8, 8)
+shape = SubResource("RectangleShape2D_dhqsg")

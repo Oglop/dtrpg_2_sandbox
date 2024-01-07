@@ -145,3 +145,11 @@ func addItem(item:Dictionary) -> void:
 			break
 	if !itemInserted:
 		Data.PARTY_ITEMS.append(item)
+		
+func getTier1Equipment() -> Array:
+	return [Statics.ITEMS["SHORT_SWORD"], Statics.ITEMS["DAGGER"], Statics.ITEMS["CLUB"], Statics.ITEMS["SPEAR"], Statics.ITEMS["SHORT_BOW"], Statics.ITEMS["HAND_AXE"], Statics.ITEMS["STAFF"]]
+	
+func getTier2Equipment() -> Array:
+	return [Statics.ITEMS["LEATHER_ARMOR"], Statics.ITEMS["ROBE_ARMOR"]]
+	
+	

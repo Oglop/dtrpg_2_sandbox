@@ -79,6 +79,7 @@ func _on_inputAccept() -> void:
 				Events.emit_signal("SET_GLOBAL_STATE", Enums.SYSTEM_GLOBAL_STATES.IN_MESSAGE_BOX)
 			elif interactWithGroup == "npc":
 				Events.emit_signal("SET_GLOBAL_STATE", Enums.SYSTEM_GLOBAL_STATES.IN_MESSAGE_BOX)
+
 			
 func checkForInteractionWithGroup() -> String:
 	var interactionAreas:Array = [ $rightCheck, $upCheck, $leftCheck, $downCheck ]
@@ -93,6 +94,9 @@ func checkForInteractionWithGroup() -> String:
 			elif body.is_in_group("npc"):
 				Events.emit_signal("MESSAGE_BOX_QUEUE_MESSAGES", body.get_parent().getTitle(), body.get_parent().getMessages())
 				return "npc"
+			elif body.is_in_group("treasure"):
+				body.get_parent().openTreasure()
+				return "treasure"
 	return ""
 			
 func _on_input_right() -> void:
