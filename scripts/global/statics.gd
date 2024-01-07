@@ -608,6 +608,16 @@ var TREASURES:Dictionary = {
 }
 
 ## <WORLD>_<KEY>_<NO>
+var DOORS:Dictionary = {
+	"DEVWORLD_DOOR_01": {
+		"x": 150,
+		"y": 13,
+		"style": Enums.DOOR_STYLES,
+		"lockedBy": ""
+	}
+}
+
+## <WORLD>_<KEY>_<NO>
 var NPCS:Dictionary = {
 	"DEV_WORLD_WOMAN_1": {
 		"name": "Old woman",

@@ -17,6 +17,11 @@ var _isPressable:PRESSABLE = PRESSABLE.NO
 var _purchaseableItems:Array = []
 var _merchantState:MERCHANT_STATES = MERCHANT_STATES.ITEMS_SELECT
 
+var _viewableList:Array = []
+var _viewableFirst:int = 0
+var _viewableLast:int = 9
+var _indexWasMinusOne:bool = false
+
 func _ready():
 	Events.connect("MERCHANT_MENU_SET_ACTIVE", _on_merchantMenuSetActive)
 	Events.connect("INPUT_UP", _on_inputUp)
@@ -44,11 +49,13 @@ func _on_merchantMenuSetActive(active:bool, items:Array = []) -> void:
 	_active = active
 	self.visible = active
 	if _active:
+		
 		_merchantState = MERCHANT_STATES.ITEMS_SELECT
 		if items.size() > 0:
 			populatePurchaseableItemsSet(items)
 		else:
 			populatePurchaseableItemsRandom()
+		populateViewableList()
 		updateLabels()
 	updateUI()
 		
@@ -96,14 +103,71 @@ func _on_inputCancel() -> void:
 			if _merchantState == MERCHANT_STATES.ITEMS_ACCEPT:
 				_merchantState = MERCHANT_STATES.ITEMS_SELECT
 			updateUI()
+	
+func setViewableScrollIndex(increment:bool) -> void:
+	if increment:
+		_index += 1
+	else:
+		_index -= 1
+
+	if _index > _purchaseableItems.size() - 1:
+		_index = _purchaseableItems.size() - 1
+	if _index < 0:
+		_indexWasMinusOne = true
+		_index = 0
+	
+func populateViewableList() -> void:
+	_viewableList = []
+	for n in range(_viewableFirst, _viewableLast + 1):
+		if _purchaseableItems.size() > n:
+			_viewableList.append(_purchaseableItems[n])
+		else:
+			_viewableList.append({ "name": "", "quantity": -1 })
+	
+func scrollUpViewable() -> void:
+	_viewableFirst -= 1
+	_viewableLast -= 1
+	if _viewableFirst < 0:
+		_viewableFirst = 0
+		_viewableLast = 9
+
+func scrollDownViewable() -> void:
+	_viewableFirst += 1
+	_viewableLast += 1
+	if _viewableLast > _purchaseableItems.size() - 1:
+		_viewableFirst = _purchaseableItems.size() - 9
+		_viewableLast = _purchaseableItems.size() - 1	
+		
+			
+func refreshViewableList() -> void:
+	if _index > _viewableLast:
+		scrollDownViewable()
+		populateViewableList() 
+	elif _index < _viewableFirst:
+		scrollUpViewable()
+		populateViewableList()
+	elif _indexWasMinusOne:
+		_indexWasMinusOne = false
+		_viewableFirst = 0
+		_viewableLast = 9
+		populateViewableList()
 
 func validatePurchase() -> bool:
 	return Data.PARTY_CROWNS >= _purchaseableItems[_index].cost
 				
 func updateUI() -> void:
 	if _merchantState == MERCHANT_STATES.ITEMS_SELECT:
+		var arrowIndex:int = _index - _viewableFirst
+		var _viewableExcepts:int = _index - _viewableFirst
+		if _index >= 10 && _viewableExcepts > 8:
+			arrowIndex = 9
+		if arrowIndex < 0:
+			arrowIndex = 0
+		print(str("_index: ", _index, ", _viewableFirst: ", _viewableFirst, ", _viewableLast: ", _viewableLast, ", arrowIndex: ", arrowIndex))
 		$confirmMarginContainer.visible = false
-		$arrowSprite.position = Vector2i(15, 16 + (_index * 12))
+		$arrowSprite.position = Vector2i(15, 16 + (arrowIndex * 12))
+		refreshViewableList()
+		updateLabels()
 	if _merchantState == MERCHANT_STATES.ITEMS_ACCEPT:
 		$arrowSprite.position = Vector2i(299, 69)
 		$confirmMarginContainer/Panel/costLabel.text = str("-", _purchaseableItems[_index].cost)
@@ -116,12 +180,12 @@ func populatePurchaseableItemsSet(items:Array) -> void:
 func populatePurchaseableItemsRandom() -> void:
 	_purchaseableItems = []
 	var totalItems:int = 0
-	var noOfPotions:int = rng.randi_range(1, 4)
+	var noOfPotions:int = rng.randi_range(10, 18)
 	totalItems += noOfPotions
 	for n in noOfPotions:
 		_purchaseableItems.append(Statics.ITEMS["POTION"])
 		
-	var noOfHerbs:int = rng.randi_range(1, 3)
+	var noOfHerbs:int = rng.randi_range(1, 5)
 	totalItems += noOfHerbs
 	for n in noOfHerbs:
 		_purchaseableItems.append(Statics.ITEMS["HERB"])
@@ -131,13 +195,18 @@ func populatePurchaseableItemsRandom() -> void:
 	for n in noOfElixirs:
 		_purchaseableItems.append(Statics.ITEMS["ELIXIR"])
 		
+	var noOfAntidotes:int = rng.randi_range(1, 3)
+	totalItems += noOfAntidotes
+	for n in noOfAntidotes:
+		_purchaseableItems.append(Statics.ITEMS["ANTIDOTE"])
+		
 	var noOfEquipables:int = rng.randi_range(1, 3)
 	totalItems += noOfEquipables
 	for n in noOfEquipables:
 		_purchaseableItems.append(getRandomItemOfType(getRandomEquipableType()))
 		
 	var noOfLegendary = 0
-	if totalItems < 10:
+	if totalItems < 20:
 		totalItems += 1
 		noOfLegendary = 1
 
@@ -198,72 +267,72 @@ func postPurchaseRefresh() -> void:
 	
 func updateLabels() -> void:
 	$crownsMarginContainer/Panel/crownsMoneyLabel.text = str(Data.PARTY_CROWNS)
-	if _purchaseableItems.size() >= 1:
-		$itemsMarginContainer/Panel/itemName1.text = _purchaseableItems[0].name
-		$itemsMarginContainer/Panel/itemPrice1.text = str(_purchaseableItems[0].cost)
+	if _viewableList.size() >= 1:
+		$itemsMarginContainer/Panel/itemName1.text = _viewableList[0].name
+		$itemsMarginContainer/Panel/itemPrice1.text = str(_viewableList[0].cost)
 	else:
 		$itemsMarginContainer/Panel/itemName1.text = ""
 		$itemsMarginContainer/Panel/itemPrice1.text = ""
 		
-	if _purchaseableItems.size() >= 2:
-		$itemsMarginContainer/Panel/itemName2.text = _purchaseableItems[1].name
-		$itemsMarginContainer/Panel/itemPrice2.text = str(_purchaseableItems[1].cost)
+	if _viewableList.size() >= 2:
+		$itemsMarginContainer/Panel/itemName2.text = _viewableList[1].name
+		$itemsMarginContainer/Panel/itemPrice2.text = str(_viewableList[1].cost)
 	else:
 		$itemsMarginContainer/Panel/itemName2.text = ""
 		$itemsMarginContainer/Panel/itemPrice2.text = ""
 		
-	if _purchaseableItems.size() >= 3:
-		$itemsMarginContainer/Panel/itemName3.text = _purchaseableItems[2].name
-		$itemsMarginContainer/Panel/itemPrice3.text = str(_purchaseableItems[2].cost)
+	if _viewableList.size() >= 3:
+		$itemsMarginContainer/Panel/itemName3.text = _viewableList[2].name
+		$itemsMarginContainer/Panel/itemPrice3.text = str(_viewableList[2].cost)
 	else:
 		$itemsMarginContainer/Panel/itemName3.text = ""
 		$itemsMarginContainer/Panel/itemPrice3.text = ""
 		
-	if _purchaseableItems.size() >= 4:
-		$itemsMarginContainer/Panel/itemName4.text = _purchaseableItems[3].name
-		$itemsMarginContainer/Panel/itemPrice4.text = str(_purchaseableItems[3].cost)
+	if _viewableList.size() >= 4:
+		$itemsMarginContainer/Panel/itemName4.text = _viewableList[3].name
+		$itemsMarginContainer/Panel/itemPrice4.text = str(_viewableList[3].cost)
 	else:
 		$itemsMarginContainer/Panel/itemName4.text = ""
 		$itemsMarginContainer/Panel/itemPrice4.text = ""
 		
-	if _purchaseableItems.size() >= 5:
-		$itemsMarginContainer/Panel/itemName5.text = _purchaseableItems[4].name
-		$itemsMarginContainer/Panel/itemPrice5.text = str(_purchaseableItems[4].cost)
+	if _viewableList.size() >= 5:
+		$itemsMarginContainer/Panel/itemName5.text = _viewableList[4].name
+		$itemsMarginContainer/Panel/itemPrice5.text = str(_viewableList[4].cost)
 	else:
 		$itemsMarginContainer/Panel/itemName5.text = ""
 		$itemsMarginContainer/Panel/itemPrice5.text = ""
 		
-	if _purchaseableItems.size() >= 6:
-		$itemsMarginContainer/Panel/itemName6.text = _purchaseableItems[5].name
-		$itemsMarginContainer/Panel/itemPrice6.text = str(_purchaseableItems[5].cost)
+	if _viewableList.size() >= 6:
+		$itemsMarginContainer/Panel/itemName6.text = _viewableList[5].name
+		$itemsMarginContainer/Panel/itemPrice6.text = str(_viewableList[5].cost)
 	else:
 		$itemsMarginContainer/Panel/itemName6.text = ""
 		$itemsMarginContainer/Panel/itemPrice6.text = ""
 		
-	if _purchaseableItems.size() >= 7:
-		$itemsMarginContainer/Panel/itemName7.text = _purchaseableItems[6].name
-		$itemsMarginContainer/Panel/itemPrice7.text = str(_purchaseableItems[6].cost)
+	if _viewableList.size() >= 7:
+		$itemsMarginContainer/Panel/itemName7.text = _viewableList[6].name
+		$itemsMarginContainer/Panel/itemPrice7.text = str(_viewableList[6].cost)
 	else:
 		$itemsMarginContainer/Panel/itemName7.text = ""
 		$itemsMarginContainer/Panel/itemPrice7.text = ""
 		
-	if _purchaseableItems.size() >= 8:
-		$itemsMarginContainer/Panel/itemName8.text = _purchaseableItems[7].name
-		$itemsMarginContainer/Panel/itemPrice8.text = str(_purchaseableItems[7].cost)
+	if _viewableList.size() >= 8:
+		$itemsMarginContainer/Panel/itemName8.text = _viewableList[7].name
+		$itemsMarginContainer/Panel/itemPrice8.text = str(_viewableList[7].cost)
 	else:
 		$itemsMarginContainer/Panel/itemName8.text = ""
 		$itemsMarginContainer/Panel/itemPrice8.text = ""
 		
-	if _purchaseableItems.size() >= 9:
-		$itemsMarginContainer/Panel/itemName9.text = _purchaseableItems[8].name
-		$itemsMarginContainer/Panel/itemPrice9.text = str(_purchaseableItems[8].cost)
+	if _viewableList.size() >= 9:
+		$itemsMarginContainer/Panel/itemName9.text = _viewableList[8].name
+		$itemsMarginContainer/Panel/itemPrice9.text = str(_viewableList[8].cost)
 	else:
 		$itemsMarginContainer/Panel/itemName9.text = ""
 		$itemsMarginContainer/Panel/itemPrice9.text = ""
 		
-	if _purchaseableItems.size() >= 10:
-		$itemsMarginContainer/Panel/itemName10.text = _purchaseableItems[9].name
-		$itemsMarginContainer/Panel/itemPrice10.text = str(_purchaseableItems[9].cost)
+	if _viewableList.size() >= 10:
+		$itemsMarginContainer/Panel/itemName10.text = _viewableList[9].name
+		$itemsMarginContainer/Panel/itemPrice10.text = str(_viewableList[9].cost)
 	else:
 		$itemsMarginContainer/Panel/itemName10.text = ""
 		$itemsMarginContainer/Panel/itemPrice10.text = ""

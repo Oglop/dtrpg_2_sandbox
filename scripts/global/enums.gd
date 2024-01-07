@@ -166,6 +166,18 @@ enum TREASURE_STATE {
 	OPENED
 }
 
+enum DOOR_STYLES {
+	STONE,
+	WOOD,
+	BARS
+}
+
+enum DOOR_STATES {
+	OPEN,
+	CLOSED,
+	LOCKED
+}
+
 enum QUEST_LINES {
 	NONE,
 	MAIN
