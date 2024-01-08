@@ -16,6 +16,8 @@ func saveMap(map: Array, name: String) -> void:
 func setState(state:Dictionary) -> void:
 	Data.MAP_OPENED_TREASURES = state.mapOpenedTreasures
 	Data.PARTY_CURRENT_ROOM = state.partyCurrentRoom
+	Data.MAP_OPENED_DOORS = state.mapOpenedDooors
+	Data.PARTY_SKILLS = state.partySkills
 	Data.PARTY_X = state.partyX
 	Data.PARTY_Y = state.partyY
 	Data.PARTY_CROWNS = state.partyCrowns
@@ -109,6 +111,8 @@ func getState() -> Dictionary:
 	return {
 		"version":1.0,
 		"mapOpenedTreasures": Data.MAP_OPENED_TREASURES,
+		"mapOpenedDooors": Data.MAP_OPENED_DOORS,
+		"partySkills": Data.PARTY_SKILLS,
 		"partyCurrentRoom": Data.PARTY_CURRENT_ROOM,
 		"partyX": Data.PARTY_X,
 		"partyY": Data.PARTY_Y,

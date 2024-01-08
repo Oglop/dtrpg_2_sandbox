@@ -251,7 +251,7 @@ func resolveLavawaveAction(position:int, enemy:Dictionary, enemyPosition:Vector2
 		Events.emit_signal("SYSTEM_WRITE_LOG", str(CharacterHandler.getCharacterName(position), " are unable to cast spell."), Enums.SYSTEM_LOG_TYPE.BATTLE)
 	
 	
-func resoleStunAction(position:int, enemyDetail:Dictionary) -> void:
+func resoleStunAction(position:int, enemyDetail:Dictionary, enemyPosition:Vector2) -> void:
 	if !enemyDetail.statusEffects.has(Enums.STATUS_EFFECTS.STUN):
 		var stunChance:int = 0
 		var attackerName:String = ""
@@ -273,10 +273,12 @@ func resoleStunAction(position:int, enemyDetail:Dictionary) -> void:
 		if skillCheckResult == Enums.SYSTEM_SKILL_CHECK_RESULT.SUCCESS:
 			enemyDetail.statusEffects.append(Enums.STATUS_EFFECTS.STUN)
 			Events.emit_signal("SYSTEM_WRITE_LOG", str(attackerName, " stuns ", enemyDetail.name, " with a heavy blow."), Enums.SYSTEM_LOG_TYPE.BATTLE)
+			Events.emit_signal("QUEUE_FX", enemyPosition, Enums.BATTLE_DAMAGE_FXS.STUN)
 		elif skillCheckResult == Enums.SYSTEM_SKILL_CHECK_RESULT.CRITICAL:
 			enemyDetail.statusEffects.append(Enums.STATUS_EFFECTS.STUN)
 			enemyDetail.statusEffects.append(Enums.STATUS_EFFECTS.STUN)
 			Events.emit_signal("SYSTEM_WRITE_LOG", str(attackerName, " stuns ", enemyDetail.name, " with a heavy blow."), Enums.SYSTEM_LOG_TYPE.BATTLE)
+			Events.emit_signal("QUEUE_FX", enemyPosition, Enums.BATTLE_DAMAGE_FXS.STUN)
 			
 func resolvePoisonAction(position:int, enemy:Dictionary, enemyPosition:Vector2) -> void:
 	var intelligence:int = 0
@@ -372,7 +374,7 @@ func resolveProtectAction(position:int) -> void:
 			Data.CHARACTER_2_STATUS_EFFECTS.append(Enums.STATUS_EFFECTS.PROTECTING)
 		if !Data.CHARACTER_3_STATUS_EFFECTS.has(Enums.STATUS_EFFECTS.PROTECTING):
 			Data.CHARACTER_3_STATUS_EFFECTS.append(Enums.STATUS_EFFECTS.PROTECTING)
-			
+	Events.emit_signal("SPAWN_DAMAGE_FX_PROTECT", Vector2i(Globals.X_POSITIONS[position], Globals.Y_POSITIONS[position]))
 	Events.emit_signal("SYSTEM_WRITE_LOG", str(CharacterHandler.getCharacterName(position), " is protecting the party."), Enums.SYSTEM_LOG_TYPE.BATTLE)
 		
 func resolveDefendAction(position:int) -> void:

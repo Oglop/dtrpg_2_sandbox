@@ -10,9 +10,13 @@ func _ready():
 	Events.connect("SPAWN_DAMAGE_FX_POISON", _on_spawnPoison)
 	Events.connect("SPAWN_DAMAGE_FX_LAVAWAVE", _on_spawnLavawave)
 	Events.connect("SPAWN_DAMAGE_FX_STUN", _on_spawnStun)
+	Events.connect("SPAWN_DAMAGE_FX_CHAIN_LIGHTNING", _on_spawnChainLightning)
+	Events.connect("SPAWN_DAMAGE_FX_PROTECT", _on_spawnProtect)
+	Events.connect("SPAWN_DAMAGE_FX_SLEEP", _on_spawnSleep)
 	Events.connect("SPAWN_NPC", _on_spawnNPC)
 	Events.connect("SPAWN_TREASURE", _on_spawnTreasure)
-	
+	Events.connect("SPAWN_DOOR", _on_spawnDoor)
+	Events.connect("SPAWN_MISS", _on_spawn_miss)
 	
 	
 func _on_partySpawnCharacter(position:int, type:Enums.CLASSES) -> void:
@@ -79,3 +83,40 @@ func _on_spawnTreasure(treasureKey:String) -> void:
 		treasure.global_position = Globals.snapToGrid(settings.x, settings.y)
 		treasure.setProperties(settings.type, settings.key, settings.tier, settings.lockedBy)
 		self.add_child(treasure)
+		
+
+func _on_spawnDoor(doorKey:String) -> void:
+	if Statics.DOORS.has(doorKey):
+		var settings = Statics.DOORS[doorKey]
+		var door = SceneLoader.getScene(Enums.SCENE_TYPE.DOOR)
+		door.global_position = Globals.snapToGrid(settings.x, settings.y)
+		# doorKey:String, style:Enums.DOOR_STYLES, lockedBy:String
+		door.setProperties(doorKey, settings.style, settings.lockedBy)
+		self.add_child(door)
+		
+func _on_spawnChainLightning(position:Vector2i) -> void:
+	var lightning = SceneLoader.getScene(Enums.SCENE_TYPE.CHAIN_LIGHTNING)
+	position.x += 8
+	position.y += 4
+	lightning.global_position = position
+	self.add_child(lightning)
+	
+func _on_spawnProtect(position:Vector2i) -> void:
+	var protect = SceneLoader.getScene(Enums.SCENE_TYPE.PROTECT)
+	position.y -= 4
+	protect.global_position = position
+	self.add_child(protect)
+	
+func _on_spawnSleep(position:Vector2i) -> void:
+	var sleep = SceneLoader.getScene(Enums.SCENE_TYPE.SLEEP)
+	sleep.global_position = position
+	self.add_child(sleep)
+	
+func _on_spawn_miss(position:Vector2i) -> void:
+	var miss = SceneLoader.getScene(Enums.SCENE_TYPE.MISS)
+	miss.global_position = position
+	self.add_child(miss)
+	
+	
+	
+	

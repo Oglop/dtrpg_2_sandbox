@@ -9,6 +9,7 @@ extends Node
 @onready var messageSign = preload("res://scenes/map/messageSign.tscn")
 @onready var npc = preload("res://scenes/map/npc.tscn")
 @onready var treasure = preload("res://scenes/map/treasure.tscn")
+@onready var door = preload("res://scenes/map/door.tscn")
 
 # effect
 @onready var damageNumbers = preload("res://scenes/effects/damageNumbers.tscn")
@@ -17,6 +18,10 @@ extends Node
 @onready var lavawave = preload("res://scenes/effects/lavawave.tscn")
 @onready var poison = preload("res://scenes/effects/poison.tscn")
 @onready var stun = preload("res://scenes/effects/stun.tscn")
+@onready var chainLightning = preload("res://scenes/effects/chainLightning.tscn")
+@onready var sleep = preload("res://scenes/effects/sleep.tscn")
+@onready var protect = preload("res://scenes/effects/protect.tscn")
+@onready var miss = preload("res://scenes/effects/miss.tscn")
 
 
 func getScene(type:Enums.SCENE_TYPE):
@@ -44,4 +49,12 @@ func getScene(type:Enums.SCENE_TYPE):
 		return stun.instantiate()
 	elif type == Enums.SCENE_TYPE.TREASURE:
 		return treasure.instantiate()
+	elif type == Enums.SCENE_TYPE.DOOR:
+		return door.instantiate()
+	elif type == Enums.SCENE_TYPE.SLEEP:
+		return sleep.instantiate()
+	elif  type == Enums.SCENE_TYPE.PROTECT:
+		return protect.instantiate()
+	elif  type == Enums.SCENE_TYPE.MISS:
+		return miss.instantiate()
 

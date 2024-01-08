@@ -1,0 +1,39 @@
+[gd_scene load_steps=7 format=3 uid="uid://dd830vilvexax"]
+
+[ext_resource type="Texture2D" uid="uid://cyauixuig0060" path="res://media/images/Sprite-0001.png" id="1_q5o07"]
+[ext_resource type="Script" path="res://scripts/effects/sleep.gd" id="2_2a2dc"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_76r8s"]
+atlas = ExtResource("1_q5o07")
+region = Rect2(352, 48, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1qrjy"]
+atlas = ExtResource("1_q5o07")
+region = Rect2(368, 48, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bgaid"]
+atlas = ExtResource("1_q5o07")
+region = Rect2(384, 48, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_awc88"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_76r8s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1qrjy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bgaid")
+}],
+"loop": true,
+"name": &"sleep",
+"speed": 5.0
+}]
+
+[node name="sleep" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_awc88")
+animation = &"sleep"
+offset = Vector2(8, 8)
+script = ExtResource("2_2a2dc")

@@ -1,0 +1,53 @@
+[gd_scene load_steps=9 format=3 uid="uid://c5qpbuobsuhiu"]
+
+[ext_resource type="Texture2D" uid="uid://cyauixuig0060" path="res://media/images/Sprite-0001.png" id="1_qpwu8"]
+[ext_resource type="Script" path="res://scripts/effects/chainLightning.gd" id="2_hlybe"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j0hu7"]
+atlas = ExtResource("1_qpwu8")
+region = Rect2(32, 176, 32, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gbja2"]
+atlas = ExtResource("1_qpwu8")
+region = Rect2(32, 192, 32, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tkmcy"]
+atlas = ExtResource("1_qpwu8")
+region = Rect2(32, 208, 32, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wfkya"]
+atlas = ExtResource("1_qpwu8")
+region = Rect2(32, 224, 32, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5b1w7"]
+atlas = ExtResource("1_qpwu8")
+region = Rect2(32, 240, 32, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_j6kma"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j0hu7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gbja2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tkmcy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wfkya")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5b1w7")
+}],
+"loop": false,
+"name": &"chainLightning",
+"speed": 8.0
+}]
+
+[node name="chainLightning" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_j6kma")
+animation = &"chainLightning"
+offset = Vector2(16, 8)
+script = ExtResource("2_hlybe")

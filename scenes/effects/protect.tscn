@@ -1,0 +1,46 @@
+[gd_scene load_steps=8 format=3 uid="uid://b0ghlqf5hyhby"]
+
+[ext_resource type="Texture2D" uid="uid://cyauixuig0060" path="res://media/images/Sprite-0001.png" id="1_p6ro7"]
+[ext_resource type="Script" path="res://scripts/effects/protect.gd" id="2_1d474"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uxg86"]
+atlas = ExtResource("1_p6ro7")
+region = Rect2(320, 96, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s8ji7"]
+atlas = ExtResource("1_p6ro7")
+region = Rect2(336, 96, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3hbrs"]
+atlas = ExtResource("1_p6ro7")
+region = Rect2(352, 96, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2fbak"]
+atlas = ExtResource("1_p6ro7")
+region = Rect2(368, 96, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_jbh16"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uxg86")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s8ji7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3hbrs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2fbak")
+}],
+"loop": true,
+"name": &"protect",
+"speed": 8.0
+}]
+
+[node name="protect" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_jbh16")
+animation = &"protect"
+offset = Vector2(8, 8)
+script = ExtResource("2_1d474")

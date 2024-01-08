@@ -1,0 +1,41 @@
+[gd_scene load_steps=7 format=3 uid="uid://c37hnugrgnlux"]
+
+[ext_resource type="Texture2D" uid="uid://cyauixuig0060" path="res://media/images/Sprite-0001.png" id="1_lc0kl"]
+[ext_resource type="Script" path="res://scripts/effects/miss.gd" id="2_cm6dk"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ddwo2"]
+atlas = ExtResource("1_lc0kl")
+region = Rect2(352, 32, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vdpek"]
+atlas = ExtResource("1_lc0kl")
+region = Rect2(368, 32, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jh8jy"]
+atlas = ExtResource("1_lc0kl")
+region = Rect2(384, 32, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_yfnf2"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ddwo2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vdpek")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jh8jy")
+}],
+"loop": true,
+"name": &"miss",
+"speed": 5.0
+}]
+
+[node name="miss" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_yfnf2")
+animation = &"miss"
+frame = 2
+frame_progress = 0.640413
+offset = Vector2(8, 8)
+script = ExtResource("2_cm6dk")

@@ -6,8 +6,10 @@ func _ready():
 	Events.connect("SET_GLOBAL_STATE", _on_globalStateChange)
 	Events.connect("SPAWN_NPCS_TO_MAP", _on_spawnNPCsToMap)
 	Events.connect("SPAWN_TREASURE_TO_MAP", _on_spawnTreasureToMap)
+	Events.connect("SPAWN_DOOR_TO_MAP", _on_spawnDoorToMap)
 	_on_spawnNPCsToMap()
 	_on_spawnTreasureToMap()
+	_on_spawnDoorToMap()
 
 func _on_globalStateChange(globalState:Enums.SYSTEM_GLOBAL_STATES) -> void:
 	pass
@@ -22,4 +24,7 @@ func _on_spawnTreasureToMap() -> void:
 		Events.emit_signal("SPAWN_TREASURE", "DEV_WORLD_CHEST_01")
 		Events.emit_signal("SPAWN_TREASURE", "DEV_WORLD_CHEST_02")
 		
+func _on_spawnDoorToMap() -> void:
+	if Data.PARTY_CURRENT_ROOM == Enums.MAPS.DEV_MAP:
+		Events.emit_signal("SPAWN_DOOR", "DEVWORLD_DOOR_01")
 

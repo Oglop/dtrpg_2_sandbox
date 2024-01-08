@@ -409,6 +409,15 @@ var ITEMS:Dictionary = {
 		"magicValue": 0,
 		"quantity": 1
 	},
+	"LONG_SWORD": {
+		"purchaseble": true,
+		"cost": 45,
+		"type": Enums.ITEM_TYPES.WEAPON_SWORD,
+		"name": "Long Sword",
+		"value": 16,
+		"magicValue": 0,
+		"quantity": 1
+	},
 	"DAGGER": {
 		"purchaseble": true,
 		"cost": 8,
@@ -427,12 +436,30 @@ var ITEMS:Dictionary = {
 		"magicValue": 0,
 		"quantity": 1
 	},
+	"MACE": {
+		"purchaseble": true,
+		"cost": 38,
+		"type": Enums.ITEM_TYPES.WEAPON_BLUNT,
+		"name": "MAce",
+		"value": 14,
+		"magicValue": 0,
+		"quantity": 1
+	},
 	"SPEAR": {
 		"purchaseble": true,
 		"cost": 10,
 		"type": Enums.ITEM_TYPES.WEAPON_SPEAR,
 		"name": "Spear",
 		"value": 8,
+		"magicValue": 0,
+		"quantity": 1
+	},
+	"LANCE": {
+		"purchaseble": true,
+		"cost": 40,
+		"type": Enums.ITEM_TYPES.WEAPON_SPEAR,
+		"name": "Lance",
+		"value": 16,
 		"magicValue": 0,
 		"quantity": 1
 	},
@@ -445,12 +472,30 @@ var ITEMS:Dictionary = {
 		"magicValue": 0,
 		"quantity": 1
 	},
+	"HUNTING_BOW": {
+		"purchaseble": true,
+		"cost": 40,
+		"type": Enums.ITEM_TYPES.WEAPON_RANGED,
+		"name": "Hunting Bow",
+		"value":16,
+		"magicValue": 0,
+		"quantity": 1
+	},
 	"HAND_AXE": {
 		"purchaseble": true,
 		"cost": 12,
 		"type": Enums.ITEM_TYPES.WEAPON_AXE,
 		"name": "Hand axe",
 		"value":9,
+		"magicValue": 0,
+		"quantity": 1
+	},
+	"CURVED_AXE": {
+		"purchaseble": true,
+		"cost": 52,
+		"type": Enums.ITEM_TYPES.WEAPON_AXE,
+		"name": "Curved axe",
+		"value":21,
 		"magicValue": 0,
 		"quantity": 1
 	},
@@ -461,6 +506,15 @@ var ITEMS:Dictionary = {
 		"name": "Staff",
 		"value": 2,
 		"magicValue": 5,
+		"quantity": 1
+	},
+	"OAK_STAFF": {
+		"purchaseble": true,
+		"cost": 40,
+		"type": Enums.ITEM_TYPES.WEAPON_STAFF,
+		"name": "Oak Staff",
+		"value": 4,
+		"magicValue": 10,
 		"quantity": 1
 	},
 	"LEATHER_ARMOR": {
@@ -496,6 +550,44 @@ var ITEMS:Dictionary = {
 		"type": Enums.ITEM_TYPES.ASSESSORY_HELMET,
 		"name": "Leather helm",
 		"value": 2,
+		"magicValue": 0,
+		"quantity": 1
+	},
+	
+	"SMALL_KEY": {
+		"purchaseble": true,
+		"cost": 20,
+		"type": Enums.ITEM_TYPES.KEY,
+		"name": "Small key",
+		"value": 0,
+		"magicValue": 0,
+		"quantity": 1
+	},
+	
+	"SILVER_RING": {
+		"purchaseble": false,
+		"cost": 8,
+		"type": Enums.ITEM_TYPES.TREASURE,
+		"name": "Silver ring",
+		"value": 0,
+		"magicValue": 0,
+		"quantity": 1
+	},
+	"GOLD_RING": {
+		"purchaseble": false,
+		"cost": 24,
+		"type": Enums.ITEM_TYPES.TREASURE,
+		"name": "Gold ring",
+		"value": 0,
+		"magicValue": 0,
+		"quantity": 1
+	},
+	"GOLD_NECKLACE": {
+		"purchaseble": false,
+		"cost": 32,
+		"type": Enums.ITEM_TYPES.TREASURE,
+		"name": "Gold necklace",
+		"value": 0,
 		"magicValue": 0,
 		"quantity": 1
 	}
@@ -612,7 +704,7 @@ var DOORS:Dictionary = {
 	"DEVWORLD_DOOR_01": {
 		"x": 150,
 		"y": 13,
-		"style": Enums.DOOR_STYLES,
+		"style": Enums.DOOR_STYLES.WOOD,
 		"lockedBy": ""
 	}
 }

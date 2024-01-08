@@ -58,9 +58,13 @@ func travelCheck(area:Area2D) -> bool:
 			$partyFightTimer.start(Statics.FIGHT_WAIT)
 			Events.emit_signal("PARTY_COMBAT_AT", body._id, body.global_position, body._name, body._type)
 			body.setTurnEndedStatusHasFought()
-		elif body.is_in_group("sign") && _state == Enums.PARTY_STATE.IDLE:
-			Events.emit_signal("MESSAGE_BOX_QUEUE_MESSAGES", body.getTitle(), body.getMessages())
-			Events.emit_signal("SET_GLOBAL_STATE", Enums.SYSTEM_GLOBAL_STATES.IN_MESSAGE_BOX)
+#		elif body.is_in_group("sign") && _state == Enums.PARTY_STATE.IDLE:
+#			Events.emit_signal("MESSAGE_BOX_QUEUE_MESSAGES", body.getTitle(), body.getMessages())
+#			Events.emit_signal("SET_GLOBAL_STATE", Enums.SYSTEM_GLOBAL_STATES.IN_MESSAGE_BOX)
+		elif body.is_in_group("door"):
+			body.openDoor()
+
+		
 		return true
 	return false
 
@@ -89,7 +93,7 @@ func checkForInteractionWithGroup() -> String:
 			if body.is_in_group("merchant"):
 				return "merchant"
 			elif body.is_in_group("sign"):
-				Events.emit_signal("MESSAGE_BOX_QUEUE_MESSAGES", body.getTitle(), body.getMessages())
+				Events.emit_signal("MESSAGE_BOX_QUEUE_MESSAGES", body.get_parent().getTitle(), body.get_parent().getMessages())
 				return "sign"
 			elif body.is_in_group("npc"):
 				Events.emit_signal("MESSAGE_BOX_QUEUE_MESSAGES", body.get_parent().getTitle(), body.get_parent().getMessages())
@@ -97,6 +101,7 @@ func checkForInteractionWithGroup() -> String:
 			elif body.is_in_group("treasure"):
 				body.get_parent().openTreasure()
 				return "treasure"
+			
 	return ""
 			
 func _on_input_right() -> void:
