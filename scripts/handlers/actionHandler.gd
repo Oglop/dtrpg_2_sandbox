@@ -75,6 +75,8 @@ func resolveAttackAction(attack:int, defence:int, attackerDexterity:int, attacke
 			return damage
 	
 	Events.emit_signal("SYSTEM_WRITE_LOG", str(attackerName, " attacks ", defenderName, " and misses."), Enums.SYSTEM_LOG_TYPE.BATTLE)
+	Events.emit_signal("SPAWN_DAMAGE_FX_MISS", enemyPosition)
+	
 	return 0
 
 	
@@ -470,6 +472,22 @@ func resolveHealManyAction(position:int) -> void:
 		
 		Events.emit_signal("SYSTEM_WRITE_LOG", str(CharacterHandler.getCharacterName(position), " casts heal on the party."), Enums.SYSTEM_LOG_TYPE.BATTLE)
 
+func resolveUseAntidoteAction(position:int) -> void:
+	var poisonedCharacters:Array = []
+	if Data.CHARACTER_1_STATUS_EFFECTS.has(Enums.STATUS_EFFECTS.POISON):
+		poisonedCharacters.append(0)
+	if Data.CHARACTER_2_STATUS_EFFECTS.has(Enums.STATUS_EFFECTS.POISON):
+		poisonedCharacters.append(1)
+	if Data.CHARACTER_3_STATUS_EFFECTS.has(Enums.STATUS_EFFECTS.POISON):
+		poisonedCharacters.append(2)
+	if Data.CHARACTER_4_STATUS_EFFECTS.has(Enums.STATUS_EFFECTS.POISON):
+		poisonedCharacters.append(3)
+	if poisonedCharacters.size() > 0:
+		poisonedCharacters.shuffle()
+		var target:int = poisonedCharacters[0]
+		var antidote = InventoryHandler.withdrawItem(Statics.ITEMS.ANTIDOTE.name)
+		Events.emit_signal("PARTY_USE_ANTIDOTE", target)
+		Events.emit_signal("SYSTEM_WRITE_LOG", str(CharacterHandler.getCharacterName(position), " uses an antidote on ", CharacterHandler.getCharacterName(target), "."), Enums.SYSTEM_LOG_TYPE.BATTLE)
 	
 func resolvePierceAction(position:int, attackerName:String, enemy:Dictionary, enemyPosition:Vector2) -> void:
 	pass

@@ -1,7 +1,15 @@
-[gd_scene load_steps=11 format=3 uid="uid://cqkro3glhhlut"]
+[gd_scene load_steps=20 format=3 uid="uid://cqkro3glhhlut"]
 
 [ext_resource type="Script" path="res://scripts/map/enemy.gd" id="1_r880x"]
 [ext_resource type="Texture2D" uid="uid://cyauixuig0060" path="res://media/images/Sprite-0001.png" id="2_ututs"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8dh6g"]
+atlas = ExtResource("2_ututs")
+region = Rect2(192, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tronb"]
+atlas = ExtResource("2_ututs")
+region = Rect2(208, 16, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qkrbd"]
 atlas = ExtResource("2_ututs")
@@ -11,6 +19,22 @@ region = Rect2(160, 16, 16, 16)
 atlas = ExtResource("2_ututs")
 region = Rect2(176, 16, 16, 16)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_4dr7f"]
+atlas = ExtResource("2_ututs")
+region = Rect2(368, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e44bi"]
+atlas = ExtResource("2_ututs")
+region = Rect2(384, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qbqry"]
+atlas = ExtResource("2_ututs")
+region = Rect2(544, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kpjym"]
+atlas = ExtResource("2_ututs")
+region = Rect2(560, 0, 16, 16)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_shhi6"]
 atlas = ExtResource("2_ututs")
 region = Rect2(128, 16, 16, 16)
@@ -18,6 +42,18 @@ region = Rect2(128, 16, 16, 16)
 [sub_resource type="AtlasTexture" id="AtlasTexture_asy0c"]
 atlas = ExtResource("2_ututs")
 region = Rect2(144, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k3gtc"]
+atlas = ExtResource("2_ututs")
+region = Rect2(288, 112, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3hm7x"]
+atlas = ExtResource("2_ututs")
+region = Rect2(304, 112, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j7hr8"]
+atlas = ExtResource("2_ututs")
+region = Rect2(272, 112, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_sdj5d"]
 atlas = ExtResource("2_ututs")
@@ -31,6 +67,17 @@ region = Rect2(240, 16, 16, 16)
 animations = [{
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_8dh6g")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tronb")
+}],
+"loop": true,
+"name": &"biter",
+"speed": 4.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_qkrbd")
 }, {
 "duration": 1.0,
@@ -42,6 +89,28 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_4dr7f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e44bi")
+}],
+"loop": true,
+"name": &"centipede",
+"speed": 4.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qbqry")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kpjym")
+}],
+"loop": true,
+"name": &"fallenPrince",
+"speed": 4.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_shhi6")
 }, {
 "duration": 1.0,
@@ -49,6 +118,25 @@ animations = [{
 }],
 "loop": true,
 "name": &"goblin",
+"speed": 4.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k3gtc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3hm7x")
+}],
+"loop": true,
+"name": &"mimicChasing",
+"speed": 4.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j7hr8")
+}],
+"loop": true,
+"name": &"mimicHidden",
 "speed": 4.0
 }, {
 "frames": [{

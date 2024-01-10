@@ -98,7 +98,7 @@ func equipAccessoryCharacter(position:int, accessory:Dictionary) -> bool:
 		if Data.CHARACTER_3_ACCESSORY != null:
 			var equipedAccessory:Dictionary = Data.CHARACTER_3_ACCESSORY
 			addItem(equipedAccessory)
-		Data.CHARACTER_3_ACCESSORY = accessory	
+		Data.CHARACTER_3_ACCESSORY = accessory
 	elif position == 3:
 		if Data.CHARACTER_4_ACCESSORY != null:
 			var equipedAccessory:Dictionary = Data.CHARACTER_4_ACCESSORY
@@ -117,6 +117,9 @@ func useConsumable(item:Dictionary, position:int) -> void:
 	if item.name == Statics.ITEMS.HERB.name:
 		if CharacterHandler.isCharacterAlive(position):
 			Events.emit_signal("PARTY_ADD_MAGIC", position, item.value)
+	if item.name == Statics.ITEMS.ANTIDOTE.name:
+		if CharacterHandler.isCharacterAlive(position):
+			Events.emit_signal("PARTY_USE_ANTIDOTE", position)
 			
 			
 	

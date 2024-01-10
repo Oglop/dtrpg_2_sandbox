@@ -608,6 +608,11 @@ var ENEMY_SPAWNS:Dictionary = {
 		"description": "Some ancient walking bones.",
 		"min":1,
 		"max":3
+	},
+	"MIMIC": {
+		"description": "A crazed demon posing as treasure.",
+		"min":1,
+		"max":1
 	}
 }
 
@@ -642,7 +647,7 @@ var ENEMY_STATS:Dictionary = {
 		"itemDropRate":15,
 		"resistances": [ Enums.STATUS_EFFECTS.STUN, Enums.STATUS_EFFECTS.BURNING ],
 		"statusEffects": [],
-		"attackEffects": [],
+		"attackEffects": [ Enums.STATUS_EFFECTS.POISON ],
 		"morale": 100,
 		"canFlee": true
 	},
@@ -660,6 +665,24 @@ var ENEMY_STATS:Dictionary = {
 		"resistances": [ Enums.STATUS_EFFECTS.BURNING ],
 		"statusEffects": [],
 		"attackEffects": [],
+		"morale": 100,
+		"canFlee": true
+	}
+	,
+	"MIMIC": {
+		"name": "Mimic",
+		"type":Enums.ENEMY_TYPES.MIMIC,
+		"crownsMin": 14,
+		"crownsMax": 26,
+		"xp":46,
+		"health": 60,
+		"attack": 24,
+		"defence": 8,
+		"itemDrop": [],
+		"itemDropRate":10,
+		"resistances": [ ],
+		"statusEffects": [],
+		"attackEffects": [ Enums.STATUS_EFFECTS.STUN ],
 		"morale": 100,
 		"canFlee": true
 	}

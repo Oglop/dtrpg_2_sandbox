@@ -13,10 +13,11 @@ func _ready():
 	Events.connect("SPAWN_DAMAGE_FX_CHAIN_LIGHTNING", _on_spawnChainLightning)
 	Events.connect("SPAWN_DAMAGE_FX_PROTECT", _on_spawnProtect)
 	Events.connect("SPAWN_DAMAGE_FX_SLEEP", _on_spawnSleep)
+	Events.connect("SPAWN_DAMAGE_FX_MISS", _on_spawn_miss)
 	Events.connect("SPAWN_NPC", _on_spawnNPC)
 	Events.connect("SPAWN_TREASURE", _on_spawnTreasure)
 	Events.connect("SPAWN_DOOR", _on_spawnDoor)
-	Events.connect("SPAWN_MISS", _on_spawn_miss)
+	
 	
 	
 func _on_partySpawnCharacter(position:int, type:Enums.CLASSES) -> void:

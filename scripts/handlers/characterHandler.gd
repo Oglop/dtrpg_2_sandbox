@@ -6,6 +6,8 @@ var rng = RandomNumberGenerator.new()
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	Events.connect("TURN_ENDED", _on_turnEnded)
+	Events.connect("CHARACTER_ADD_STATUS_EFFECT", _on_characterAddStatusEffect)
+	Events.connect("CHARACTER_REMOVE_STATUS_EFFECT", _on_characterRemoveStatusEffect)
 	
 func percentage(part:int, whole:int) -> int:
 	if part == 0 || whole == 0:
@@ -21,6 +23,35 @@ func percentageOf(percent:int, whole:int) -> int:
 func getPartyDiscount() -> float:
 	return 0.0
 	
+	
+func _on_characterAddStatusEffect(position:int, statusEffect:Enums.STATUS_EFFECTS) -> void:
+	if position == 0:
+		if !Data.CHARACTER_1_STATUS_EFFECTS.has(statusEffect):
+			Data.CHARACTER_1_STATUS_EFFECTS.append(statusEffect)
+	elif position == 1:
+		if !Data.CHARACTER_2_STATUS_EFFECTS.has(statusEffect):
+			Data.CHARACTER_2_STATUS_EFFECTS.append(statusEffect)
+	elif position == 2:
+		if !Data.CHARACTER_3_STATUS_EFFECTS.has(statusEffect):
+			Data.CHARACTER_3_STATUS_EFFECTS.append(statusEffect)
+	elif position == 3:
+		if !Data.CHARACTER_4_STATUS_EFFECTS.has(statusEffect):
+			Data.CHARACTER_4_STATUS_EFFECTS.append(statusEffect)
+			
+func _on_characterRemoveStatusEffect(position:int, statusEffect:Enums.STATUS_EFFECTS) -> void:
+	if position == 0:
+		if Data.CHARACTER_1_STATUS_EFFECTS.has(statusEffect):
+			Data.CHARACTER_1_STATUS_EFFECTS.erase(statusEffect)
+	elif position == 1:
+		if Data.CHARACTER_2_STATUS_EFFECTS.has(statusEffect):
+			Data.CHARACTER_2_STATUS_EFFECTS.erase(statusEffect)
+	elif position == 2:
+		if Data.CHARACTER_3_STATUS_EFFECTS.has(statusEffect):
+			Data.CHARACTER_3_STATUS_EFFECTS.erase(statusEffect)
+	elif position == 3:
+		if Data.CHARACTER_4_STATUS_EFFECTS.has(statusEffect):
+			Data.CHARACTER_4_STATUS_EFFECTS.erase(statusEffect)
+			
 func removeStun() -> void:
 	var index:int = Data.CHARACTER_1_STATUS_EFFECTS.find(Enums.STATUS_EFFECTS.STUN)
 	if index != -1:

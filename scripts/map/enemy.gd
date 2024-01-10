@@ -144,6 +144,17 @@ func setAnimation(type:Enums.ENEMY_TYPES) -> void:
 		$AnimatedSprite2D.animation = "blob"
 	elif type == Enums.ENEMY_TYPES.SKELETON:
 		$AnimatedSprite2D.animation = "skeleton"
+	elif type == Enums.ENEMY_TYPES.CENTIPEDE:
+		$AnimatedSprite2D.animation = "centipede"
+	elif type == Enums.ENEMY_TYPES.PRINCE:
+		$AnimatedSprite2D.animation = "fallenPrince"
+	elif type == Enums.ENEMY_TYPES.MIMIC:
+		if _state != Enums.ENEMY_STATES.CHASING:
+			$AnimatedSprite2D.animation = "mimicHidden"
+		else:
+			$AnimatedSprite2D.animation = "mimicChasing"
+	elif type == Enums.ENEMY_TYPES.BITER:
+		$AnimatedSprite2D.animation = "biter"
 
 
 ## 

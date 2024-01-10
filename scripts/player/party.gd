@@ -19,7 +19,7 @@ func _ready():
 	Events.connect("PARTY_REVIVE_CHARACTER", _on_partyReviveCharacter)
 	Events.connect("SET_GLOBAL_STATE", _on_globalStateChange)
 	Events.connect("ENEMY_IS_COLLIDING_WITH_AREA", _on_enemyCollidedWithArea)
-	
+	Events.connect("PARTY_USE_ANTIDOTE", _on_partyUseAntidote)
 	
 	self.global_position = Vector2(Data.PARTY_X, Data.PARTY_Y)
 	
@@ -32,6 +32,16 @@ func _on_partyReviveCharacter(position:int, value:int) -> void:
 		Data.CHARACTER_3_HEALTH_CURRENT = 0 + value
 	if position == 3:
 		Data.CHARACTER_4_HEALTH_CURRENT = 0 + value
+	
+func _on_partyUseAntidote(position:int) -> void:
+	if position == 0:
+		Data.CHARACTER_1_STATUS_EFFECTS.erase(Enums.STATUS_EFFECTS.POISON)
+	elif position == 1:
+		Data.CHARACTER_2_STATUS_EFFECTS.erase(Enums.STATUS_EFFECTS.POISON)
+	elif position == 2:
+		Data.CHARACTER_3_STATUS_EFFECTS.erase(Enums.STATUS_EFFECTS.POISON)
+	elif position == 3:
+		Data.CHARACTER_14TUS_EFFECTS.erase(Enums.STATUS_EFFECTS.POISON)
 	
 func _on_globalStateChange(globalState:Enums.SYSTEM_GLOBAL_STATES) -> void:
 	_state = Enums.PARTY_STATE.INTERACTING

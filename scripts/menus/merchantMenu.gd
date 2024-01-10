@@ -122,7 +122,7 @@ func populateViewableList() -> void:
 		if _purchaseableItems.size() > n:
 			_viewableList.append(_purchaseableItems[n])
 		else:
-			_viewableList.append({ "name": "", "quantity": -1 })
+			_viewableList.append({ "name": "", "quantity": -1, "cost": 0 })
 	
 func scrollUpViewable() -> void:
 	_viewableFirst -= 1
@@ -136,7 +136,7 @@ func scrollDownViewable() -> void:
 	_viewableLast += 1
 	if _viewableLast > _purchaseableItems.size() - 1:
 		_viewableFirst = _purchaseableItems.size() - 9
-		_viewableLast = _purchaseableItems.size() - 1	
+		_viewableLast = _purchaseableItems.size() - 1
 		
 			
 func refreshViewableList() -> void:
@@ -163,7 +163,7 @@ func updateUI() -> void:
 			arrowIndex = 9
 		if arrowIndex < 0:
 			arrowIndex = 0
-		print(str("_index: ", _index, ", _viewableFirst: ", _viewableFirst, ", _viewableLast: ", _viewableLast, ", arrowIndex: ", arrowIndex))
+		#print(str("_index: ", _index, ", _viewableFirst: ", _viewableFirst, ", _viewableLast: ", _viewableLast, ", arrowIndex: ", arrowIndex))
 		$confirmMarginContainer.visible = false
 		$arrowSprite.position = Vector2i(15, 16 + (arrowIndex * 12))
 		refreshViewableList()

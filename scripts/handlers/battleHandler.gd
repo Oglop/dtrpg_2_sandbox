@@ -140,8 +140,34 @@ func resolveEnemyAttack(enemyDetail:Dictionary) -> void:
 	Events.emit_signal("SYSTEM_WRITE_LOG", str(enemyDetail.name, " hit ", character.name, " for ", dmg, " damage." ), Enums.SYSTEM_LOG_TYPE.BATTLE)
 	Events.emit_signal("QUEUE_FX", postion, Enums.BATTLE_DAMAGE_FXS.CUT)
 	Events.emit_signal("UPDATE_HP_BOX")
-
 	
+	checkForEnemyAttackStatusEffect(characterPosition, postion, enemyDetail)
+
+#signal SPAWN_DAMAGE_FX_POISON
+#signal SPAWN_DAMAGE_FX_LAVAWAVE
+#signal SPAWN_DAMAGE_FX_STUN
+#signal SPAWN_DAMAGE_FX_CHAIN_LIGHTNING
+#signal SPAWN_DAMAGE_FX_SLEEP
+#signal SPAWN_DAMAGE_FX_PROTECT
+#signal SPAWN_DAMAGE_FX_MISS
+	
+func checkForEnemyAttackStatusEffect(position:int, targetPostion:Vector2, enemyDetail:Dictionary) -> void:
+	var addEffects:Array = []
+	for effect in enemyDetail.attackEffects:
+		if effect == Enums.STATUS_EFFECTS.POISON:
+			if Globals.chance(20):
+				addEffects.append(Enums.STATUS_EFFECTS.POISON)
+				Events.emit_signal("SPAWN_DAMAGE_FX_POISON", targetPostion)
+		elif effect == Enums.STATUS_EFFECTS.BURNING:
+			if Globals.chance(10):
+				addEffects.append(Enums.STATUS_EFFECTS.BURNING)
+		elif effect == Enums.STATUS_EFFECTS.STUN:
+			if Globals.chance(40):
+				addEffects.append(Enums.STATUS_EFFECTS.STUN)
+				Events.emit_signal("SPAWN_DAMAGE_FX_STUN", targetPostion)
+	for effect in addEffects:
+		Events.emit_signal("CHARACTER_ADD_STATUS_EFFECT", position, effect)
+			
 		
 func removeDeadEnemies(enemy:Dictionary) -> Array:
 	var newDetails = []
