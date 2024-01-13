@@ -14,6 +14,7 @@ func _ready():
 	Events.connect("SPAWN_DAMAGE_FX_PROTECT", _on_spawnProtect)
 	Events.connect("SPAWN_DAMAGE_FX_SLEEP", _on_spawnSleep)
 	Events.connect("SPAWN_DAMAGE_FX_MISS", _on_spawn_miss)
+	Events.connect("SPAWN_DAMAGE_FX_EXPLOSION", _on_spawn_explosion)
 	Events.connect("SPAWN_NPC", _on_spawnNPC)
 	Events.connect("SPAWN_TREASURE", _on_spawnTreasure)
 	Events.connect("SPAWN_DOOR", _on_spawnDoor)
@@ -117,6 +118,11 @@ func _on_spawn_miss(position:Vector2i) -> void:
 	var miss = SceneLoader.getScene(Enums.SCENE_TYPE.MISS)
 	miss.global_position = position
 	self.add_child(miss)
+	
+func _on_spawn_explosion(position:Vector2i) -> void:
+	var exp = SceneLoader.getScene(Enums.SCENE_TYPE.EXPLOSION)
+	exp.global_position = position
+	self.add_child(exp)
 	
 	
 	

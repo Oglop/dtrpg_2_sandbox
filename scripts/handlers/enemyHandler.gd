@@ -64,7 +64,12 @@ func getEnemyDetail(type:Enums.ENEMY_TYPES) -> Dictionary:
 			"crownsMin": stats.crownsMin,
 			"crownsMax": stats.crownsMax,
 			"itemDrops": stats.itemDrop,
-			"itemDropRate":stats.itemDropRate
+			"itemDropRate":stats.itemDropRate,
+			"resistances": stats.resistances,
+			"statusEffects": stats.statusEffects,
+			"attackEffects": stats.attackEffects,
+			"morale": stats.morale,
+			"canFlee": stats.canFlee
 		}
 	return detail
 ##
@@ -93,7 +98,12 @@ func getEnemyDetails(type:Enums.ENEMY_TYPES) -> Array:
 			"crownsMin": stats.crownsMin,
 			"crownsMax": stats.crownsMax,
 			"itemDrops": stats.itemDrop,
-			"itemDropRate":stats.itemDropRate
+			"itemDropRate":stats.itemDropRate,
+			"resistances": stats.resistances,
+			"statusEffects": stats.statusEffects,
+			"attackEffects": stats.attackEffects,
+			"morale": stats.morale,
+			"canFlee": stats.canFlee
 		})
 		
 	return details

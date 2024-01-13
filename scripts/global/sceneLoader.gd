@@ -22,6 +22,7 @@ extends Node
 @onready var sleep = preload("res://scenes/effects/sleep.tscn")
 @onready var protect = preload("res://scenes/effects/protect.tscn")
 @onready var miss = preload("res://scenes/effects/miss.tscn")
+@onready var explosion = preload("res://scenes/effects/explosion.tscn")
 
 
 func getScene(type:Enums.SCENE_TYPE):
@@ -57,4 +58,6 @@ func getScene(type:Enums.SCENE_TYPE):
 		return protect.instantiate()
 	elif  type == Enums.SCENE_TYPE.MISS:
 		return miss.instantiate()
+	elif type == Enums.SCENE_TYPE.EXPLOSION:
+		return explosion.instantiate()
 

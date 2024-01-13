@@ -92,6 +92,10 @@ func validateRule(
 		return allyLessThan(position, 10)
 	elif type == Enums.RULE.ALLY_DEAD:
 		return allyDead(position)
+	elif type == Enums.RULE.SELF_POISONED:
+		return selfPoisoned(position)
+	elif type == Enums.RULE.ALLY_POISONED:
+		return allyPoisoned()
 	return false
 
 
@@ -111,17 +115,17 @@ func allyGreaterThan(position:int, value:int) -> bool:
 	else:
 		return percentage(Data.CHARACTER_1_HEALTH_CURRENT, Data.CHARACTER_1_HEALTH_MAX) >= value || percentage(Data.CHARACTER_2_HEALTH_CURRENT, Data.CHARACTER_2_HEALTH_MAX) >= value || percentage(Data.CHARACTER_3_HEALTH_CURRENT, Data.CHARACTER_3_HEALTH_MAX) >= value
 		
-		
+# !allyDead(0)
 func allyLessThan(position:int, value:int) -> bool:
 	if position == 0:
-		return percentage(Data.CHARACTER_2_HEALTH_CURRENT, Data.CHARACTER_2_HEALTH_MAX) <= value || percentage(Data.CHARACTER_3_HEALTH_CURRENT, Data.CHARACTER_3_HEALTH_MAX) <= value || percentage(Data.CHARACTER_4_HEALTH_CURRENT, Data.CHARACTER_4_HEALTH_MAX) <= value
+		return !allyDead(1) && percentage(Data.CHARACTER_2_HEALTH_CURRENT, Data.CHARACTER_2_HEALTH_MAX) <= value || !allyDead(2) && percentage(Data.CHARACTER_3_HEALTH_CURRENT, Data.CHARACTER_3_HEALTH_MAX) <= value || !allyDead(3) && percentage(Data.CHARACTER_4_HEALTH_CURRENT, Data.CHARACTER_4_HEALTH_MAX) <= value
 	elif position == 1:
-		return percentage(Data.CHARACTER_1_HEALTH_CURRENT, Data.CHARACTER_1_HEALTH_MAX) <= value || percentage(Data.CHARACTER_3_HEALTH_CURRENT, Data.CHARACTER_3_HEALTH_MAX) <= value || percentage(Data.CHARACTER_4_HEALTH_CURRENT, Data.CHARACTER_4_HEALTH_MAX) <= value
+		return !allyDead(0) && percentage(Data.CHARACTER_1_HEALTH_CURRENT, Data.CHARACTER_1_HEALTH_MAX) <= value || !allyDead(2) && percentage(Data.CHARACTER_3_HEALTH_CURRENT, Data.CHARACTER_3_HEALTH_MAX) <= value || !allyDead(3) && percentage(Data.CHARACTER_4_HEALTH_CURRENT, Data.CHARACTER_4_HEALTH_MAX) <= value
 	elif position == 2:
-		return percentage(Data.CHARACTER_1_HEALTH_CURRENT, Data.CHARACTER_1_HEALTH_MAX) <= value || percentage(Data.CHARACTER_2_HEALTH_CURRENT, Data.CHARACTER_2_HEALTH_MAX) <= value || percentage(Data.CHARACTER_4_HEALTH_CURRENT, Data.CHARACTER_4_HEALTH_MAX) <= value
-	else:
-		return percentage(Data.CHARACTER_1_HEALTH_CURRENT, Data.CHARACTER_1_HEALTH_MAX) <= value || percentage(Data.CHARACTER_2_HEALTH_CURRENT, Data.CHARACTER_2_HEALTH_MAX) <= value || percentage(Data.CHARACTER_3_HEALTH_CURRENT, Data.CHARACTER_3_HEALTH_MAX) <= value
-		
+		return !allyDead(0) && percentage(Data.CHARACTER_1_HEALTH_CURRENT, Data.CHARACTER_1_HEALTH_MAX) <= value || !allyDead(1) && percentage(Data.CHARACTER_2_HEALTH_CURRENT, Data.CHARACTER_2_HEALTH_MAX) <= value || !allyDead(3) && percentage(Data.CHARACTER_4_HEALTH_CURRENT, Data.CHARACTER_4_HEALTH_MAX) <= value
+	elif position == 3:
+		return !allyDead(0) && percentage(Data.CHARACTER_1_HEALTH_CURRENT, Data.CHARACTER_1_HEALTH_MAX) <= value || !allyDead(1) && percentage(Data.CHARACTER_2_HEALTH_CURRENT, Data.CHARACTER_2_HEALTH_MAX) <= value || !allyDead(2) && percentage(Data.CHARACTER_3_HEALTH_CURRENT, Data.CHARACTER_3_HEALTH_MAX) <= value
+	return false
 		
 func lessThan(part:int, whole:int, value:int) -> bool:
 	if percentage(part, whole) <= value:
@@ -138,3 +142,17 @@ func allyDead(position:int) -> bool:
 		return Data.CHARACTER_1_HEALTH_CURRENT <= 0 || Data.CHARACTER_2_HEALTH_CURRENT <= 0 || Data.CHARACTER_4_HEALTH_CURRENT <= 0
 	else:
 		return Data.CHARACTER_1_HEALTH_CURRENT <= 0 || Data.CHARACTER_2_HEALTH_CURRENT <= 0 || Data.CHARACTER_3_HEALTH_CURRENT <= 0
+		
+func allyPoisoned() -> bool:
+	return Data.CHARACTER_1_STATUS_EFFECTS.has(Enums.STATUS_EFFECTS.POISON) || Data.CHARACTER_2_STATUS_EFFECTS.has(Enums.STATUS_EFFECTS.POISON) || Data.CHARACTER_3_STATUS_EFFECTS.has(Enums.STATUS_EFFECTS.POISON) || Data.CHARACTER_4_STATUS_EFFECTS.has(Enums.STATUS_EFFECTS.POISON)
+	
+func selfPoisoned(position:int) -> bool:
+	if position == 0:
+		return Data.CHARACTER_1_STATUS_EFFECTS.has(Enums.STATUS_EFFECTS.POISON)
+	elif position == 1:
+		return Data.CHARACTER_2_STATUS_EFFECTS.has(Enums.STATUS_EFFECTS.POISON)
+	elif position == 2:
+		return Data.CHARACTER_3_STATUS_EFFECTS.has(Enums.STATUS_EFFECTS.POISON)
+	elif position == 4:
+		return Data.CHARACTER_4_STATUS_EFFECTS.has(Enums.STATUS_EFFECTS.POISON)
+	return false
