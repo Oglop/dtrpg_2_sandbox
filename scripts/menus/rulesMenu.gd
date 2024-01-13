@@ -15,12 +15,12 @@ enum menu_states {
 }
 
 var availableRules:Array = [
-	Enums.RULE.ALWAYS,
-	Enums.RULE.SELF_HP_LT_20,
-	Enums.RULE.ALLY_HP_LT_20,
-	Enums.RULE.SELF_MP_LT_20,
-	Enums.RULE.ALLY_MP_LT_20,
-	Enums.RULE.ALLY_DEAD
+#	Enums.RULE.ALWAYS,
+#	Enums.RULE.SELF_HP_LT_20,
+#	Enums.RULE.ALLY_HP_LT_20,
+#	Enums.RULE.SELF_MP_LT_20,
+#	Enums.RULE.ALLY_MP_LT_20,
+#	Enums.RULE.ALLY_DEAD
 ]
 
 var availableActions:Array = [
@@ -38,6 +38,17 @@ var selectedTheme:Theme = preload("res://media/themes/selectedTeme.tres")
 var mainMenuSelected = 0
 var ruleMenuSelected = 0
 var actionMenuSelected = 0
+
+var _indexWasMinusOne:bool = false
+
+var _viewableRulesList:Array = []
+var _viewableRulesFirst:int = 0
+var _viewableRulesLast:int = 5
+
+var _viewableActionsList:Array = []
+var _viewableActionsFirst:int = 0
+var _viewableActionsLast:int = 5
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -67,6 +78,58 @@ func _on_activateRulesMenu(position:int) -> void:
 	setAvailableRulesAndActions()
 	updateUI()
 	
+func scrollViewableRulesUp() -> void:
+	_viewableRulesFirst -= 1
+	_viewableRulesLast -= 1
+	if _viewableRulesFirst < 0:
+		_viewableRulesFirst = 0
+		_viewableRulesLast = 5
+	
+func scrollViewableRulesDown() -> void:
+	_viewableRulesFirst += 1
+	_viewableRulesLast += 1
+	if _viewableRulesLast > availableRules.size() - 1:
+		_viewableRulesFirst = availableRules.size() - 5
+		_viewableRulesLast = availableRules.size() - 1
+
+func scrollViewActionsUp() -> void:
+	_viewableActionsFirst -= 1
+	_viewableActionsLast -= 1
+	if _viewableActionsFirst < 0:
+		_viewableActionsFirst = 0
+		_viewableActionsLast = 5
+	
+func scrollViewActionsDown() -> void:
+	_viewableActionsFirst += 1
+	_viewableActionsLast += 1
+	if _viewableActionsLast > availableActions.size() - 1:
+		_viewableActionsFirst = availableActions.size() - 5
+		_viewableActionsLast = availableActions.size() - 1
+		
+#func updateRulesLabels() -> void:
+#	for n in range(0, _viewableRulesList.size()):
+#		pass
+##		if _viewableRulesList[n] != null:
+##			setLabel(n, _viewableRulesList[n].name, _viewableRulesList[n].quantity)
+##		else:
+##			setLabel(n, "", 0)
+#
+#func updateActionsLabels() -> void:
+#	for n in range(0, _viewableActionsList.size()):
+#		pass
+		
+		
+func updateRulesArrowPosition() -> void:
+	var x = 33
+	var y = 132 + 12 * ruleMenuSelected
+	$rulesArrow.position = Vector2i(x, y)
+	#print(str("_index: ", _index, ", _viewableFirst: ", _viewableFirst, ", _viewableLast: ", _viewableLast, ", arrowIndex: ", index))
+	
+func updateActionsArrowPosition() -> void:
+	var x = 164
+	var y = 132 + 12 * actionMenuSelected
+	$actionsArrow.position = Vector2i(x, y)
+	
 func setAvailableRulesAndActions() -> void:
 	var type:Enums.CLASSES
 	if _characterPosition == 0:
@@ -92,20 +155,54 @@ func setAvailableRulesAndActions() -> void:
 		availableRules = Statics.CLASSES_ATRIBUTES.CLERIC.AVAILABLE_RULES
 		
 	setAvailableActions()
+	
+func populateViewableRules() -> void:
+	_viewableRulesList = []
+	for n in range(_viewableRulesFirst, _viewableRulesLast + 1):
+		if availableRules.size() > n:
+			_viewableRulesList.append(availableRules[n])
+		else:
+			_viewableRulesList.append(Enums.RULE.NONE)
+	
+func populateViewableActions() -> void:
+	_viewableActionsList = []
+	for n in range(_viewableActionsFirst, _viewableActionsLast + 1):
+		if availableActions.size() > n:
+			_viewableActionsList.append(availableActions[n])
+		else:
+			_viewableActionsList.append(Enums.ACTION.NONE)
 
-func updateAvailableRules() -> void:
-	if availableRules.size() >= 1:
-		$ruleMarginContainer4/Panel/Label.text = parseTextFromRule(availableRules[0])
-	if availableRules.size() >= 2:
-		$ruleMarginContainer5/Panel/Label.text = parseTextFromRule(availableRules[1])
-	if availableRules.size() >= 3:
-		$ruleMarginContainer6/Panel/Label.text = parseTextFromRule(availableRules[2])
-	if availableRules.size() >= 4:
-		$ruleMarginContainer7/Panel/Label.text = parseTextFromRule(availableRules[3])
-	if availableRules.size() >= 5:
-		$ruleMarginContainer8/Panel/Label.text = parseTextFromRule(availableRules[4])
-	if availableRules.size() >= 6:
-		$ruleMarginContainer9/Panel/Label.text = parseTextFromRule(availableRules[5])
+func updateRulesLabels() -> void:
+	if _viewableRulesList.size() >= 1:
+		$rulesMarginContainer/Panel/Label1.text = parseTextFromRule(_viewableRulesList[0])
+	else:
+		$rulesMarginContainer/Panel/Label1.text = ""
+		
+	if _viewableRulesList.size() >= 2:
+		$rulesMarginContainer/Panel/Label2.text = parseTextFromRule(_viewableRulesList[1])
+	else:
+		$rulesMarginContainer/Panel/Label2.text = ""
+		
+	if _viewableRulesList.size() >= 3:
+		$rulesMarginContainer/Panel/Label3.text = parseTextFromRule(_viewableRulesList[2])
+	else:
+		$rulesMarginContainer/Panel/Label3.text = ""
+		
+	if _viewableRulesList.size() >= 4:
+		$rulesMarginContainer/Panel/Label4.text = parseTextFromRule(_viewableRulesList[3])
+	else:
+		$rulesMarginContainer/Panel/Label4.text = ""
+		
+	if _viewableRulesList.size() >= 5:
+		$rulesMarginContainer/Panel/Label5.text = parseTextFromRule(_viewableRulesList[4])
+	else:
+		$rulesMarginContainer/Panel/Label5.text = ""
+		
+	if _viewableRulesList.size() >= 6:
+		$rulesMarginContainer/Panel/Label6.text = parseTextFromRule(_viewableRulesList[5])
+	else:
+		$rulesMarginContainer/Panel/Label6.text = ""
+		
 	
 func setAvailableActions() -> void:
 	availableActions
@@ -118,20 +215,62 @@ func setAvailableActions() -> void:
 	elif _characterPosition == 1:
 		availableActions = Data.CHARACTER_4_ACTIONS
 
-func updateAvailableActions() -> void:
-	if availableActions.size() >= 1:
-		$actionMarginContainer10/Panel/Label.text = parseTextFromAction(availableActions[0])
-	if availableActions.size() >= 2:
-		$actionMarginContainer11/Panel/Label.text = parseTextFromAction(availableActions[1])
-	if availableActions.size() >= 3:	
-		$actionMarginContainer12/Panel/Label.text = parseTextFromAction(availableActions[2])
-	if availableActions.size() >= 4:	
-		$actionMarginContainer13/Panel/Label.text = parseTextFromAction(availableActions[3])
-	if availableActions.size() >= 5:
-		$actionMarginContainer14/Panel/Label.text = parseTextFromAction(availableActions[4])
-	if availableActions.size() >= 6:
-		$actionMarginContainer15/Panel/Label.text = parseTextFromAction(availableActions[5])
+func updateActionLabels() -> void:
+	if _viewableActionsList.size() >= 1:
+		$actionMarginContainer/Panel/Label1.text = parseTextFromAction(_viewableActionsList[0])
+	else:
+		$actionMarginContainer/Panel/Label1.text = ""
 
+	if _viewableActionsList.size() >= 2:
+		$actionMarginContainer/Panel/Label2.text = parseTextFromAction(_viewableActionsList[1])
+	else:
+		$actionMarginContainer/Panel/Label2.text = ""
+		
+	if _viewableActionsList.size() >= 3:
+		$actionMarginContainer/Panel/Label3.text = parseTextFromAction(_viewableActionsList[2])
+	else:
+		$actionMarginContainer/Panel/Label3.text = ""
+		
+	if _viewableActionsList.size() >= 4:
+		$actionMarginContainer/Panel/Label4.text = parseTextFromAction(_viewableActionsList[3])
+	else:
+		$actionMarginContainer/Panel/Label4.text = ""
+		
+	if _viewableActionsList.size() >= 5:
+		$actionMarginContainer/Panel/Label5.text = parseTextFromAction(_viewableActionsList[4])
+	else:
+		$actionMarginContainer/Panel/Label5.text = ""
+		
+	if _viewableActionsList.size() >= 6:
+		$actionMarginContainer/Panel/Label6.text = parseTextFromAction(_viewableActionsList[5])
+	else:
+		$actionMarginContainer/Panel/Label6.text = ""
+		
+func refreshRulesViewableList() -> void:
+	if ruleMenuSelected > _viewableRulesLast:
+		scrollViewableRulesDown()
+		populateViewableRules() 
+	elif ruleMenuSelected < _viewableRulesFirst:
+		scrollViewableRulesUp()
+		populateViewableRules()
+	elif _indexWasMinusOne:
+		_indexWasMinusOne = false
+		_viewableRulesFirst = 0
+		_viewableRulesLast = 11
+		populateViewableRules()
+	
+func refreshActionsViewableList() -> void:
+	if actionMenuSelected > _viewableActionsLast:
+		scrollViewableRulesDown()
+		populateViewableRules() 
+	elif actionMenuSelected < _viewableActionsFirst:
+		scrollViewableRulesUp()
+		populateViewableRules()
+	elif _indexWasMinusOne:
+		_indexWasMinusOne = false
+		_viewableActionsFirst = 0
+		_viewableActionsLast = 11
+		populateViewableRules()
 
 func updateCurrentRuleActionPairs() -> void:
 	if _characterPosition == 0:
@@ -152,6 +291,11 @@ func updateCurrentRuleActionPairs() -> void:
 		$MarginContainer3/rule3Panel/Label.text = str(parseTextFromRule(Data.CHARACTER_4_RULES[2].rule), " - ",  parseTextFromAction(Data.CHARACTER_4_RULES[2].action))
 
 func updateUI() -> void:
+	if _viewableRulesList.size() == 0:
+		populateViewableRules()
+	if 	_viewableActionsList.size() == 0:
+		populateViewableActions()
+	
 	if Data.SYSTEM_STATE != Enums.SYSTEM_GLOBAL_STATES.IN_RULES_MENU:
 		setMainMenuVisibility(false)
 		setRulesMenuVisiblity(false)
@@ -166,106 +310,49 @@ func updateUI() -> void:
 				$MarginContainer1.theme = selectedTheme
 				$MarginContainer2.theme = unselectedTheme
 				$MarginContainer3.theme = unselectedTheme
+				$MarginContainer4.theme = unselectedTheme
 			elif mainMenuSelected == 1:
 				$MarginContainer1.theme = unselectedTheme
 				$MarginContainer2.theme = selectedTheme
 				$MarginContainer3.theme = unselectedTheme
+				$MarginContainer4.theme = unselectedTheme
 			elif mainMenuSelected == 2:
 				$MarginContainer1.theme = unselectedTheme
 				$MarginContainer2.theme = unselectedTheme
 				$MarginContainer3.theme = selectedTheme
+				$MarginContainer4.theme = unselectedTheme
+			elif mainMenuSelected == 3:
+				$MarginContainer1.theme = unselectedTheme
+				$MarginContainer2.theme = unselectedTheme
+				$MarginContainer3.theme = unselectedTheme
+				$MarginContainer4.theme = selectedTheme
+				
 		if state == menu_states.SELECT_RULE:
-			updateAvailableRules()
+			var arrowIndex:int = ruleMenuSelected - _viewableRulesFirst
+			var _viewableExcepts:int = ruleMenuSelected - _viewableRulesFirst
+			if ruleMenuSelected >= 5 && _viewableExcepts > 4:
+				arrowIndex = 5
+			if arrowIndex < 0:
+				arrowIndex = 0
+			updateRulesArrowPosition()
+			updateRulesLabels()
+			refreshRulesViewableList()
 			setRulesMenuVisiblity(true)
 			setActionsMenyVisibility(false)
-			if ruleMenuSelected == 0:
-				$ruleMarginContainer4.theme = selectedTheme
-				$ruleMarginContainer5.theme = unselectedTheme
-				$ruleMarginContainer6.theme = unselectedTheme
-				$ruleMarginContainer7.theme = unselectedTheme
-				$ruleMarginContainer8.theme = unselectedTheme
-				$ruleMarginContainer9.theme = unselectedTheme
-			elif ruleMenuSelected == 1:
-				$ruleMarginContainer4.theme = unselectedTheme
-				$ruleMarginContainer5.theme = selectedTheme
-				$ruleMarginContainer6.theme = unselectedTheme
-				$ruleMarginContainer7.theme = unselectedTheme
-				$ruleMarginContainer8.theme = unselectedTheme
-				$ruleMarginContainer9.theme = unselectedTheme
-			elif ruleMenuSelected == 2:
-				$ruleMarginContainer4.theme = unselectedTheme
-				$ruleMarginContainer5.theme = unselectedTheme
-				$ruleMarginContainer6.theme = selectedTheme
-				$ruleMarginContainer7.theme = unselectedTheme
-				$ruleMarginContainer8.theme = unselectedTheme
-				$ruleMarginContainer9.theme = unselectedTheme
-			elif ruleMenuSelected == 3:
-				$ruleMarginContainer4.theme = unselectedTheme
-				$ruleMarginContainer5.theme = unselectedTheme
-				$ruleMarginContainer6.theme = unselectedTheme
-				$ruleMarginContainer7.theme = selectedTheme
-				$ruleMarginContainer8.theme = unselectedTheme
-				$ruleMarginContainer9.theme = unselectedTheme
-			elif ruleMenuSelected == 4:
-				$ruleMarginContainer4.theme = unselectedTheme
-				$ruleMarginContainer5.theme = unselectedTheme
-				$ruleMarginContainer6.theme = unselectedTheme
-				$ruleMarginContainer7.theme = unselectedTheme
-				$ruleMarginContainer8.theme = selectedTheme
-				$ruleMarginContainer9.theme = unselectedTheme
-			elif ruleMenuSelected == 5:
-				$ruleMarginContainer4.theme = unselectedTheme
-				$ruleMarginContainer5.theme = unselectedTheme
-				$ruleMarginContainer6.theme = unselectedTheme
-				$ruleMarginContainer7.theme = unselectedTheme
-				$ruleMarginContainer8.theme = unselectedTheme
-				$ruleMarginContainer9.theme = selectedTheme
+#	
 		if state == menu_states.SELECT_ACTION:
-			updateAvailableActions()
+			var arrowIndex:int = actionMenuSelected - _viewableActionsFirst
+			var _viewableExcepts:int = actionMenuSelected - _viewableActionsFirst
+			if actionMenuSelected >= 5 && _viewableExcepts > 4:
+				arrowIndex = 5
+			if arrowIndex < 0:
+				arrowIndex = 0
+			updateActionsArrowPosition()
+			updateActionLabels()
+			refreshActionsViewableList()
 			setRulesMenuVisiblity(true)
 			setActionsMenyVisibility(true)
-			if actionMenuSelected == 0:
-				$actionMarginContainer10.theme = selectedTheme
-				$actionMarginContainer11.theme = unselectedTheme
-				$actionMarginContainer12.theme = unselectedTheme
-				$actionMarginContainer13.theme = unselectedTheme
-				$actionMarginContainer14.theme = unselectedTheme
-				$actionMarginContainer15.theme = unselectedTheme
-			elif actionMenuSelected == 1:
-				$actionMarginContainer10.theme = unselectedTheme
-				$actionMarginContainer11.theme = selectedTheme
-				$actionMarginContainer12.theme = unselectedTheme
-				$actionMarginContainer13.theme = unselectedTheme
-				$actionMarginContainer14.theme = unselectedTheme
-				$actionMarginContainer15.theme = unselectedTheme
-			elif actionMenuSelected == 2:
-				$actionMarginContainer10.theme = unselectedTheme
-				$actionMarginContainer11.theme = unselectedTheme
-				$actionMarginContainer12.theme = selectedTheme
-				$actionMarginContainer13.theme = unselectedTheme
-				$actionMarginContainer14.theme = unselectedTheme
-				$actionMarginContainer15.theme = unselectedTheme
-			elif actionMenuSelected == 3:
-				$actionMarginContainer10.theme = unselectedTheme
-				$actionMarginContainer11.theme = unselectedTheme
-				$actionMarginContainer12.theme = unselectedTheme
-				$actionMarginContainer13.theme = selectedTheme
-				$actionMarginContainer14.theme = unselectedTheme
-				$actionMarginContainer15.theme = unselectedTheme
-			elif actionMenuSelected == 4:
-				$actionMarginContainer10.theme = unselectedTheme
-				$actionMarginContainer11.theme = unselectedTheme
-				$actionMarginContainer12.theme = unselectedTheme
-				$actionMarginContainer13.theme = unselectedTheme
-				$actionMarginContainer14.theme = selectedTheme
-				$actionMarginContainer15.theme = unselectedTheme
-			elif actionMenuSelected == 5:
-				$actionMarginContainer10.theme = unselectedTheme
-				$actionMarginContainer11.theme = unselectedTheme
-				$actionMarginContainer12.theme = unselectedTheme
-				$actionMarginContainer13.theme = unselectedTheme
-				$actionMarginContainer14.theme = unselectedTheme
-				$actionMarginContainer15.theme = selectedTheme
+#			
 
 func _on_pressUp() -> void:
 	if Data.SYSTEM_STATE == Enums.SYSTEM_GLOBAL_STATES.IN_RULES_MENU:
@@ -292,12 +379,12 @@ func _on_pressDown() -> void:
 			setNotPressable()
 			if state == menu_states.MAIN_MENU:
 				mainMenuSelected += 1
-				if mainMenuSelected > 2:
-					mainMenuSelected = 2
+				if mainMenuSelected > 3:
+					mainMenuSelected = 3
 			if state == menu_states.SELECT_RULE: 
 				ruleMenuSelected += 1
-				if ruleMenuSelected > 5:
-					ruleMenuSelected = 5
+				if ruleMenuSelected > availableRules.size() - 1:
+					ruleMenuSelected = availableRules.size() - 1
 			if state == menu_states.SELECT_ACTION: 
 				actionMenuSelected += 1
 				if actionMenuSelected > availableActions.size() - 1:
@@ -306,25 +393,18 @@ func _on_pressDown() -> void:
 		updateUI()
 	
 func setRulesMenuVisiblity(visible:bool) -> void:
-	$ruleMarginContainer4.visible = visible
-	$ruleMarginContainer5.visible = visible
-	$ruleMarginContainer6.visible = visible
-	$ruleMarginContainer7.visible = visible
-	$ruleMarginContainer8.visible = visible
-	$ruleMarginContainer9.visible = visible
-	
+	$rulesMarginContainer.visible = visible
+	$rulesArrow.visible = visible
+
 func setActionsMenyVisibility(visible:bool) -> void:
-	$actionMarginContainer10.visible = visible
-	$actionMarginContainer11.visible = visible
-	$actionMarginContainer12.visible = visible
-	$actionMarginContainer13.visible = visible
-	$actionMarginContainer14.visible = visible
-	$actionMarginContainer15.visible = visible
+	$actionMarginContainer.visible = visible
+	$actionsArrow.visible = visible
 	
 func setMainMenuVisibility(visible:bool) -> void:
 	$MarginContainer1.visible = visible
 	$MarginContainer2.visible = visible
 	$MarginContainer3.visible = visible
+	$MarginContainer4.visible = visible
 	
 func _on_pressAccept() -> void:
 	if Data.SYSTEM_STATE == Enums.SYSTEM_GLOBAL_STATES.IN_RULES_MENU:
