@@ -57,6 +57,10 @@ var CLASSES_ATRIBUTES:Dictionary = {
 			{
 				"rule": Enums.RULE.NONE,
 				"action": Enums.ACTION.NONE
+			},
+			{
+				"rule": Enums.RULE.NONE,
+				"action": Enums.ACTION.NONE
 			}
 		],
 		"AVAILABLE_RULES": [
@@ -101,6 +105,10 @@ var CLASSES_ATRIBUTES:Dictionary = {
 			{
 				"rule": Enums.RULE.ALWAYS,
 				"action": Enums.ACTION.ATTACK
+			},
+			{
+				"rule": Enums.RULE.NONE,
+				"action": Enums.ACTION.NONE
 			},
 			{
 				"rule": Enums.RULE.NONE,
@@ -155,6 +163,10 @@ var CLASSES_ATRIBUTES:Dictionary = {
 			{
 				"rule": Enums.RULE.SELF_HP_LT_20,
 				"action": Enums.ACTION.ATTACK
+			},
+			{
+				"rule": Enums.RULE.NONE,
+				"action": Enums.ACTION.NONE
 			}
 		],
 		"AVAILABLE_RULES": [
@@ -204,6 +216,10 @@ var CLASSES_ATRIBUTES:Dictionary = {
 			{
 				"rule": Enums.RULE.ALWAYS,
 				"action": Enums.ACTION.ATTACK
+			},
+			{
+				"rule": Enums.RULE.NONE,
+				"action": Enums.ACTION.NONE
 			}
 		],
 		"AVAILABLE_RULES": [
@@ -255,6 +271,10 @@ var CLASSES_ATRIBUTES:Dictionary = {
 			{
 				"rule": Enums.RULE.ALWAYS,
 				"action": Enums.ACTION.ATTACK
+			},
+			{
+				"rule": Enums.RULE.NONE,
+				"action": Enums.ACTION.NONE
 			}
 		],
 		"AVAILABLE_RULES": [
@@ -303,6 +323,10 @@ var CLASSES_ATRIBUTES:Dictionary = {
 			{
 				"rule": Enums.RULE.ALWAYS,
 				"action": Enums.ACTION.ATTACK
+			},
+			{
+				"rule": Enums.RULE.NONE,
+				"action": Enums.ACTION.NONE
 			}
 		],
 		"AVAILABLE_RULES": [

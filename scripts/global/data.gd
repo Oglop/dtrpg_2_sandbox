@@ -48,6 +48,9 @@ var CHARACTER_1_RULES:Array = [
 	},{
 		"rule": Enums.RULE.NONE,
 		"action": Enums.ACTION.NONE
+	},{
+		"rule": Enums.RULE.NONE,
+		"action": Enums.ACTION.NONE
 	}
 ]
 var CHARACTER_1_WEAPON:Dictionary = {}
@@ -79,6 +82,9 @@ var CHARACTER_2_RULES:Array = [
 	},{
 		"rule": Enums.RULE.ALWAYS,
 		"action": Enums.ACTION.USE_POTION_SELF
+	},{
+		"rule": Enums.RULE.NONE,
+		"action": Enums.ACTION.NONE
 	},{
 		"rule": Enums.RULE.NONE,
 		"action": Enums.ACTION.NONE
@@ -116,6 +122,9 @@ var CHARACTER_3_RULES:Array = [
 	},{
 		"rule": Enums.RULE.NONE,
 		"action": Enums.ACTION.NONE
+	},{
+		"rule": Enums.RULE.NONE,
+		"action": Enums.ACTION.NONE
 	}
 ]
 var CHARACTER_3_WEAPON:Dictionary = {}
@@ -147,6 +156,9 @@ var CHARACTER_4_RULES:Array = [
 	},{
 		"rule": Enums.RULE.ALWAYS,
 		"action": Enums.ACTION.ATTACK
+	},{
+		"rule": Enums.RULE.NONE,
+		"action": Enums.ACTION.NONE
 	},{
 		"rule": Enums.RULE.NONE,
 		"action": Enums.ACTION.NONE

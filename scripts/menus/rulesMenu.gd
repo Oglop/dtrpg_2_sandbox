@@ -15,12 +15,7 @@ enum menu_states {
 }
 
 var availableRules:Array = [
-#	Enums.RULE.ALWAYS,
-#	Enums.RULE.SELF_HP_LT_20,
-#	Enums.RULE.ALLY_HP_LT_20,
-#	Enums.RULE.SELF_MP_LT_20,
-#	Enums.RULE.ALLY_MP_LT_20,
-#	Enums.RULE.ALLY_DEAD
+
 ]
 
 var availableActions:Array = [
@@ -67,7 +62,9 @@ func _on_globalStateChange(globalState:Enums.SYSTEM_GLOBAL_STATES) -> void:
 	await self.get_tree().create_timer(0.4).timeout
 	if globalState == Enums.SYSTEM_GLOBAL_STATES.IN_RULES_MENU:
 		state = menu_states.MAIN_MENU
+		updateCurrentRuleActionPairs()
 		updateUI()
+		
 	
 func _on_activateRulesMenu(position:int) -> void:
 	_characterPosition = position
@@ -106,28 +103,15 @@ func scrollViewActionsDown() -> void:
 		_viewableActionsFirst = availableActions.size() - 5
 		_viewableActionsLast = availableActions.size() - 1
 		
-#func updateRulesLabels() -> void:
-#	for n in range(0, _viewableRulesList.size()):
-#		pass
-##		if _viewableRulesList[n] != null:
-##			setLabel(n, _viewableRulesList[n].name, _viewableRulesList[n].quantity)
-##		else:
-##			setLabel(n, "", 0)
-#
-#func updateActionsLabels() -> void:
-#	for n in range(0, _viewableActionsList.size()):
-#		pass
-		
-		
-func updateRulesArrowPosition() -> void:
+func updateRulesArrowPosition(arrowIndex:int) -> void:
 	var x = 33
-	var y = 132 + 12 * ruleMenuSelected
+	var y = 132 + 12 * arrowIndex
 	$rulesArrow.position = Vector2i(x, y)
-	#print(str("_index: ", _index, ", _viewableFirst: ", _viewableFirst, ", _viewableLast: ", _viewableLast, ", arrowIndex: ", index))
+	print(str("ruleMenuSelected: ", ruleMenuSelected, ", _viewableRulesFirst: ", _viewableRulesFirst, ", _viewableRulesLast: ", _viewableRulesLast))#, ", arrowIndex: ", index))
 	
-func updateActionsArrowPosition() -> void:
+func updateActionsArrowPosition(arrowIndex:int) -> void:
 	var x = 164
-	var y = 132 + 12 * actionMenuSelected
+	var y = 132 + 12 * arrowIndex
 	$actionsArrow.position = Vector2i(x, y)
 	
 func setAvailableRulesAndActions() -> void:
@@ -154,7 +138,9 @@ func setAvailableRulesAndActions() -> void:
 	elif type == Enums.CLASSES.CLERIC:
 		availableRules = Statics.CLASSES_ATRIBUTES.CLERIC.AVAILABLE_RULES
 		
+	availableRules.push_front(Enums.RULE.NONE)
 	setAvailableActions()
+	updateCurrentRuleActionPairs()
 	
 func populateViewableRules() -> void:
 	_viewableRulesList = []
@@ -177,27 +163,22 @@ func updateRulesLabels() -> void:
 		$rulesMarginContainer/Panel/Label1.text = parseTextFromRule(_viewableRulesList[0])
 	else:
 		$rulesMarginContainer/Panel/Label1.text = ""
-		
 	if _viewableRulesList.size() >= 2:
 		$rulesMarginContainer/Panel/Label2.text = parseTextFromRule(_viewableRulesList[1])
 	else:
 		$rulesMarginContainer/Panel/Label2.text = ""
-		
 	if _viewableRulesList.size() >= 3:
 		$rulesMarginContainer/Panel/Label3.text = parseTextFromRule(_viewableRulesList[2])
 	else:
 		$rulesMarginContainer/Panel/Label3.text = ""
-		
 	if _viewableRulesList.size() >= 4:
 		$rulesMarginContainer/Panel/Label4.text = parseTextFromRule(_viewableRulesList[3])
 	else:
 		$rulesMarginContainer/Panel/Label4.text = ""
-		
 	if _viewableRulesList.size() >= 5:
 		$rulesMarginContainer/Panel/Label5.text = parseTextFromRule(_viewableRulesList[4])
 	else:
 		$rulesMarginContainer/Panel/Label5.text = ""
-		
 	if _viewableRulesList.size() >= 6:
 		$rulesMarginContainer/Panel/Label6.text = parseTextFromRule(_viewableRulesList[5])
 	else:
@@ -256,7 +237,7 @@ func refreshRulesViewableList() -> void:
 	elif _indexWasMinusOne:
 		_indexWasMinusOne = false
 		_viewableRulesFirst = 0
-		_viewableRulesLast = 11
+		_viewableRulesLast = 5
 		populateViewableRules()
 	
 func refreshActionsViewableList() -> void:
@@ -269,26 +250,31 @@ func refreshActionsViewableList() -> void:
 	elif _indexWasMinusOne:
 		_indexWasMinusOne = false
 		_viewableActionsFirst = 0
-		_viewableActionsLast = 11
+		_viewableActionsLast = 5
 		populateViewableRules()
 
 func updateCurrentRuleActionPairs() -> void:
+	print(str("_characterPosition: ", _characterPosition))
 	if _characterPosition == 0:
-		$MarginContainer1/rule1Panel/Label.text = str(parseTextFromRule(Data.CHARACTER_1_RULES[0].rule), " - ",  parseTextFromAction(Data.CHARACTER_1_RULES[0].action))
-		$MarginContainer2/rule2Panel/Label.text = str(parseTextFromRule(Data.CHARACTER_1_RULES[1].rule), " - ",  parseTextFromAction(Data.CHARACTER_1_RULES[1].action))
-		$MarginContainer3/rule3Panel/Label.text = str(parseTextFromRule(Data.CHARACTER_1_RULES[2].rule), " - ",  parseTextFromAction(Data.CHARACTER_1_RULES[2].action))
+		$MarginContainer1/rule1Panel/Label.text = str(parseTextFromRule(Data.CHARACTER_1_RULES[0].rule), " - ", parseTextFromAction(Data.CHARACTER_1_RULES[0].action))
+		$MarginContainer2/rule2Panel/Label.text = str(parseTextFromRule(Data.CHARACTER_1_RULES[1].rule), " - ", parseTextFromAction(Data.CHARACTER_1_RULES[1].action))
+		$MarginContainer3/rule3Panel/Label.text = str(parseTextFromRule(Data.CHARACTER_1_RULES[2].rule), " - ", parseTextFromAction(Data.CHARACTER_1_RULES[2].action))
+		$MarginContainer4/rule4Panel/Label.text = str(parseTextFromRule(Data.CHARACTER_1_RULES[3].rule), " - ", parseTextFromAction(Data.CHARACTER_1_RULES[3].action))
 	elif _characterPosition == 1:
-		$MarginContainer1/rule1Panel/Label.text = str(parseTextFromRule(Data.CHARACTER_2_RULES[0].rule), " - ",  parseTextFromAction(Data.CHARACTER_2_RULES[0].action))
-		$MarginContainer2/rule2Panel/Label.text = str(parseTextFromRule(Data.CHARACTER_2_RULES[1].rule), " - ",  parseTextFromAction(Data.CHARACTER_2_RULES[1].action))
-		$MarginContainer3/rule3Panel/Label.text = str(parseTextFromRule(Data.CHARACTER_2_RULES[2].rule), " - ",  parseTextFromAction(Data.CHARACTER_2_RULES[2].action))
+		$MarginContainer1/rule1Panel/Label.text = str(parseTextFromRule(Data.CHARACTER_2_RULES[0].rule), " - ", parseTextFromAction(Data.CHARACTER_2_RULES[0].action))
+		$MarginContainer2/rule2Panel/Label.text = str(parseTextFromRule(Data.CHARACTER_2_RULES[1].rule), " - ", parseTextFromAction(Data.CHARACTER_2_RULES[1].action))
+		$MarginContainer3/rule3Panel/Label.text = str(parseTextFromRule(Data.CHARACTER_2_RULES[2].rule), " - ", parseTextFromAction(Data.CHARACTER_2_RULES[2].action))
+		$MarginContainer4/rule4Panel/Label.text = str(parseTextFromRule(Data.CHARACTER_2_RULES[3].rule), " - ", parseTextFromAction(Data.CHARACTER_2_RULES[3].action))
 	elif _characterPosition == 2:
-		$MarginContainer1/rule1Panel/Label.text = str(parseTextFromRule(Data.CHARACTER_3_RULES[0].rule), " - ",  parseTextFromAction(Data.CHARACTER_3_RULES[0].action))
-		$MarginContainer2/rule2Panel/Label.text = str(parseTextFromRule(Data.CHARACTER_3_RULES[1].rule), " - ",  parseTextFromAction(Data.CHARACTER_3_RULES[1].action))
-		$MarginContainer3/rule3Panel/Label.text = str(parseTextFromRule(Data.CHARACTER_3_RULES[2].rule), " - ",  parseTextFromAction(Data.CHARACTER_3_RULES[2].action))
+		$MarginContainer1/rule1Panel/Label.text = str(parseTextFromRule(Data.CHARACTER_3_RULES[0].rule), " - ", parseTextFromAction(Data.CHARACTER_3_RULES[0].action))
+		$MarginContainer2/rule2Panel/Label.text = str(parseTextFromRule(Data.CHARACTER_3_RULES[1].rule), " - ", parseTextFromAction(Data.CHARACTER_3_RULES[1].action))
+		$MarginContainer3/rule3Panel/Label.text = str(parseTextFromRule(Data.CHARACTER_3_RULES[2].rule), " - ", parseTextFromAction(Data.CHARACTER_3_RULES[2].action))
+		$MarginContainer4/rule4Panel/Label.text = str(parseTextFromRule(Data.CHARACTER_3_RULES[3].rule), " - ", parseTextFromAction(Data.CHARACTER_3_RULES[3].action))
 	elif _characterPosition == 3:
-		$MarginContainer1/rule1Panel/Label.text = str(parseTextFromRule(Data.CHARACTER_4_RULES[0].rule), " - ",  parseTextFromAction(Data.CHARACTER_4_RULES[0].action))
-		$MarginContainer2/rule2Panel/Label.text = str(parseTextFromRule(Data.CHARACTER_4_RULES[1].rule), " - ",  parseTextFromAction(Data.CHARACTER_4_RULES[1].action))
-		$MarginContainer3/rule3Panel/Label.text = str(parseTextFromRule(Data.CHARACTER_4_RULES[2].rule), " - ",  parseTextFromAction(Data.CHARACTER_4_RULES[2].action))
+		$MarginContainer1/rule1Panel/Label.text = str(parseTextFromRule(Data.CHARACTER_4_RULES[0].rule), " - ", parseTextFromAction(Data.CHARACTER_4_RULES[0].action))
+		$MarginContainer2/rule2Panel/Label.text = str(parseTextFromRule(Data.CHARACTER_4_RULES[1].rule), " - ", parseTextFromAction(Data.CHARACTER_4_RULES[1].action))
+		$MarginContainer3/rule3Panel/Label.text = str(parseTextFromRule(Data.CHARACTER_4_RULES[2].rule), " - ", parseTextFromAction(Data.CHARACTER_4_RULES[2].action))
+		$MarginContainer4/rule4Panel/Label.text = str(parseTextFromRule(Data.CHARACTER_4_RULES[3].rule), " - ", parseTextFromAction(Data.CHARACTER_4_RULES[3].action))
 
 func updateUI() -> void:
 	if _viewableRulesList.size() == 0:
@@ -334,7 +320,7 @@ func updateUI() -> void:
 				arrowIndex = 5
 			if arrowIndex < 0:
 				arrowIndex = 0
-			updateRulesArrowPosition()
+			updateRulesArrowPosition(arrowIndex)
 			updateRulesLabels()
 			refreshRulesViewableList()
 			setRulesMenuVisiblity(true)
@@ -347,7 +333,7 @@ func updateUI() -> void:
 				arrowIndex = 5
 			if arrowIndex < 0:
 				arrowIndex = 0
-			updateActionsArrowPosition()
+			updateActionsArrowPosition(arrowIndex)
 			updateActionLabels()
 			refreshActionsViewableList()
 			setRulesMenuVisiblity(true)
@@ -406,6 +392,12 @@ func setMainMenuVisibility(visible:bool) -> void:
 	$MarginContainer3.visible = visible
 	$MarginContainer4.visible = visible
 	
+func checkForNoneRule() -> bool:
+	if availableRules[ruleMenuSelected] != Enums.RULE.NONE:
+		return false
+	setRuleAndActionForCharacter(Enums.RULE.NONE, Enums.ACTION.NONE)
+	return true
+	
 func _on_pressAccept() -> void:
 	if Data.SYSTEM_STATE == Enums.SYSTEM_GLOBAL_STATES.IN_RULES_MENU:
 		if pressabe == pressable_states.TRUE:
@@ -413,7 +405,11 @@ func _on_pressAccept() -> void:
 			if state == menu_states.MAIN_MENU:
 				state = menu_states.SELECT_RULE
 			elif state == menu_states.SELECT_RULE:
-				state = menu_states.SELECT_ACTION
+				if !checkForNoneRule():
+					actionMenuSelected = 0
+					state = menu_states.SELECT_ACTION
+				else:
+					state = menu_states.MAIN_MENU
 			elif state == menu_states.SELECT_ACTION:
 				setRuleAndActionForCharacter(availableRules[ruleMenuSelected], availableActions[actionMenuSelected])
 				state = menu_states.MAIN_MENU
@@ -446,7 +442,9 @@ func _on_pressCancel() -> void:
 		updateUI()
 	
 func parseTextFromRule(rule:Enums.RULE) -> String:
-	if rule == Enums.RULE.ALWAYS:
+	if rule == Enums.RULE.NONE:
+		return Text.NO_RULE
+	elif rule == Enums.RULE.ALWAYS:
 		return Text.ALWAYS
 	elif rule == Enums.RULE.NEVER:
 		return Text.NEVER

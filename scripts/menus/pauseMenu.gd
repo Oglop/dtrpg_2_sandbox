@@ -63,6 +63,7 @@ func _on_characterSelectAccepted(position:int) -> void:
 	if Data.SYSTEM_STATE == Enums.SYSTEM_GLOBAL_STATES.IN_PAUSE_SCREEN:
 		setInputBlocked()
 		if _state == MENU_STATES.RULES:
+			print(str("_on_characterSelectAccepted.position: ", position))
 			_state == MENU_STATES.RULES_MENU
 			Events.emit_signal("SET_GLOBAL_STATE", Enums.SYSTEM_GLOBAL_STATES.IN_RULES_MENU)
 			Events.emit_signal("ACTIVATE_RULES_MENU", position)

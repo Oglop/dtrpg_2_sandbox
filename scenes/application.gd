@@ -10,6 +10,7 @@ func _ready():
 		Data.PARTY_CURRENT_ROOM = Enums.MAPS.DEV_MAP
 		Events.emit_signal("PARTY_SET_POSITION", Enums.MAPS.DEV_MAP, Enums.ENTER_FROM.START_SCREEN)
 		get_tree().change_scene_to_file("res://scenes/worlds/devWorld.tscn")
+		#get_tree().root.content_scale_factor = 2.0
 		
 	elif gameMode == Enums.STARTUP_MODE.GAME:
 		get_tree().change_scene_to_file(str(Text.SCENE_WORLDS_PATH, Text.SCENE_DEV_WORLD))

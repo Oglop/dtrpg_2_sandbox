@@ -50,6 +50,7 @@ var MAP_TRAVEL_NORTH:String = "Traveling north."
 var MAP_TRAVEL_WEST:String = "Traveling west."
 var MAP_TRAVEL_SOUTH:String = "Traveling south."
 
+var NO_RULE:String = "-"
 var ALWAYS:String = "Any"
 var NEVER:String = "Never"
 var SELF_IS_POISONED:String = "Self:Poisoned"
