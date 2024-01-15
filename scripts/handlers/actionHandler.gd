@@ -311,11 +311,15 @@ func resolveBarrageAction(position:int, attack:int, agility:int, enemy:Dictionar
 			if skillCheckResult == Enums.SYSTEM_SKILL_CHECK_RESULT.SUCCESS:
 				dmg = (attack * 0.5) + rng.randi_range(1, agility) - detail.defence
 				detail.health -= dmg
+				Events.emit_signal("SYSTEM_WRITE_LOG", str(detail.name, " is hit by the barrage."), Enums.SYSTEM_LOG_TYPE.BATTLE)
+				Events.emit_signal("SPAWN_DAMAGE_FX_BARRAGE", enemyPosition)
 	#				
-			if skillCheckResult == Enums.SYSTEM_SKILL_CHECK_RESULT.CRITICAL:
+			elif skillCheckResult == Enums.SYSTEM_SKILL_CHECK_RESULT.CRITICAL:
 				dmg = attack + rng.randi_range(1, agility) - detail.defence
 				detail.health -= dmg
-			Events.emit_signal("SYSTEM_WRITE_LOG", str(detail.name, " is hit by the barrage."), Enums.SYSTEM_LOG_TYPE.BATTLE)
+				Events.emit_signal("SYSTEM_WRITE_LOG", str(detail.name, " is hit by the barrage."), Enums.SYSTEM_LOG_TYPE.BATTLE)
+				Events.emit_signal("SPAWN_DAMAGE_FX_BARRAGE", enemyPosition)
+
 		
 func resolveMeditateAction(position:int) -> void:
 	var intelligence:int = 0

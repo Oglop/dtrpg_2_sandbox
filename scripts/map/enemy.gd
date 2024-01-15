@@ -6,6 +6,7 @@ enum TURN_ENDED_STATUSES {
 	HAS_FOUGHT,
 	IDLE
 }
+
 var _id:String = ""
 var _name:String = ""
 var _description:String = ""
@@ -21,6 +22,7 @@ func _ready():
 
 func _on_enemy_defeated(id:String) -> void:
 	if _id == id:
+		Events.emit_signal("SPAWN_DAMAGE_FX_SKULL_CLOUD", self.global_position)
 		self.queue_free()
 
 func _on_turnEnded() -> void:

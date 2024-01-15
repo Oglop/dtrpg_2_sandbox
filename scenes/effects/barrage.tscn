@@ -1,0 +1,39 @@
+[gd_scene load_steps=7 format=3 uid="uid://c1qwlse2dtlek"]
+
+[ext_resource type="Texture2D" uid="uid://cyauixuig0060" path="res://media/images/Sprite-0001.png" id="1_kwleg"]
+[ext_resource type="Script" path="res://scripts/effects/barrage.gd" id="2_0puej"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n83yt"]
+atlas = ExtResource("1_kwleg")
+region = Rect2(400, 32, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ebo7j"]
+atlas = ExtResource("1_kwleg")
+region = Rect2(416, 32, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5d4vn"]
+atlas = ExtResource("1_kwleg")
+region = Rect2(432, 32, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_oeohd"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n83yt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ebo7j")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5d4vn")
+}],
+"loop": true,
+"name": &"barrage",
+"speed": 8.0
+}]
+
+[node name="barrage" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_oeohd")
+animation = &"barrage"
+offset = Vector2(8, 8)
+script = ExtResource("2_0puej")

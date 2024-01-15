@@ -124,8 +124,11 @@ func removeEnemy(id:String) -> void:
 	for enemy in Data.ENEMIES:
 		if enemy.id != id:
 			updatedEnemyList.append(enemy)
+		#if enemy.id == id:
+			
 	Data.ENEMIES = updatedEnemyList
 	Events.emit_signal("DELETE_ENEMY_ACTOR", id)
+	
 	
 func generateId() -> String:
 	var id:String = ""

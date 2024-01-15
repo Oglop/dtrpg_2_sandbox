@@ -1,5 +1,7 @@
 extends Node2D
 
+var rng:RandomNumberGenerator = RandomNumberGenerator.new()
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	Events.connect("PARTY_SPAWN_CHARACTER", _on_partySpawnCharacter)
@@ -15,12 +17,13 @@ func _ready():
 	Events.connect("SPAWN_DAMAGE_FX_SLEEP", _on_spawnSleep)
 	Events.connect("SPAWN_DAMAGE_FX_MISS", _on_spawn_miss)
 	Events.connect("SPAWN_DAMAGE_FX_EXPLOSION", _on_spawn_explosion)
+	Events.connect("SPAWN_DAMAGE_FX_SKULL_CLOUD", _on_spawn_skullCloud)
+	Events.connect("SPAWN_DAMAGE_FX_BARRAGE", _on_spawn_barrage)
 	Events.connect("SPAWN_NPC", _on_spawnNPC)
 	Events.connect("SPAWN_TREASURE", _on_spawnTreasure)
 	Events.connect("SPAWN_DOOR", _on_spawnDoor)
 	
-	
-	
+
 func _on_partySpawnCharacter(position:int, type:Enums.CLASSES) -> void:
 	var playerSpriteScene = SceneLoader.getScene(Enums.SCENE_TYPE.PLAYER_SPRITE)
 	playerSpriteScene.setProperties(position)
@@ -123,6 +126,20 @@ func _on_spawn_explosion(position:Vector2i) -> void:
 	var exp = SceneLoader.getScene(Enums.SCENE_TYPE.EXPLOSION)
 	exp.global_position = position
 	self.add_child(exp)
+	
+func _on_spawn_skullCloud(position:Vector2i) -> void:
+	var skull = SceneLoader.getScene(Enums.SCENE_TYPE.SKULL_CLOUD)
+	skull.global_position = position
+	self.add_child(skull)
+	
+func _on_spawn_barrage(position:Vector2i) -> void:
+	for n in range(0, 4):
+		var arrow = SceneLoader.getScene(Enums.SCENE_TYPE.BARRAGE)
+		var x = position.x + rng.randi_range(-8, 8)
+		var y = position.y + rng.randi_range(-2, 2)
+		arrow.global_position = Vector2i(x, y)
+		self.add_child(arrow)
+		await self.get_tree().create_timer(0.1).timeout
 	
 	
 	

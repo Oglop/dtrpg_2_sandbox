@@ -256,25 +256,25 @@ func refreshActionsViewableList() -> void:
 func updateCurrentRuleActionPairs() -> void:
 	print(str("_characterPosition: ", _characterPosition))
 	if _characterPosition == 0:
-		$MarginContainer1/rule1Panel/Label.text = str(parseTextFromRule(Data.CHARACTER_1_RULES[0].rule), " - ", parseTextFromAction(Data.CHARACTER_1_RULES[0].action))
-		$MarginContainer2/rule2Panel/Label.text = str(parseTextFromRule(Data.CHARACTER_1_RULES[1].rule), " - ", parseTextFromAction(Data.CHARACTER_1_RULES[1].action))
-		$MarginContainer3/rule3Panel/Label.text = str(parseTextFromRule(Data.CHARACTER_1_RULES[2].rule), " - ", parseTextFromAction(Data.CHARACTER_1_RULES[2].action))
-		$MarginContainer4/rule4Panel/Label.text = str(parseTextFromRule(Data.CHARACTER_1_RULES[3].rule), " - ", parseTextFromAction(Data.CHARACTER_1_RULES[3].action))
+		$MarginContainer1/rule1Panel/Label.text = str("1 ", parseTextFromRule(Data.CHARACTER_1_RULES[0].rule), " - ", parseTextFromAction(Data.CHARACTER_1_RULES[0].action))
+		$MarginContainer2/rule2Panel/Label.text = str("2 ", parseTextFromRule(Data.CHARACTER_1_RULES[1].rule), " - ", parseTextFromAction(Data.CHARACTER_1_RULES[1].action))
+		$MarginContainer3/rule3Panel/Label.text = str("3 ", parseTextFromRule(Data.CHARACTER_1_RULES[2].rule), " - ", parseTextFromAction(Data.CHARACTER_1_RULES[2].action))
+		$MarginContainer4/rule4Panel/Label.text = str("4 ", parseTextFromRule(Data.CHARACTER_1_RULES[3].rule), " - ", parseTextFromAction(Data.CHARACTER_1_RULES[3].action))
 	elif _characterPosition == 1:
-		$MarginContainer1/rule1Panel/Label.text = str(parseTextFromRule(Data.CHARACTER_2_RULES[0].rule), " - ", parseTextFromAction(Data.CHARACTER_2_RULES[0].action))
-		$MarginContainer2/rule2Panel/Label.text = str(parseTextFromRule(Data.CHARACTER_2_RULES[1].rule), " - ", parseTextFromAction(Data.CHARACTER_2_RULES[1].action))
-		$MarginContainer3/rule3Panel/Label.text = str(parseTextFromRule(Data.CHARACTER_2_RULES[2].rule), " - ", parseTextFromAction(Data.CHARACTER_2_RULES[2].action))
-		$MarginContainer4/rule4Panel/Label.text = str(parseTextFromRule(Data.CHARACTER_2_RULES[3].rule), " - ", parseTextFromAction(Data.CHARACTER_2_RULES[3].action))
+		$MarginContainer1/rule1Panel/Label.text = str("1 ", parseTextFromRule(Data.CHARACTER_2_RULES[0].rule), " - ", parseTextFromAction(Data.CHARACTER_2_RULES[0].action))
+		$MarginContainer2/rule2Panel/Label.text = str("2 ", parseTextFromRule(Data.CHARACTER_2_RULES[1].rule), " - ", parseTextFromAction(Data.CHARACTER_2_RULES[1].action))
+		$MarginContainer3/rule3Panel/Label.text = str("3 ", parseTextFromRule(Data.CHARACTER_2_RULES[2].rule), " - ", parseTextFromAction(Data.CHARACTER_2_RULES[2].action))
+		$MarginContainer4/rule4Panel/Label.text = str("4 ", parseTextFromRule(Data.CHARACTER_2_RULES[3].rule), " - ", parseTextFromAction(Data.CHARACTER_2_RULES[3].action))
 	elif _characterPosition == 2:
-		$MarginContainer1/rule1Panel/Label.text = str(parseTextFromRule(Data.CHARACTER_3_RULES[0].rule), " - ", parseTextFromAction(Data.CHARACTER_3_RULES[0].action))
-		$MarginContainer2/rule2Panel/Label.text = str(parseTextFromRule(Data.CHARACTER_3_RULES[1].rule), " - ", parseTextFromAction(Data.CHARACTER_3_RULES[1].action))
-		$MarginContainer3/rule3Panel/Label.text = str(parseTextFromRule(Data.CHARACTER_3_RULES[2].rule), " - ", parseTextFromAction(Data.CHARACTER_3_RULES[2].action))
-		$MarginContainer4/rule4Panel/Label.text = str(parseTextFromRule(Data.CHARACTER_3_RULES[3].rule), " - ", parseTextFromAction(Data.CHARACTER_3_RULES[3].action))
+		$MarginContainer1/rule1Panel/Label.text = str("1 ", parseTextFromRule(Data.CHARACTER_3_RULES[0].rule), " - ", parseTextFromAction(Data.CHARACTER_3_RULES[0].action))
+		$MarginContainer2/rule2Panel/Label.text = str("2 ", parseTextFromRule(Data.CHARACTER_3_RULES[1].rule), " - ", parseTextFromAction(Data.CHARACTER_3_RULES[1].action))
+		$MarginContainer3/rule3Panel/Label.text = str("3 ", parseTextFromRule(Data.CHARACTER_3_RULES[2].rule), " - ", parseTextFromAction(Data.CHARACTER_3_RULES[2].action))
+		$MarginContainer4/rule4Panel/Label.text = str("4 ", parseTextFromRule(Data.CHARACTER_3_RULES[3].rule), " - ", parseTextFromAction(Data.CHARACTER_3_RULES[3].action))
 	elif _characterPosition == 3:
-		$MarginContainer1/rule1Panel/Label.text = str(parseTextFromRule(Data.CHARACTER_4_RULES[0].rule), " - ", parseTextFromAction(Data.CHARACTER_4_RULES[0].action))
-		$MarginContainer2/rule2Panel/Label.text = str(parseTextFromRule(Data.CHARACTER_4_RULES[1].rule), " - ", parseTextFromAction(Data.CHARACTER_4_RULES[1].action))
-		$MarginContainer3/rule3Panel/Label.text = str(parseTextFromRule(Data.CHARACTER_4_RULES[2].rule), " - ", parseTextFromAction(Data.CHARACTER_4_RULES[2].action))
-		$MarginContainer4/rule4Panel/Label.text = str(parseTextFromRule(Data.CHARACTER_4_RULES[3].rule), " - ", parseTextFromAction(Data.CHARACTER_4_RULES[3].action))
+		$MarginContainer1/rule1Panel/Label.text = str("1 ", parseTextFromRule(Data.CHARACTER_4_RULES[0].rule), " - ", parseTextFromAction(Data.CHARACTER_4_RULES[0].action))
+		$MarginContainer2/rule2Panel/Label.text = str("2 ", parseTextFromRule(Data.CHARACTER_4_RULES[1].rule), " - ", parseTextFromAction(Data.CHARACTER_4_RULES[1].action))
+		$MarginContainer3/rule3Panel/Label.text = str("3 ", parseTextFromRule(Data.CHARACTER_4_RULES[2].rule), " - ", parseTextFromAction(Data.CHARACTER_4_RULES[2].action))
+		$MarginContainer4/rule4Panel/Label.text = str("4 ", parseTextFromRule(Data.CHARACTER_4_RULES[3].rule), " - ", parseTextFromAction(Data.CHARACTER_4_RULES[3].action))
 
 func updateUI() -> void:
 	if _viewableRulesList.size() == 0:

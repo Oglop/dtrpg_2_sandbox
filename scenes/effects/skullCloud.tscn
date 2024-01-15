@@ -1,0 +1,46 @@
+[gd_scene load_steps=8 format=3 uid="uid://8es7wxn6fu3k"]
+
+[ext_resource type="Texture2D" uid="uid://cyauixuig0060" path="res://media/images/Sprite-0001.png" id="1_sdo25"]
+[ext_resource type="Script" path="res://scripts/effects/skullCloud.gd" id="2_2woc6"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aoaig"]
+atlas = ExtResource("1_sdo25")
+region = Rect2(320, 128, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2i3w1"]
+atlas = ExtResource("1_sdo25")
+region = Rect2(336, 128, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5riv8"]
+atlas = ExtResource("1_sdo25")
+region = Rect2(352, 128, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mfu0n"]
+atlas = ExtResource("1_sdo25")
+region = Rect2(368, 128, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_3uwt8"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_aoaig")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2i3w1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5riv8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mfu0n")
+}],
+"loop": false,
+"name": &"skullCloud",
+"speed": 6.0
+}]
+
+[node name="skullCloud" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_3uwt8")
+animation = &"skullCloud"
+offset = Vector2(8, 8)
+script = ExtResource("2_2woc6")

@@ -181,6 +181,7 @@ func removeDeadEnemies(enemy:Dictionary) -> Array:
 			Events.emit_signal("PARTY_ADD_EXPERIENCE", detail.xp)
 			Events.emit_signal("PARTY_ADD_GOLD", rng.randi_range(detail.crownsMin, detail.crownsMax))
 			Events.emit_signal("ENEMY_CHECK_FOR_DROPS", detail.type)
+			
 	return newDetails	
 	
 func resolvePartyFell() -> void:

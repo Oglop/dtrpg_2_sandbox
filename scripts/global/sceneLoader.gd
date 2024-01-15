@@ -23,6 +23,8 @@ extends Node
 @onready var protect = preload("res://scenes/effects/protect.tscn")
 @onready var miss = preload("res://scenes/effects/miss.tscn")
 @onready var explosion = preload("res://scenes/effects/explosion.tscn")
+@onready var skullCloud = preload("res://scenes/effects/skullCloud.tscn")
+@onready var barrage = preload("res://scenes/effects/barrage.tscn")
 
 
 func getScene(type:Enums.SCENE_TYPE):
@@ -60,4 +62,8 @@ func getScene(type:Enums.SCENE_TYPE):
 		return miss.instantiate()
 	elif type == Enums.SCENE_TYPE.EXPLOSION:
 		return explosion.instantiate()
+	elif type == Enums.SCENE_TYPE.BARRAGE:
+		return barrage.instantiate()
+	elif type == Enums.SCENE_TYPE.SKULL_CLOUD:
+		return skullCloud.instantiate()
 
